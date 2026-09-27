@@ -1,0 +1,11 @@
+{
+  "name": "Family Hub",
+  "short_name": "Family Hub",
+  "description": "Agenda y organización familiar",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f5f7fb",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary"
+}
