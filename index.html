@@ -8,7 +8,6 @@
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
-  <!-- iPhone / iPad -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -16,7 +15,6 @@
 
   <meta name="theme-color" content="#2563eb">
 
-  <!-- PWA -->
   <link rel="manifest" href="./manifest.json">
 
   <title>Family Hub</title>
@@ -62,9 +60,7 @@
     .logo {
       width: 80px;
       height: 80px;
-
       margin: 40px auto 20px;
-
       border-radius: 24px;
 
       display: flex;
@@ -79,7 +75,6 @@
         );
 
       color: white;
-
       font-size: 24px;
       font-weight: 900;
 
@@ -90,26 +85,20 @@
 
     h1 {
       margin: 0;
-
       font-size: 34px;
       line-height: 1.1;
     }
 
     .subtitulo {
       margin-top: 16px;
-
       color: #667085;
-
       font-size: 17px;
     }
 
     .tarjeta {
       margin-top: 35px;
-
       padding: 24px 20px;
-
       background: white;
-
       border-radius: 20px;
 
       box-shadow:
@@ -121,32 +110,60 @@
 
     .tarjeta h2 {
       margin: 0 0 8px;
-
       font-size: 21px;
     }
 
     .tarjeta p {
       margin: 0;
-
       color: #667085;
-
       font-size: 15px;
       line-height: 1.5;
     }
 
+    .campo {
+      margin-top: 16px;
+    }
+
+    .campo label {
+      display: block;
+      margin-bottom: 7px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #344054;
+    }
+
+    .campo input {
+      width: 100%;
+      padding: 14px 15px;
+
+      border:
+        1px solid #d0d5dd;
+
+      border-radius: 12px;
+
+      background: white;
+      color: #172033;
+
+      font-size: 16px;
+      outline: none;
+    }
+
+    .campo input:focus {
+      border-color: #2563eb;
+
+      box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.10);
+    }
+
     .boton {
       width: 100%;
-
       border: 0;
-
       border-radius: 14px;
-
       margin-top: 20px;
-
       padding: 15px 18px;
 
       background: #2563eb;
-
       color: white;
 
       font-size: 16px;
@@ -159,45 +176,72 @@
       opacity: 0.6;
     }
 
+    .boton-secundario {
+      width: 100%;
+
+      margin-top: 12px;
+
+      padding: 12px;
+
+      border:
+        1px solid #d0d5dd;
+
+      border-radius: 12px;
+
+      background: white;
+      color: #344054;
+
+      font-size: 14px;
+      font-weight: 700;
+
+      cursor: pointer;
+    }
+
     .estado {
       display: none;
 
       margin-top: 18px;
-
       padding: 16px;
 
       border-radius: 14px;
-
       line-height: 1.45;
     }
 
     .estado.cargando {
       display: block;
-
       background: #eff6ff;
-
       color: #1d4ed8;
     }
 
     .estado.correcto {
       display: block;
-
       background: #ecfdf3;
-
       color: #166534;
     }
 
     .estado.error {
       display: block;
-
       background: #fef2f2;
-
       color: #991b1b;
+    }
+
+    #pantallaLogin {
+      display: none;
+    }
+
+    #pantallaApp {
+      display: none;
+    }
+
+    .usuario {
+      margin-top: 12px;
+      color: #667085;
+      font-size: 13px;
+      text-align: center;
     }
 
     .resultado {
       display: none;
-
       margin-top: 18px;
     }
 
@@ -207,50 +251,40 @@
 
     .resumen {
       display: grid;
-
       grid-template-columns:
         repeat(3, 1fr);
 
       gap: 8px;
-
       margin-top: 14px;
     }
 
     .dato {
       background: #f8fafc;
-
       border-radius: 14px;
-
       padding: 14px 6px;
-
       text-align: center;
     }
 
     .numero {
       display: block;
-
       font-size: 25px;
       font-weight: 900;
-
       color: #172033;
     }
 
     .etiqueta {
       display: block;
-
       margin-top: 4px;
 
       font-size: 11px;
       font-weight: 800;
 
       color: #667085;
-
       text-transform: uppercase;
     }
 
     .personas {
       margin-top: 18px;
-
       padding-top: 16px;
 
       border-top:
@@ -259,29 +293,24 @@
 
     .personas strong {
       display: block;
-
       margin-bottom: 8px;
     }
 
     #listaPersonas {
       color: #667085;
-
       line-height: 1.6;
     }
 
     .detalle {
       margin-top: 16px;
-
       padding: 12px;
 
       border-radius: 12px;
 
       background: #f8fafc;
-
       color: #667085;
 
       font-size: 13px;
-
       text-align: center;
     }
 
@@ -326,25 +355,110 @@
     </p>
 
 
-    <section class="tarjeta">
+    <!-- ==========================================
+         LOGIN
+    =========================================== -->
+
+    <section
+      id="pantallaLogin"
+      class="tarjeta"
+    >
+
+      <h2>
+        Acceso familiar
+      </h2>
+
+      <p>
+        Inicia sesión para acceder a Family Hub.
+      </p>
+
+
+      <div class="campo">
+
+        <label for="email">
+          Correo electrónico
+        </label>
+
+        <input
+          id="email"
+          type="email"
+          autocomplete="username"
+          placeholder="tu@email.com"
+        >
+
+      </div>
+
+
+      <div class="campo">
+
+        <label for="password">
+          Contraseña
+        </label>
+
+        <input
+          id="password"
+          type="password"
+          autocomplete="current-password"
+          placeholder="Contraseña"
+        >
+
+      </div>
+
+
+      <button
+        id="botonLogin"
+        class="boton"
+      >
+        Entrar
+      </button>
+
+
+      <div
+        id="estadoLogin"
+        class="estado"
+      ></div>
+
+    </section>
+
+
+
+    <!-- ==========================================
+         APP
+    =========================================== -->
+
+    <section
+      id="pantallaApp"
+      class="tarjeta"
+    >
 
       <h2>
         Conexión con la familia
       </h2>
 
       <p>
-        Vamos a comprobar que Family Hub
-        puede leer los datos reales de
-        vuestra agenda.
+        Acceso autorizado a Family Hub.
       </p>
+
+
+      <div
+        id="usuarioActivo"
+        class="usuario"
+      ></div>
 
 
       <button
         id="botonPrueba"
         class="boton"
-        onclick="probarConexion()"
       >
         Probar conexión
+      </button>
+
+
+      <button
+        id="botonSalir"
+        class="boton-secundario"
+      >
+        Cerrar sesión
       </button>
 
 
@@ -423,8 +537,7 @@
 
 
         <div class="detalle">
-          Datos leídos directamente desde
-          vuestra hoja de Google Sheets.
+          Datos de vuestra agenda familiar.
         </div>
 
       </div>
@@ -434,190 +547,493 @@
   </main>
 
 
-  <script>
+  <script type="module">
+
+    import {
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+      setPersistence,
+      browserLocalPersistence
+    } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+
+    /* ==========================================
+       FIREBASE
+    =========================================== */
+
+    const firebaseConfig = {
+
+      apiKey:
+        "AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
+
+      authDomain:
+        "family-hub-9fa54.firebaseapp.com",
+
+      projectId:
+        "family-hub-9fa54",
+
+      storageBucket:
+        "family-hub-9fa54.firebasestorage.app",
+
+      messagingSenderId:
+        "517316541547",
+
+      appId:
+        "1:517316541547:web:03db1291d5d1f41f68c52e"
+    };
+
+
+    const firebaseApp =
+      initializeApp(
+        firebaseConfig
+      );
+
+
+    const auth =
+      getAuth(
+        firebaseApp
+      );
+
 
     /*
-     * BACKEND DE FAMILY HUB
+     * Mantiene iniciada la sesión
+     * aunque se cierre Family Hub.
      */
+
+    try {
+
+      await setPersistence(
+        auth,
+        browserLocalPersistence
+      );
+
+    } catch (error) {
+
+      console.error(
+        "No se pudo establecer persistencia:",
+        error
+      );
+    }
+
+
+
+    /* ==========================================
+       ELEMENTOS
+    =========================================== */
+
+    const pantallaLogin =
+      document.getElementById(
+        "pantallaLogin"
+      );
+
+
+    const pantallaApp =
+      document.getElementById(
+        "pantallaApp"
+      );
+
+
+    const emailInput =
+      document.getElementById(
+        "email"
+      );
+
+
+    const passwordInput =
+      document.getElementById(
+        "password"
+      );
+
+
+    const botonLogin =
+      document.getElementById(
+        "botonLogin"
+      );
+
+
+    const botonSalir =
+      document.getElementById(
+        "botonSalir"
+      );
+
+
+    const botonPrueba =
+      document.getElementById(
+        "botonPrueba"
+      );
+
+
+    const estadoLogin =
+      document.getElementById(
+        "estadoLogin"
+      );
+
+
+    const estado =
+      document.getElementById(
+        "estado"
+      );
+
+
+    const resultado =
+      document.getElementById(
+        "resultado"
+      );
+
+
+    const usuarioActivo =
+      document.getElementById(
+        "usuarioActivo"
+      );
+
+
+
+    /* ==========================================
+       ESTADO DE AUTENTICACIÓN
+    =========================================== */
+
+    onAuthStateChanged(
+      auth,
+      usuario => {
+
+        if (usuario) {
+
+          pantallaLogin.style.display =
+            "none";
+
+          pantallaApp.style.display =
+            "block";
+
+
+          usuarioActivo.textContent =
+            usuario.email;
+
+
+          passwordInput.value = "";
+
+
+        } else {
+
+          pantallaApp.style.display =
+            "none";
+
+          pantallaLogin.style.display =
+            "block";
+
+
+          resultado.className =
+            "resultado";
+
+
+          estado.className =
+            "estado";
+
+
+          usuarioActivo.textContent =
+            "";
+        }
+      }
+    );
+
+
+
+    /* ==========================================
+       INICIAR SESIÓN
+    =========================================== */
+
+    botonLogin.addEventListener(
+      "click",
+      iniciarSesion
+    );
+
+
+    passwordInput.addEventListener(
+      "keydown",
+      evento => {
+
+        if (
+          evento.key === "Enter"
+        ) {
+          iniciarSesion();
+        }
+      }
+    );
+
+
+    async function iniciarSesion() {
+
+      const email =
+        emailInput.value.trim();
+
+
+      const password =
+        passwordInput.value;
+
+
+      if (
+        !email ||
+        !password
+      ) {
+
+        mostrarErrorLogin(
+          "Introduce el correo y la contraseña."
+        );
+
+        return;
+      }
+
+
+      botonLogin.disabled = true;
+
+      botonLogin.textContent =
+        "Entrando...";
+
+
+      estadoLogin.className =
+        "estado cargando";
+
+      estadoLogin.textContent =
+        "Comprobando acceso...";
+
+
+      try {
+
+        await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+
+
+        estadoLogin.className =
+          "estado";
+
+
+      } catch (error) {
+
+        console.error(error);
+
+
+        mostrarErrorLogin(
+          "Correo o contraseña incorrectos."
+        );
+
+      } finally {
+
+        botonLogin.disabled = false;
+
+        botonLogin.textContent =
+          "Entrar";
+      }
+    }
+
+
+
+    function mostrarErrorLogin(
+      mensaje
+    ) {
+
+      estadoLogin.className =
+        "estado error";
+
+      estadoLogin.textContent =
+        mensaje;
+    }
+
+
+
+    /* ==========================================
+       CERRAR SESIÓN
+    =========================================== */
+
+    botonSalir.addEventListener(
+      "click",
+      async () => {
+
+        await signOut(auth);
+      }
+    );
+
+
+
+    /* ==========================================
+       APPS SCRIPT
+    =========================================== */
 
     const API_URL =
       "https://script.google.com/macros/s/AKfycbxsYKNMBzysKTvYfl4LzVzlCrNxzJBM-vsvKMgPbtY1QkYzw31xPJXhZ-qcpAmCEhppKw/exec";
 
 
-    let temporizadorConexion = null;
+    let temporizadorConexion =
+      null;
+
 
 
     /*
-     * CALLBACK QUE RECIBIRÁ LOS DATOS
-     * DESDE APPS SCRIPT
+     * Esta función debe ser global
+     * porque Apps Script la invoca
+     * mediante JSONP.
      */
 
-    function familyHubCallback(respuesta) {
+    window.familyHubCallback =
+      function (respuesta) {
 
-      clearTimeout(
-        temporizadorConexion
-      );
-
-
-      const boton =
-        document.getElementById(
-          "botonPrueba"
-        );
-
-      const estado =
-        document.getElementById(
-          "estado"
-        );
-
-      const resultado =
-        document.getElementById(
-          "resultado"
+        clearTimeout(
+          temporizadorConexion
         );
 
 
-      try {
+        try {
 
-        if (
-          !respuesta ||
-          respuesta.ok !== true
-        ) {
+          if (
+            !respuesta ||
+            respuesta.ok !== true
+          ) {
 
-          throw new Error(
-            "Apps Script no ha devuelto una respuesta válida."
-          );
+            throw new Error(
+              "Respuesta no válida."
+            );
+          }
+
+
+          const datos =
+            respuesta.resultado || {};
+
+
+          const familia =
+            Array.isArray(
+              datos.familia
+            )
+              ? datos.familia
+              : [];
+
+
+          const eventos =
+            Array.isArray(
+              datos.eventos
+            )
+              ? datos.eventos
+              : [];
+
+
+          const tareas =
+            Array.isArray(
+              datos.tareas
+            )
+              ? datos.tareas
+              : [];
+
+
+          document.getElementById(
+            "numFamilia"
+          ).textContent =
+            familia.length;
+
+
+          document.getElementById(
+            "numEventos"
+          ).textContent =
+            eventos.length;
+
+
+          document.getElementById(
+            "numTareas"
+          ).textContent =
+            tareas.length;
+
+
+          const nombres =
+            familia
+              .map(
+                persona =>
+                  persona.nombre
+              )
+              .filter(Boolean);
+
+
+          document.getElementById(
+            "listaPersonas"
+          ).textContent =
+            nombres.length
+              ? nombres.join(" · ")
+              : "No se encontraron miembros.";
+
+
+          estado.className =
+            "estado correcto";
+
+
+          estado.textContent =
+            "Conexión correcta. Family Hub está leyendo vuestra agenda.";
+
+
+          resultado.className =
+            "resultado visible";
+
+
+        } catch (error) {
+
+          estado.className =
+            "estado error";
+
+
+          estado.textContent =
+            "No se pudieron interpretar los datos.";
+
         }
 
 
-        const datos =
-          respuesta.resultado || {};
+        botonPrueba.disabled =
+          false;
 
 
-        const familia =
-          Array.isArray(
-            datos.familia
-          )
-            ? datos.familia
-            : [];
+        botonPrueba.textContent =
+          "Probar de nuevo";
 
 
-        const eventos =
-          Array.isArray(
-            datos.eventos
-          )
-            ? datos.eventos
-            : [];
+        eliminarScriptConexion();
+      };
 
 
-        const tareas =
-          Array.isArray(
-            datos.tareas
-          )
-            ? datos.tareas
-            : [];
+
+    botonPrueba.addEventListener(
+      "click",
+      probarConexion
+    );
 
 
-        document.getElementById(
-          "numFamilia"
-        ).textContent =
-          familia.length;
+    async function probarConexion() {
 
+      /*
+       * Solo permitimos intentarlo
+       * si Firebase confirma que
+       * existe un usuario autenticado.
+       */
 
-        document.getElementById(
-          "numEventos"
-        ).textContent =
-          eventos.length;
-
-
-        document.getElementById(
-          "numTareas"
-        ).textContent =
-          tareas.length;
-
-
-        const nombres =
-          familia
-            .map(
-              persona =>
-                persona.nombre
-            )
-            .filter(Boolean);
-
-
-        document.getElementById(
-          "listaPersonas"
-        ).textContent =
-          nombres.length
-            ? nombres.join(" · ")
-            : "No se encontraron miembros.";
-
-
-        estado.className =
-          "estado correcto";
-
-
-        estado.textContent =
-          "Conexión correcta. Family Hub ya está leyendo los datos reales.";
-
-
-        resultado.className =
-          "resultado visible";
-
-
-      } catch (error) {
+      if (!auth.currentUser) {
 
         estado.className =
           "estado error";
 
-
         estado.textContent =
-          "Se recibió una respuesta, pero no se pudieron interpretar los datos: " +
-          error.message;
+          "Debes iniciar sesión.";
 
+        return;
       }
 
 
-      boton.disabled = false;
-
-      boton.textContent =
-        "Probar de nuevo";
+      botonPrueba.disabled =
+        true;
 
 
-      eliminarScriptConexion();
-    }
-
-
-
-    /*
-     * PRUEBA DE CONEXIÓN
-     *
-     * En lugar de fetch(), cargamos Apps Script
-     * como un script externo.
-     *
-     * Esto evita la petición CORS que Safari
-     * estaba rechazando.
-     */
-
-    function probarConexion() {
-
-      const boton =
-        document.getElementById(
-          "botonPrueba"
-        );
-
-      const estado =
-        document.getElementById(
-          "estado"
-        );
-
-      const resultado =
-        document.getElementById(
-          "resultado"
-        );
-
-
-      boton.disabled = true;
-
-      boton.textContent =
+      botonPrueba.textContent =
         "Conectando...";
 
 
@@ -667,13 +1083,14 @@
 
 
           estado.textContent =
-            "No se ha podido cargar la respuesta de Apps Script.";
+            "El acceso está identificado correctamente, pero todavía falta conectar de forma segura la agenda.";
 
 
-          boton.disabled = false;
+          botonPrueba.disabled =
+            false;
 
 
-          boton.textContent =
+          botonPrueba.textContent =
             "Probar de nuevo";
 
 
@@ -686,11 +1103,6 @@
       );
 
 
-      /*
-       * Si en 15 segundos no hemos recibido
-       * respuesta, mostramos un error.
-       */
-
       temporizadorConexion =
         setTimeout(
           function () {
@@ -700,13 +1112,14 @@
 
 
             estado.textContent =
-              "Apps Script no ha respondido. Revisaremos la implementación.";
+              "El acceso está identificado correctamente, pero todavía falta conectar de forma segura la agenda.";
 
 
-            boton.disabled = false;
+            botonPrueba.disabled =
+              false;
 
 
-            boton.textContent =
+            botonPrueba.textContent =
               "Probar de nuevo";
 
 
