@@ -37,6 +37,7 @@ header{
 .salir{border:0;background:#e9eef8;color:#344054;border-radius:10px;padding:9px 11px;font-size:12px;font-weight:800}
 main{max-width:700px;margin:auto;padding:18px}
 .pantalla{display:none}.pantalla.activa{display:block}
+
 .bienvenida{margin-bottom:18px}
 .bienvenida h1,.cabPantalla h1{margin:0;font-size:28px}
 .bienvenida p{margin:6px 0 0;color:#667085}
@@ -46,6 +47,7 @@ main{max-width:700px;margin:auto;padding:18px}
 .etiqueta{display:block;margin-top:3px;color:#667085;font-size:10px;font-weight:800;text-transform:uppercase}
 .tarjeta{background:white;border-radius:18px;padding:18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(15,23,42,.05)}
 .tarjeta h2{font-size:18px;margin:0 0 14px}
+
 .evento,.tarea{padding:13px 0;border-bottom:1px solid #eaecf0;display:flex;gap:11px;align-items:flex-start}
 .evento:last-child,.tarea:last-child{border-bottom:0}
 .evento{cursor:pointer}
@@ -55,9 +57,11 @@ main{max-width:700px;margin:auto;padding:18px}
 .evento-meta,.tarea-meta{font-size:13px;color:#667085;margin-top:4px}
 .evento-personas,.tarea-personas{font-size:12px;color:#667085;margin-top:5px}
 .vacio{color:#98a2b3;text-align:center;padding:18px 5px;font-size:14px}
+
 .filtros{display:flex;gap:7px;overflow:auto;padding-bottom:5px;margin-bottom:14px}
 .filtro{white-space:nowrap;border:1px solid #d0d5dd;background:white;border-radius:999px;padding:8px 12px;font-size:12px;font-weight:800;color:#475467}
 .filtro.activo{background:#172033;color:white;border-color:#172033}
+
 .cabAgenda,.cabPantalla{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:10px}
 .cabAgenda h1{font-size:25px;margin:0}
 .vistas{display:grid;grid-template-columns:repeat(3,1fr);background:#e9eef8;border-radius:12px;padding:4px;margin-bottom:12px}
@@ -69,17 +73,17 @@ main{max-width:700px;margin:auto;padding:18px}
 .hoyBtn{border:0;background:#e9eef8;color:#2563eb;padding:9px 11px;border-radius:10px;font-size:12px;font-weight:900}
 .contadorPeriodo{text-align:center;color:#667085;font-size:11px;font-weight:700;margin-bottom:13px;min-height:15px}
 
-/* SEMANA */
 .semanaCompacta{background:white;border-radius:18px;padding:10px 6px;box-shadow:0 4px 16px rgba(15,23,42,.05);margin-bottom:12px}
 .franjaSemana{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
-.diaCompacto{border:0;background:transparent;border-radius:13px;min-width:0;padding:7px 2px;color:#172033;transition:.08s}
-.diaCompacto:active{transform:scale(.92);background:#eaf2ff}
+.diaCompacto{border:0;background:transparent;border-radius:13px;min-width:0;padding:7px 2px;color:#172033}
+.diaCompacto:active{transform:scale(.94);background:#eaf2ff}
 .letraDia{display:block;font-size:10px;font-weight:900;color:#667085;text-transform:uppercase;margin-bottom:5px}
 .numeroDiaCompacto{width:32px;height:32px;margin:auto;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900}
 .diaCompacto.hoy .numeroDiaCompacto{background:#2563eb;color:white}
 .diaCompacto.hoy .letraDia{color:#2563eb}
 .puntosSemana{height:11px;display:flex;align-items:center;justify-content:center;gap:2px;margin-top:4px;overflow:hidden}
 .puntoSemana{width:6px;height:6px;border-radius:50%;flex:none;border:1px solid rgba(0,0,0,.08)}
+
 .resumenSemana{background:white;border-radius:18px;padding:4px 16px;box-shadow:0 4px 16px rgba(15,23,42,.05)}
 .bloqueDiaSemana{padding:9px 0;border-bottom:1px solid #eaecf0}
 .bloqueDiaSemana:last-child{border-bottom:0}
@@ -99,11 +103,10 @@ main{max-width:700px;margin:auto;padding:18px}
 .personasSemana{font-size:10px;color:#98a2b3;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .sinEventosSemana{color:#98a2b3;font-size:11px;margin-left:auto}
 
-/* MES */
 .calendario{background:white;border-radius:18px;padding:12px;box-shadow:0 4px 16px rgba(15,23,42,.05)}
 .cabCalendario,.rejillaMes{display:grid;grid-template-columns:repeat(7,1fr)}
 .cabCalendario div{text-align:center;font-size:11px;font-weight:900;color:#667085;padding:7px 0}
-.celdaDia{min-height:70px;padding:5px 3px;border-radius:10px;cursor:pointer;overflow:hidden}
+.celdaDia{min-height:70px;padding:5px 3px;border-radius:10px;cursor:pointer;overflow:hidden;touch-action:manipulation}
 .celdaDia:active{background:#eaf2ff}
 .celdaVacia{min-height:70px}
 .celdaDia.seleccionado{background:#eaf2ff;outline:2px solid #bfdbfe}
@@ -114,19 +117,14 @@ main{max-width:700px;margin:auto;padding:18px}
 .masMes{text-align:center;font-size:9px;color:#667085;margin-top:2px}
 .detalleMes{margin-top:14px}
 
-/* TAREAS */
 .estado-tareas{display:flex;gap:7px;margin-bottom:14px;overflow:auto}
 .progreso{height:7px;background:#eaecf0;border-radius:10px;overflow:hidden;margin-top:9px}
 .progreso span{display:block;height:100%;background:#2563eb;border-radius:10px}
-.checklistVista{margin-top:9px;font-size:12px;color:#475467}
-.checkItem{display:flex;align-items:center;gap:8px;margin-top:6px}
-.checkItem.hecho{text-decoration:line-through;color:#98a2b3}
 .completarTarea{width:23px;height:23px;min-width:23px;border-radius:50%;border:2px solid #98a2b3;background:white;padding:0}
 .completarTarea.hecha{background:#16a34a;border-color:#16a34a;color:white}
 .tarea.completada .tarea-titulo{text-decoration:line-through;color:#98a2b3}
 .tarea.vencida{background:#fff7f7;margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:12px}
 .tarea.hoyTarea{background:#f7fbff;margin:0 -8px;padding-left:8px;padding-right:8px;border-radius:12px}
-.prioridadAlta{color:#b42318;font-weight:800}
 .estadoVencida{color:#b42318;font-weight:900}
 .estadoHoy{color:#2563eb;font-weight:900}
 .nuevoCheck{display:flex;gap:8px;margin-bottom:8px}
@@ -136,7 +134,10 @@ main{max-width:700px;margin:auto;padding:18px}
 .itemEditor span{flex:1;font-size:13px}
 .itemEditor button{border:0;background:transparent;color:#b42318;font-weight:900}
 
-/* MODALES */
+.semanaInicioDia{margin-bottom:15px}
+.semanaInicioTitulo{font-size:12px;font-weight:900;color:#475467;margin-bottom:4px}
+.semanaInicioTitulo.hoy{color:#2563eb}
+
 .modal-fondo{display:none;position:fixed;inset:0;z-index:50;background:rgba(15,23,42,.45);padding:20px;align-items:flex-end;justify-content:center}
 .modal-fondo.visible{display:flex}
 .modal{background:white;width:100%;max-width:600px;max-height:90vh;overflow:auto;border-radius:24px 24px 16px 16px;padding:22px}
@@ -164,19 +165,18 @@ main{max-width:700px;margin:auto;padding:18px}
 .accionesFicha{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:20px}
 .cerrarFicha{width:100%;margin-top:10px;border:0;border-radius:12px;padding:12px;background:#eef2f6;color:#344054;font-weight:900}
 
-/* LOGIN / NAV */
 .login{min-height:75vh;display:flex;align-items:center;justify-content:center}
 .loginbox{width:100%;max-width:430px;background:white;padding:24px;border-radius:22px;box-shadow:0 8px 28px rgba(15,23,42,.08)}
 .loginbox h1{margin-top:0}
 .loginbox input{width:100%;padding:14px;margin-top:12px;border:1px solid #d0d5dd;border-radius:12px}
 .loginbox button{width:100%;margin-top:15px;padding:14px;border:0;border-radius:12px;background:#2563eb;color:white;font-weight:900}
 .error{color:#b42318;margin-top:12px;font-size:13px}
+
 .fab{
- position:fixed;right:18px;
- bottom:calc(78px + env(safe-area-inset-bottom));
- width:54px;height:54px;border-radius:50%;border:0;
- background:#2563eb;color:white;font-size:29px;
- box-shadow:0 8px 20px rgba(37,99,235,.3);z-index:30
+ position:fixed;right:18px;bottom:calc(78px + env(safe-area-inset-bottom));
+ min-width:54px;height:54px;border-radius:27px;border:0;
+ background:#2563eb;color:white;font-size:14px;font-weight:900;
+ padding:0 18px;box-shadow:0 8px 20px rgba(37,99,235,.3);z-index:30
 }
 nav{
  position:fixed;bottom:0;left:0;right:0;z-index:25;
@@ -186,6 +186,7 @@ nav{
 }
 .navbtn{flex:1;border:0;background:white;color:#667085;font-size:12px;font-weight:800}
 .navbtn.activo{color:#2563eb}
+
 @media(max-width:430px){
  main{padding:15px;padding-bottom:35px}
  .bienvenida h1,.cabPantalla h1{font-size:25px}
@@ -228,28 +229,33 @@ nav{
 
 <section id="inicio" class="pantalla activa">
 <div class="bienvenida"><h1>Inicio</h1><p id="fechaHoy"></p></div>
+
 <div class="resumen">
 <div class="dato"><span id="nHoy" class="numero">0</span><span class="etiqueta">Hoy</span></div>
 <div class="dato"><span id="nTareas" class="numero">0</span><span class="etiqueta">Tareas</span></div>
 <div class="dato"><span id="nFamilia" class="numero">0</span><span class="etiqueta">Familia</span></div>
 </div>
+
 <div class="tarjeta"><h2>Hoy</h2><div id="eventosHoy"></div></div>
 <div class="tarjeta"><h2>Tareas que requieren atención</h2><div id="tareasInicio"></div></div>
-<div class="tarjeta"><h2>Próximos eventos</h2><div id="eventosProximos"></div></div>
+<div class="tarjeta"><h2>Esta semana</h2><div id="estaSemana"></div></div>
 </section>
 
 <section id="agenda" class="pantalla">
 <div class="cabAgenda"><h1>Agenda</h1><button id="irHoy" class="hoyBtn">Hoy</button></div>
+
 <div class="vistas">
 <button class="vistaBtn activo" data-vista="dia">Día</button>
 <button class="vistaBtn" data-vista="semana">Semana</button>
 <button class="vistaBtn" data-vista="mes">Mes</button>
 </div>
+
 <div class="navegadorFecha">
 <button id="anterior" class="navFecha">‹</button>
 <div id="tituloPeriodo" class="tituloPeriodo"></div>
 <button id="siguiente" class="navFecha">›</button>
 </div>
+
 <div id="contadorPeriodo" class="contadorPeriodo"></div>
 <div id="filtrosAgenda" class="filtros"></div>
 <div id="vistaDia"></div>
@@ -260,17 +266,20 @@ nav{
 <section id="tareas" class="pantalla">
 <div class="cabPantalla"><h1>Tareas</h1></div>
 <div id="filtrosTareas" class="filtros"></div>
+
 <div class="estado-tareas">
 <button class="filtro activo" data-estado="pendientes">Pendientes</button>
 <button class="filtro" data-estado="todas">Todas</button>
 <button class="filtro" data-estado="completadas">Completadas</button>
 </div>
+
 <div class="tarjeta"><div id="listaTareas"></div></div>
 </section>
 
 </main>
 
-<button id="fab" class="fab">+</button>
+<button id="fab" class="fab">+ Evento</button>
+
 <nav>
 <button class="navbtn activo" data-pantalla="inicio">Inicio</button>
 <button class="navbtn" data-pantalla="agenda">Agenda</button>
@@ -281,24 +290,80 @@ nav{
 <!-- EVENTO -->
 <div id="modalEvento" class="modal-fondo">
 <div class="modal">
+
 <h2 id="tituloModalEvento">Nuevo evento</h2>
-<div class="campo"><label>Actividad</label><input id="actividad" type="text" placeholder="¿Qué hay que hacer?"></div>
-<div class="campo"><label>Fecha</label><input id="fechaEvento" type="date"></div>
+
+<div class="campo">
+<label>Actividad</label>
+<input id="actividad" type="text" placeholder="¿Qué hay que hacer?">
+</div>
+
+<div class="dos">
+<div class="campo"><label>Fecha de inicio</label><input id="fechaEvento" type="date"></div>
+<div class="campo"><label>Fecha de fin</label><input id="fechaFinEvento" type="date"></div>
+</div>
+
 <div class="campo"><label><input id="todoDia" type="checkbox"> Todo el día</label></div>
+
 <div id="horas" class="dos">
 <div class="campo"><label>Hora inicio</label><input id="horaInicio" type="time"></div>
 <div class="campo"><label>Hora fin</label><input id="horaFin" type="time"></div>
 </div>
+
 <div class="campo"><label>Participantes</label><div id="participantes" class="checks"></div></div>
+
 <div class="campo"><label>Lugar</label><input id="lugar" type="text"></div>
+
 <div class="dos">
-<div class="campo"><label>Categoría</label><select id="categoria"><option>Familia</option><option>Colegio</option><option>Trabajo</option><option>Salud</option><option>Ocio</option><option>Otro</option></select></div>
-<div class="campo"><label>Prioridad</label><select id="prioridad"><option>Normal</option><option>Alta</option><option>Baja</option></select></div>
+<div class="campo">
+<label>Categoría</label>
+<select id="categoria">
+<option>Familia</option><option>Colegio</option><option>Trabajo</option>
+<option>Salud</option><option>Ocio</option><option>Otro</option>
+</select>
 </div>
-<div class="campo"><label>Repetición</label><select id="repeticion"><option value="">No repetir</option><option>Semanal</option><option>Mensual</option><option>Anual</option></select></div>
-<div id="bloqueFinRepeticion" class="campo" style="display:none"><label>Repetir hasta</label><input id="finRepeticion" type="date"></div>
+
+<div class="campo">
+<label>Prioridad</label>
+<select id="prioridad"><option>Normal</option><option>Alta</option><option>Baja</option></select>
+</div>
+</div>
+
+<div class="campo">
+<label>Repetición</label>
+<select id="repeticion">
+<option value="">No repetir</option>
+<option>Semanal</option>
+<option>Mensual</option>
+<option>Anual</option>
+</select>
+</div>
+
+<div id="opcionesRepeticion" style="display:none">
+<div class="dos">
+<div class="campo">
+<label>Repetir cada</label>
+<input id="intervaloRepeticion" type="number" min="1" max="99" value="1">
+</div>
+<div class="campo">
+<label>Unidad</label>
+<input id="unidadRepeticion" type="text" disabled value="">
+</div>
+</div>
+
+<div class="campo">
+<label>Repetir hasta</label>
+<input id="finRepeticion" type="date">
+</div>
+</div>
+
 <div class="campo"><label>Notas</label><textarea id="notas"></textarea></div>
-<div class="acciones"><button id="cancelarEvento" class="cancelar">Cancelar</button><button id="guardarEvento" class="guardar">Guardar</button></div>
+
+<div class="acciones">
+<button id="cancelarEvento" class="cancelar">Cancelar</button>
+<button id="guardarEvento" class="guardar">Guardar</button>
+</div>
+
 </div>
 </div>
 
@@ -306,11 +371,13 @@ nav{
 <div id="modalFicha" class="modal-fondo">
 <div class="modal">
 <div id="fichaEvento"></div>
+
 <div class="accionesFicha">
 <button id="editarEvento" class="editarFicha">Editar</button>
 <button id="eliminarEvento" class="eliminarFicha">Eliminar</button>
 <button id="duplicarEvento" class="duplicarFicha">Duplicar</button>
 </div>
+
 <button id="cerrarFicha" class="cerrarFicha">Cerrar</button>
 </div>
 </div>
@@ -318,21 +385,72 @@ nav{
 <!-- TAREA -->
 <div id="modalTarea" class="modal-fondo">
 <div class="modal">
+
 <h2 id="tituloModalTarea">Nueva tarea</h2>
-<div class="campo"><label>Título</label><input id="tituloTarea" type="text" placeholder="¿Qué hay que hacer?"></div>
+
+<div class="campo">
+<label>Título</label>
+<input id="tituloTarea" type="text" placeholder="¿Qué hay que hacer?">
+</div>
+
 <div class="campo"><label>Responsables</label><div id="responsables" class="checks"></div></div>
+
 <div class="campo"><label>Fecha límite</label><input id="fechaLimite" type="date"></div>
+
 <div class="dos">
-<div class="campo"><label>Prioridad</label><select id="prioridadTarea"><option>Normal</option><option>Alta</option><option>Baja</option></select></div>
-<div class="campo"><label>Categoría</label><select id="categoriaTarea"><option>Familia</option><option>Casa</option><option>Colegio</option><option>Trabajo</option><option>Compras</option><option>Salud</option><option>Otro</option></select></div>
+<div class="campo">
+<label>Prioridad</label>
+<select id="prioridadTarea"><option>Normal</option><option>Alta</option><option>Baja</option></select>
+</div>
+
+<div class="campo">
+<label>Categoría</label>
+<select id="categoriaTarea">
+<option>Familia</option><option>Casa</option><option>Colegio</option>
+<option>Trabajo</option><option>Compras</option><option>Salud</option><option>Otro</option>
+</select>
+</div>
+</div>
+
+<div class="campo">
+<label>Repetición</label>
+<select id="repeticionTarea">
+<option value="">No repetir</option>
+<option>Semanal</option>
+<option>Mensual</option>
+<option>Anual</option>
+</select>
+</div>
+
+<div id="opcionesRepeticionTarea" style="display:none">
+<div class="dos">
+<div class="campo">
+<label>Repetir cada</label>
+<input id="intervaloTarea" type="number" min="1" max="99" value="1">
 </div>
 <div class="campo">
+<label>Hasta</label>
+<input id="finRepeticionTarea" type="date">
+</div>
+</div>
+</div>
+
+<div class="campo">
 <label>Checklist</label>
-<div class="nuevoCheck"><input id="textoCheck" type="text" placeholder="Añadir paso..."><button id="anadirCheck" type="button">+</button></div>
+<div class="nuevoCheck">
+<input id="textoCheck" type="text" placeholder="Añadir paso...">
+<button id="anadirCheck" type="button">+</button>
+</div>
 <div id="editorChecklist"></div>
 </div>
+
 <div class="campo"><label>Notas</label><textarea id="notasTarea"></textarea></div>
-<div class="acciones"><button id="cancelarTarea" class="cancelar">Cancelar</button><button id="guardarTarea" class="guardar">Guardar</button></div>
+
+<div class="acciones">
+<button id="cancelarTarea" class="cancelar">Cancelar</button>
+<button id="guardarTarea" class="guardar">Guardar</button>
+</div>
+
 </div>
 </div>
 
@@ -340,405 +458,2045 @@ nav{
 <div id="modalFichaTarea" class="modal-fondo">
 <div class="modal">
 <div id="fichaTarea"></div>
+
 <div class="acciones">
 <button id="editarTarea" class="editarFicha">Editar</button>
 <button id="eliminarTareaFicha" class="eliminarFicha">Eliminar</button>
 </div>
+
 <button id="cerrarFichaTarea" class="cerrarFicha">Cerrar</button>
 </div>
 </div>
 
 <script type="module">
+
 import {initializeApp} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-import {getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,setPersistence,browserLocalPersistence} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-import {getFirestore,collection,getDocs,addDoc,deleteDoc,updateDoc,doc,serverTimestamp,onSnapshot} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+import {
+ getAuth,
+ signInWithEmailAndPassword,
+ signOut,
+ onAuthStateChanged,
+ setPersistence,
+ browserLocalPersistence
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import {
+ getFirestore,
+ collection,
+ getDocs,
+ addDoc,
+ deleteDoc,
+ updateDoc,
+ doc,
+ serverTimestamp,
+ onSnapshot
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig={
-apiKey:"AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
-authDomain:"family-hub-9fa54.firebaseapp.com",
-projectId:"family-hub-9fa54",
-storageBucket:"family-hub-9fa54.firebasestorage.app",
-messagingSenderId:"517316541547",
-appId:"1:517316541547:web:03db1291d5d1f41f68c52e"
+ apiKey:"AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
+ authDomain:"family-hub-9fa54.firebaseapp.com",
+ projectId:"family-hub-9fa54",
+ storageBucket:"family-hub-9fa54.firebasestorage.app",
+ messagingSenderId:"517316541547",
+ appId:"1:517316541547:web:03db1291d5d1f41f68c52e"
 };
 
 const firebaseApp=initializeApp(firebaseConfig);
 const auth=getAuth(firebaseApp);
 const db=getFirestore(firebaseApp);
+
 await setPersistence(auth,browserLocalPersistence);
 
-let familia=[],eventos=[],tareas=[];
-let filtroAgenda="Todos",filtroTareas="Todos",estadoTareas="pendientes";
-let checklistTemporal=[],pantallaActual="inicio",vistaAgenda="dia",fechaAgenda=new Date();
-let eventoSeleccionado=null,eventoEditando=null,tareaSeleccionada=null,tareaEditando=null;
-let unsubscribeEventos=null,unsubscribeTareas=null;
+let familia=[];
+let eventos=[];
+let tareas=[];
+
+let filtroAgenda="Todos";
+let filtroTareas="Todos";
+let estadoTareas="pendientes";
+
+let checklistTemporal=[];
+let pantallaActual="inicio";
+let vistaAgenda="dia";
+let fechaAgenda=new Date();
+
+let eventoSeleccionado=null;
+let aparicionSeleccionada=null;
+let eventoEditando=null;
+
+let tareaSeleccionada=null;
+let tareaEditando=null;
+
+let unsubscribeEventos=null;
+let unsubscribeTareas=null;
+
 const $=id=>document.getElementById(id);
 
+/* =========================
+   FECHAS
+========================= */
+
 function fechaLocal(d=new Date()){
-const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),dia=String(d.getDate()).padStart(2,"0");
-return `${y}-${m}-${dia}`;
+ const y=d.getFullYear();
+ const m=String(d.getMonth()+1).padStart(2,"0");
+ const dia=String(d.getDate()).padStart(2,"0");
+ return `${y}-${m}-${dia}`;
 }
-function desdeFechaLocal(s){const [y,m,d]=s.split("-").map(Number);return new Date(y,m-1,d,12)}
-function sumarDias(f,n){const d=new Date(f);d.setDate(d.getDate()+n);d.setHours(12,0,0,0);return d}
-function lunesDeSemana(f){const d=new Date(f),x=d.getDay();d.setDate(d.getDate()+(x===0?-6:1-x));d.setHours(12,0,0,0);return d}
-function mismoDia(a,b){return fechaLocal(a)===fechaLocal(b)}
-function capitalizarPrimera(t=""){return t.charAt(0).toUpperCase()+t.slice(1)}
-function escapar(t=""){const d=document.createElement("div");d.textContent=String(t);return d.innerHTML}
+
+function desdeFechaLocal(s){
+ const [y,m,d]=s.split("-").map(Number);
+ return new Date(y,m-1,d,12);
+}
+
+function sumarDias(f,n){
+ const d=new Date(f);
+ d.setDate(d.getDate()+n);
+ d.setHours(12,0,0,0);
+ return d;
+}
+
+function lunesDeSemana(f){
+ const d=new Date(f);
+ const x=d.getDay();
+ d.setDate(d.getDate()+(x===0?-6:1-x));
+ d.setHours(12,0,0,0);
+ return d;
+}
+
+function mismoDia(a,b){
+ return fechaLocal(a)===fechaLocal(b);
+}
+
+function capitalizarPrimera(t=""){
+ return t.charAt(0).toUpperCase()+t.slice(1);
+}
+
+function escapar(t=""){
+ const d=document.createElement("div");
+ d.textContent=String(t);
+ return d.innerHTML;
+}
+
 function fechaBonita(f){
-if(!f)return "";
-const d=desdeFechaLocal(f);
-const dia=new Intl.DateTimeFormat("es-ES",{weekday:"long"}).format(d);
-const mes=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(d);
-return `${capitalizarPrimera(dia)}, ${d.getDate()} de ${mes}`;
+ if(!f)return "";
+ const d=desdeFechaLocal(f);
+ const dia=new Intl.DateTimeFormat("es-ES",{weekday:"long"}).format(d);
+ const mes=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(d);
+ return `${capitalizarPrimera(dia)}, ${d.getDate()} de ${mes}`;
 }
-function tituloMes(f){const m=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(f);return `${capitalizarPrimera(m)} de ${f.getFullYear()}`}
+
+function tituloMes(f){
+ const m=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(f);
+ return `${capitalizarPrimera(m)} de ${f.getFullYear()}`;
+}
+
 function tituloSemana(l,d){
-if(l.getMonth()===d.getMonth()&&l.getFullYear()===d.getFullYear()){
-const m=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(l);return `${l.getDate()} – ${d.getDate()} ${m}`;
+ if(l.getMonth()===d.getMonth()&&l.getFullYear()===d.getFullYear()){
+  const m=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(l);
+  return `${l.getDate()} – ${d.getDate()} ${m}`;
+ }
+
+ const a=new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"})
+  .format(l).replace(".","");
+ const b=new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"})
+  .format(d).replace(".","");
+
+ return `${a} – ${b}`;
 }
-const a=new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"}).format(l).replace(".","");
-const b=new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"}).format(d).replace(".","");
-return `${a} – ${b}`;
+
+function diasEntre(a,b){
+ const x=desdeFechaLocal(a);
+ const y=desdeFechaLocal(b);
+ return Math.round((y-x)/86400000);
 }
+
+function mesesEntre(a,b){
+ return (b.getFullYear()-a.getFullYear())*12+(b.getMonth()-a.getMonth());
+}
+
+function ultimoDiaMes(y,m){
+ return new Date(y,m+1,0,12).getDate();
+}
+
+function fechaMensualValida(inicio,objetivo,intervalo){
+ const diferencia=mesesEntre(inicio,objetivo);
+ if(diferencia<0 || diferencia%intervalo!==0)return false;
+
+ const diaOriginal=inicio.getDate();
+ const ultimo=ultimoDiaMes(objetivo.getFullYear(),objetivo.getMonth());
+ const esperado=Math.min(diaOriginal,ultimo);
+
+ return objetivo.getDate()===esperado;
+}
+
+function fechaAnualValida(inicio,objetivo,intervalo){
+ const dif=objetivo.getFullYear()-inicio.getFullYear();
+ if(dif<0 || dif%intervalo!==0)return false;
+
+ if(objetivo.getMonth()!==inicio.getMonth())return false;
+
+ const ultimo=ultimoDiaMes(objetivo.getFullYear(),objetivo.getMonth());
+ const esperado=Math.min(inicio.getDate(),ultimo);
+
+ return objetivo.getDate()===esperado;
+}
+
+/* =========================
+   COLORES
+========================= */
+
 function colorPersonas(n=[]){
-if(n.length===1)return familia.find(x=>x.nombre===n[0])?.color||"#2563eb";
-const c=n.map(v=>familia.find(x=>x.nombre===v)?.color).filter(Boolean);
-return c.length>1?`linear-gradient(90deg,${c.join(",")})`:(c[0]||"#43A047");
-}
-function colorSimple(n=[]){return n.length?(familia.find(x=>x.nombre===n[0])?.color||"#2563eb"):"#43A047"}
-function textoHora(e){return e.todoDia?"Todo el día":(e.horaInicio&&e.horaFin?`${e.horaInicio}–${e.horaFin}`:(e.horaInicio||""))}
+ if(n.length===1)
+  return familia.find(x=>x.nombre===n[0])?.color||"#2563eb";
 
-/* RECURRENCIAS */
+ const c=n
+  .map(v=>familia.find(x=>x.nombre===v)?.color)
+  .filter(Boolean);
+
+ return c.length>1
+  ?`linear-gradient(90deg,${c.join(",")})`
+  :(c[0]||"#43A047");
+}
+
+function colorSimple(n=[]){
+ return n.length
+  ?(familia.find(x=>x.nombre===n[0])?.color||"#2563eb")
+  :"#43A047";
+}
+
+function textoHora(e){
+ return e.todoDia
+  ?"Todo el día"
+  :(e.horaInicio&&e.horaFin
+   ?`${e.horaInicio}–${e.horaFin}`
+   :(e.horaInicio||""));
+}
+
+/* =========================
+   EVENTOS / RECURRENCIAS
+========================= */
+
+function fechaEnExcepciones(e,fecha){
+ return Array.isArray(e.excepciones) && e.excepciones.includes(fecha);
+}
+
+function duracionEvento(e){
+ if(!e.fechaFin || e.fechaFin<e.fecha)return 0;
+ return diasEntre(e.fecha,e.fechaFin);
+}
+
+function inicioRecurrenteEnFecha(e,fecha){
+ if(!e.fecha || fecha<e.fecha)return false;
+
+ if(e.finRepeticion && fecha>e.finRepeticion)return false;
+
+ if(fechaEnExcepciones(e,fecha))return false;
+
+ if(fecha===e.fecha)return true;
+
+ if(!e.repeticion)return false;
+
+ const inicio=desdeFechaLocal(e.fecha);
+ const objetivo=desdeFechaLocal(fecha);
+ const intervalo=Math.max(1,Number(e.intervaloRepeticion)||1);
+
+ if(e.repeticion==="Semanal"){
+  const dif=diasEntre(e.fecha,fecha);
+  return dif>=0 && dif%(7*intervalo)===0;
+ }
+
+ if(e.repeticion==="Mensual"){
+  return fechaMensualValida(inicio,objetivo,intervalo);
+ }
+
+ if(e.repeticion==="Anual"){
+  return fechaAnualValida(inicio,objetivo,intervalo);
+ }
+
+ return false;
+}
+
+function inicioAparicionQueContiene(e,fecha){
+ const objetivo=desdeFechaLocal(fecha);
+ const duracion=duracionEvento(e);
+
+ for(let i=0;i<=duracion;i++){
+  const posible=fechaLocal(sumarDias(objetivo,-i));
+
+  if(inicioRecurrenteEnFecha(e,posible)){
+   return posible;
+  }
+ }
+
+ return null;
+}
+
 function ocurreEnFecha(e,fecha){
-if(!e.fecha)return false;
-if(fecha===e.fecha)return true;
-if(!e.repeticion||fecha<e.fecha)return false;
-if(e.finRepeticion&&fecha>e.finRepeticion)return false;
-
-const inicio=desdeFechaLocal(e.fecha),objetivo=desdeFechaLocal(fecha);
-
-if(e.repeticion==="Semanal")return objetivo.getDay()===inicio.getDay();
-
-if(e.repeticion==="Mensual"){
-return objetivo.getDate()===inicio.getDate();
+ return !!inicioAparicionQueContiene(e,fecha);
 }
 
-if(e.repeticion==="Anual"){
-return objetivo.getDate()===inicio.getDate()&&objetivo.getMonth()===inicio.getMonth();
-}
-return false;
-}
 function eventosEnFecha(fecha){
-return eventosFiltrados().filter(e=>ocurreEnFecha(e,fecha));
-}
-function aparicionesEntre(inicio,fin){
-const resultado=[];
-for(let d=new Date(inicio);d<=fin;d=sumarDias(d,1)){
-const f=fechaLocal(d);
-eventosEnFecha(f).forEach(e=>resultado.push({...e,fechaAparicion:f}));
-}
-return resultado;
+ return eventosFiltrados()
+  .filter(e=>ocurreEnFecha(e,fecha))
+  .map(e=>({
+   ...e,
+   fechaAparicion:inicioAparicionQueContiene(e,fecha)
+  }));
 }
 
-/* LOGIN */
+function aparicionesEntre(inicio,fin){
+ const resultado=[];
+
+ for(let d=new Date(inicio);d<=fin;d=sumarDias(d,1)){
+  const f=fechaLocal(d);
+
+  eventosEnFecha(f).forEach(e=>{
+   resultado.push({...e,fechaVista:f});
+  });
+ }
+
+ return resultado;
+}
+
+/* =========================
+   LOGIN
+========================= */
+
 $("fechaHoy").textContent=fechaBonita(fechaLocal());
+
 $("entrar").onclick=async()=>{
-$("errorLogin").textContent="";
-try{await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value)}
-catch(e){$("errorLogin").textContent="Correo o contraseña incorrectos."}
+ $("errorLogin").textContent="";
+
+ try{
+  await signInWithEmailAndPassword(
+   auth,
+   $("email").value.trim(),
+   $("password").value
+  );
+ }catch(e){
+  $("errorLogin").textContent="Correo o contraseña incorrectos.";
+ }
 };
-$("password").addEventListener("keydown",e=>{if(e.key==="Enter")$("entrar").click()});
+
+$("password").addEventListener("keydown",e=>{
+ if(e.key==="Enter")$("entrar").click();
+});
+
 $("salir").onclick=()=>signOut(auth);
 
 onAuthStateChanged(auth,async user=>{
-if(!user){
-$("app").style.display="none";$("login").style.display="flex";
-if(unsubscribeEventos)unsubscribeEventos();if(unsubscribeTareas)unsubscribeTareas();return;
-}
-$("login").style.display="none";$("app").style.display="block";$("usuario").textContent=user.email;
-await cargarFamilia();escucharEventos();escucharTareas();
+ if(!user){
+  $("app").style.display="none";
+  $("login").style.display="flex";
+
+  if(unsubscribeEventos)unsubscribeEventos();
+  if(unsubscribeTareas)unsubscribeTareas();
+
+  return;
+ }
+
+ $("login").style.display="none";
+ $("app").style.display="block";
+ $("usuario").textContent=user.email;
+
+ await cargarFamilia();
+ escucharEventos();
+ escucharTareas();
 });
 
-/* FAMILIA */
+/* =========================
+   FAMILIA
+========================= */
+
 async function cargarFamilia(){
-const s=await getDocs(collection(db,"familia"));
-familia=s.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.orden||99)-(b.orden||99));
-$("nFamilia").textContent=familia.filter(p=>p.id!=="familia").length;
-crearPersonas();crearFiltros();
+ const s=await getDocs(collection(db,"familia"));
+
+ familia=s.docs
+  .map(d=>({id:d.id,...d.data()}))
+  .sort((a,b)=>(a.orden||99)-(b.orden||99));
+
+ $("nFamilia").textContent=
+  familia.filter(p=>p.id!=="familia").length;
+
+ crearPersonas();
+ crearFiltros();
 }
+
 function crearPersonas(){
-$("participantes").innerHTML="";$("responsables").innerHTML="";
-familia.filter(p=>p.activo).forEach(p=>{
-const e=document.createElement("label");e.className="check";e.innerHTML=`<input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}`;$("participantes").appendChild(e);
-const t=document.createElement("label");t.className="check";t.innerHTML=`<input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}`;$("responsables").appendChild(t);
-});
+ $("participantes").innerHTML="";
+ $("responsables").innerHTML="";
+
+ familia.filter(p=>p.activo).forEach(p=>{
+
+  const e=document.createElement("label");
+  e.className="check";
+  e.innerHTML=
+   `<input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}`;
+
+  $("participantes").appendChild(e);
+
+  const t=document.createElement("label");
+  t.className="check";
+  t.innerHTML=
+   `<input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}`;
+
+  $("responsables").appendChild(t);
+ });
 }
+
 function crearFiltroPersonas(id,sel,accion){
-$(id).innerHTML="";
-["Todos",...familia.filter(p=>p.id!=="familia").map(p=>p.nombre)].forEach(n=>{
-const b=document.createElement("button");b.className="filtro"+(n===sel?" activo":"");b.textContent=n;b.onclick=()=>accion(n);$(id).appendChild(b);
-});
+ $(id).innerHTML="";
+
+ ["Todos",...familia
+  .filter(p=>p.id!=="familia")
+  .map(p=>p.nombre)]
+  .forEach(n=>{
+
+   const b=document.createElement("button");
+   b.className="filtro"+(n===sel?" activo":"");
+   b.textContent=n;
+   b.onclick=()=>accion(n);
+
+   $(id).appendChild(b);
+  });
 }
+
 function crearFiltros(){
-crearFiltroPersonas("filtrosAgenda",filtroAgenda,n=>{filtroAgenda=n;crearFiltros();renderAgenda()});
-crearFiltroPersonas("filtrosTareas",filtroTareas,n=>{filtroTareas=n;crearFiltros();renderTareas()});
+ crearFiltroPersonas(
+  "filtrosAgenda",
+  filtroAgenda,
+  n=>{
+   filtroAgenda=n;
+   crearFiltros();
+   renderAgenda();
+  }
+ );
+
+ crearFiltroPersonas(
+  "filtrosTareas",
+  filtroTareas,
+  n=>{
+   filtroTareas=n;
+   crearFiltros();
+   renderTareas();
+  }
+ );
 }
 
-/* FIRESTORE */
+/* =========================
+   FIRESTORE
+========================= */
+
 function escucharEventos(){
-if(unsubscribeEventos)unsubscribeEventos();
-unsubscribeEventos=onSnapshot(collection(db,"eventos"),s=>{
-eventos=s.docs.map(d=>({id:d.id,...d.data()}));
-eventos.sort((a,b)=>((a.fecha||"")+" "+(a.horaInicio||"")).localeCompare((b.fecha||"")+" "+(b.horaInicio||"")));
-renderTodo();
-});
+ if(unsubscribeEventos)unsubscribeEventos();
+
+ unsubscribeEventos=onSnapshot(
+  collection(db,"eventos"),
+  s=>{
+   eventos=s.docs.map(d=>({id:d.id,...d.data()}));
+
+   eventos.sort((a,b)=>
+    ((a.fecha||"")+" "+(a.horaInicio||""))
+    .localeCompare((b.fecha||"")+" "+(b.horaInicio||""))
+   );
+
+   renderTodo();
+  }
+ );
 }
+
 function escucharTareas(){
-if(unsubscribeTareas)unsubscribeTareas();
-unsubscribeTareas=onSnapshot(collection(db,"tareas"),s=>{
-tareas=s.docs.map(d=>({id:d.id,...d.data()}));
-tareas.sort((a,b)=>(a.fechaLimite||"9999-12-31").localeCompare(b.fechaLimite||"9999-12-31"));
-renderTodo();
-});
-}
-function eventosFiltrados(){return filtroAgenda==="Todos"?eventos:eventos.filter(e=>(e.participantes||[]).includes(filtroAgenda))}
+ if(unsubscribeTareas)unsubscribeTareas();
 
-/* EVENTOS */
+ unsubscribeTareas=onSnapshot(
+  collection(db,"tareas"),
+  s=>{
+   tareas=s.docs.map(d=>({id:d.id,...d.data()}));
+   renderTodo();
+  }
+ );
+}
+
+function eventosFiltrados(){
+ return filtroAgenda==="Todos"
+  ?eventos
+  :eventos.filter(e=>
+    (e.participantes||[]).includes(filtroAgenda)
+   );
+}
+
+/* =========================
+   EVENTOS
+========================= */
+
+function textoRangoEvento(e){
+ if(e.fechaFin && e.fechaFin!==e.fecha)
+  return `${fechaBonita(e.fecha)} → ${fechaBonita(e.fechaFin)}`;
+
+ return fechaBonita(e.fecha);
+}
+
 function htmlEvento(e){
-return `<div class="evento" data-ver-evento="${e.id}">
-<div class="barra" style="background:${colorPersonas(e.participantes||[])}"></div>
-<div class="evento-contenido">
-<div class="evento-titulo">${escapar(e.actividad||"Sin título")}${e.repeticion?" ↻":""}</div>
-<div class="evento-meta">${escapar(textoHora(e))}${e.lugar?" · "+escapar(e.lugar):""}</div>
-<div class="evento-personas">${escapar((e.participantes||[]).join(" · "))}</div>
-</div></div>`;
+ return `
+ <div class="evento"
+      data-ver-evento="${e.id}"
+      data-aparicion="${e.fechaAparicion||e.fecha||""}">
+
+ <div class="barra"
+      style="background:${colorPersonas(e.participantes||[])}"></div>
+
+ <div class="evento-contenido">
+
+ <div class="evento-titulo">
+ ${escapar(e.actividad||"Sin título")}
+ ${e.repeticion?" ↻":""}
+ </div>
+
+ <div class="evento-meta">
+ ${escapar(textoHora(e))}
+ ${e.lugar?" · "+escapar(e.lugar):""}
+ </div>
+
+ <div class="evento-personas">
+ ${escapar((e.participantes||[]).join(" · "))}
+ </div>
+
+ </div>
+ </div>`;
 }
+
 function insertarEventos(el,lista){
-if(!lista.length){el.innerHTML='<div class="vacio">No hay eventos.</div>';return}
-el.innerHTML=lista.map(htmlEvento).join("");
-el.querySelectorAll("[data-ver-evento]").forEach(x=>x.onclick=()=>abrirFichaEvento(x.dataset.verEvento));
+ if(!lista.length){
+  el.innerHTML='<div class="vacio">No hay eventos.</div>';
+  return;
+ }
+
+ el.innerHTML=lista.map(htmlEvento).join("");
+
+ el.querySelectorAll("[data-ver-evento]").forEach(x=>{
+  x.onclick=()=>{
+   abrirFichaEvento(
+    x.dataset.verEvento,
+    x.dataset.aparicion||null
+   );
+  };
+ });
 }
-function abrirFichaEvento(id){
-const e=eventos.find(x=>x.id===id);if(!e)return;eventoSeleccionado=e;
-$("fichaEvento").innerHTML=`
-<div class="fichaEventoTitulo">${escapar(e.actividad||"Sin título")}</div>
-<div class="fichaFila"><div class="fichaIcono">📅</div><div class="fichaTexto"><div class="fichaLabel">Fecha inicial</div><div class="fichaValor">${escapar(fechaBonita(e.fecha))}</div></div></div>
-<div class="fichaFila"><div class="fichaIcono">🕐</div><div class="fichaTexto"><div class="fichaLabel">Hora</div><div class="fichaValor">${escapar(textoHora(e))}</div></div></div>
-<div class="fichaFila"><div class="fichaIcono">👥</div><div class="fichaTexto"><div class="fichaLabel">Participantes</div><div class="fichaValor">${escapar((e.participantes||[]).join(" · ")||"Sin participantes")}</div></div></div>
-${e.lugar?`<div class="fichaFila"><div class="fichaIcono">📍</div><div class="fichaTexto"><div class="fichaLabel">Lugar</div><div class="fichaValor">${escapar(e.lugar)}</div></div></div>`:""}
-<div class="fichaFila"><div class="fichaIcono">↻</div><div class="fichaTexto"><div class="fichaLabel">Repetición</div><div class="fichaValor">${escapar(e.repeticion||"No se repite")}${e.finRepeticion?" · hasta "+escapar(fechaBonita(e.finRepeticion)):""}</div></div></div>
-${e.notas?`<div class="fichaFila"><div class="fichaIcono">📝</div><div class="fichaTexto"><div class="fichaLabel">Notas</div><div class="fichaValor">${escapar(e.notas)}</div></div></div>`:""}`;
-$("modalFicha").classList.add("visible");
+
+function abrirFichaEvento(id,aparicion=null){
+ const e=eventos.find(x=>x.id===id);
+ if(!e)return;
+
+ eventoSeleccionado=e;
+ aparicionSeleccionada=aparicion||e.fecha;
+
+ $("fichaEvento").innerHTML=`
+
+ <div class="fichaEventoTitulo">
+ ${escapar(e.actividad||"Sin título")}
+ </div>
+
+ <div class="fichaFila">
+ <div class="fichaIcono">📅</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Fecha</div>
+ <div class="fichaValor">
+ ${escapar(fechaBonita(aparicionSeleccionada))}
+ ${duracionEvento(e)>0?" · evento de varios días":""}
+ </div>
+ </div>
+ </div>
+
+ <div class="fichaFila">
+ <div class="fichaIcono">🕐</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Hora</div>
+ <div class="fichaValor">${escapar(textoHora(e))}</div>
+ </div>
+ </div>
+
+ <div class="fichaFila">
+ <div class="fichaIcono">👥</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Participantes</div>
+ <div class="fichaValor">
+ ${escapar((e.participantes||[]).join(" · ")||"Sin participantes")}
+ </div>
+ </div>
+ </div>
+
+ ${e.lugar?`
+ <div class="fichaFila">
+ <div class="fichaIcono">📍</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Lugar</div>
+ <div class="fichaValor">${escapar(e.lugar)}</div>
+ </div>
+ </div>`:""}
+
+ <div class="fichaFila">
+ <div class="fichaIcono">↻</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Repetición</div>
+ <div class="fichaValor">
+ ${
+  e.repeticion
+   ?`${escapar(e.repeticion)} · cada ${Number(e.intervaloRepeticion)||1}`
+   :"No se repite"
+ }
+ ${
+  e.finRepeticion
+   ?" · hasta "+escapar(fechaBonita(e.finRepeticion))
+   :""
+ }
+ </div>
+ </div>
+ </div>
+
+ ${e.notas?`
+ <div class="fichaFila">
+ <div class="fichaIcono">📝</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Notas</div>
+ <div class="fichaValor">${escapar(e.notas)}</div>
+ </div>
+ </div>`:""}
+ `;
+
+ $("modalFicha").classList.add("visible");
 }
-$("cerrarFicha").onclick=()=>{$("modalFicha").classList.remove("visible");eventoSeleccionado=null};
-$("editarEvento").onclick=()=>{if(eventoSeleccionado){$("modalFicha").classList.remove("visible");abrirEvento(eventoSeleccionado)}};
-$("eliminarEvento").onclick=async()=>{if(eventoSeleccionado&&confirm(`¿Eliminar "${eventoSeleccionado.actividad}"?`)){await deleteDoc(doc(db,"eventos",eventoSeleccionado.id));$("modalFicha").classList.remove("visible");eventoSeleccionado=null}};
+
+$("cerrarFicha").onclick=()=>{
+ $("modalFicha").classList.remove("visible");
+ eventoSeleccionado=null;
+ aparicionSeleccionada=null;
+};
+
+$("editarEvento").onclick=async()=>{
+ if(!eventoSeleccionado)return;
+
+ if(
+  eventoSeleccionado.repeticion &&
+  aparicionSeleccionada &&
+  aparicionSeleccionada!==eventoSeleccionado.fecha
+ ){
+  const solo=confirm(
+   "Aceptar = editar SOLO esta aparición.\n\nCancelar = editar TODA la serie."
+  );
+
+  if(solo){
+   const original=eventoSeleccionado;
+   const fechaExcepcion=aparicionSeleccionada;
+
+   const nuevas=[
+    ...new Set([...(original.excepciones||[]),fechaExcepcion])
+   ];
+
+   await updateDoc(
+    doc(db,"eventos",original.id),
+    {excepciones:nuevas}
+   );
+
+   const copia={
+    ...original,
+    fecha:fechaExcepcion,
+    fechaFin:duracionEvento(original)>0
+     ?fechaLocal(sumarDias(desdeFechaLocal(fechaExcepcion),duracionEvento(original)))
+     :fechaExcepcion,
+    repeticion:"",
+    finRepeticion:"",
+    intervaloRepeticion:1,
+    excepciones:[]
+   };
+
+   delete copia.id;
+
+   $("modalFicha").classList.remove("visible");
+   abrirEvento(null,copia);
+   return;
+  }
+ }
+
+ $("modalFicha").classList.remove("visible");
+ abrirEvento(eventoSeleccionado);
+};
+
+$("eliminarEvento").onclick=async()=>{
+ if(!eventoSeleccionado)return;
+
+ if(
+  eventoSeleccionado.repeticion &&
+  aparicionSeleccionada
+ ){
+  const solo=confirm(
+   "Aceptar = eliminar SOLO esta aparición.\n\nCancelar = continuar para decidir sobre toda la serie."
+  );
+
+  if(solo){
+   const excepciones=[
+    ...new Set([
+     ...(eventoSeleccionado.excepciones||[]),
+     aparicionSeleccionada
+    ])
+   ];
+
+   await updateDoc(
+    doc(db,"eventos",eventoSeleccionado.id),
+    {excepciones}
+   );
+
+   $("modalFicha").classList.remove("visible");
+   eventoSeleccionado=null;
+   aparicionSeleccionada=null;
+   return;
+  }
+ }
+
+ if(confirm(`¿Eliminar "${eventoSeleccionado.actividad}"?`)){
+  await deleteDoc(
+   doc(db,"eventos",eventoSeleccionado.id)
+  );
+
+  $("modalFicha").classList.remove("visible");
+  eventoSeleccionado=null;
+  aparicionSeleccionada=null;
+ }
+};
+
 $("duplicarEvento").onclick=()=>{
-if(!eventoSeleccionado)return;
-const copia={...eventoSeleccionado};delete copia.id;
-$("modalFicha").classList.remove("visible");abrirEvento(null,copia);
+ if(!eventoSeleccionado)return;
+
+ const copia={...eventoSeleccionado};
+ delete copia.id;
+
+ if(aparicionSeleccionada){
+  copia.fecha=aparicionSeleccionada;
+
+  if(duracionEvento(eventoSeleccionado)>0){
+   copia.fechaFin=fechaLocal(
+    sumarDias(
+     desdeFechaLocal(aparicionSeleccionada),
+     duracionEvento(eventoSeleccionado)
+    )
+   );
+  }
+ }
+
+ copia.repeticion="";
+ copia.finRepeticion="";
+ copia.intervaloRepeticion=1;
+ copia.excepciones=[];
+
+ $("modalFicha").classList.remove("visible");
+ abrirEvento(null,copia);
 };
 
-function abrirEvento(evento=null,plantilla=null){
-eventoEditando=evento;
-const e=evento||plantilla||{};
-$("tituloModalEvento").textContent=evento?"Editar evento":(plantilla?"Duplicar evento":"Nuevo evento");
-$("actividad").value=e.actividad||"";
-$("fechaEvento").value=e.fecha||fechaLocal(fechaAgenda);
-$("todoDia").checked=!!e.todoDia;
-$("horaInicio").value=e.horaInicio||"";
-$("horaFin").value=e.horaFin||"";
-$("lugar").value=e.lugar||"";
-$("notas").value=e.notas||"";
-$("categoria").value=e.categoria||"Familia";
-$("prioridad").value=e.prioridad||"Normal";
-$("repeticion").value=e.repeticion||"";
-$("finRepeticion").value=e.finRepeticion||"";
-$("bloqueFinRepeticion").style.display=$("repeticion").value?"block":"none";
-document.querySelectorAll("#participantes input").forEach(c=>c.checked=(e.participantes||[]).includes(c.value));
-$("horas").style.display=$("todoDia").checked?"none":"grid";
-$("modalEvento").classList.add("visible");
+function actualizarUnidadRepeticion(){
+ const r=$("repeticion").value;
+
+ $("opcionesRepeticion").style.display=
+  r?"block":"none";
+
+ $("unidadRepeticion").value=
+  r==="Semanal"?"semana(s)":
+  r==="Mensual"?"mes(es)":
+  r==="Anual"?"año(s)":"";
 }
-$("repeticion").onchange=()=>{$("bloqueFinRepeticion").style.display=$("repeticion").value?"block":"none"};
-$("todoDia").onchange=()=>{$("horas").style.display=$("todoDia").checked?"none":"grid"};
-$("cancelarEvento").onclick=()=>{eventoEditando=null;$("modalEvento").classList.remove("visible")};
+
+function abrirEvento(evento=null,plantilla=null,fechaForzada=null){
+ eventoEditando=evento;
+
+ const e=evento||plantilla||{};
+
+ $("tituloModalEvento").textContent=
+  evento
+   ?"Editar evento"
+   :(plantilla?"Duplicar evento":"Nuevo evento");
+
+ $("actividad").value=e.actividad||"";
+
+ const fechaBase=
+  fechaForzada||
+  e.fecha||
+  fechaLocal(fechaAgenda);
+
+ $("fechaEvento").value=fechaBase;
+
+ $("fechaFinEvento").value=
+  e.fechaFin||
+  fechaBase;
+
+ $("todoDia").checked=!!e.todoDia;
+ $("horaInicio").value=e.horaInicio||"";
+ $("horaFin").value=e.horaFin||"";
+ $("lugar").value=e.lugar||"";
+ $("notas").value=e.notas||"";
+ $("categoria").value=e.categoria||"Familia";
+ $("prioridad").value=e.prioridad||"Normal";
+ $("repeticion").value=e.repeticion||"";
+ $("intervaloRepeticion").value=
+  Math.max(1,Number(e.intervaloRepeticion)||1);
+ $("finRepeticion").value=e.finRepeticion||"";
+
+ actualizarUnidadRepeticion();
+
+ document
+  .querySelectorAll("#participantes input")
+  .forEach(c=>{
+   c.checked=(e.participantes||[]).includes(c.value);
+  });
+
+ $("horas").style.display=
+  $("todoDia").checked?"none":"grid";
+
+ $("modalEvento").classList.add("visible");
+}
+
+$("repeticion").onchange=actualizarUnidadRepeticion;
+
+$("todoDia").onchange=()=>{
+ $("horas").style.display=
+  $("todoDia").checked?"none":"grid";
+};
+
+$("fechaEvento").onchange=()=>{
+ if(
+  !$("fechaFinEvento").value ||
+  $("fechaFinEvento").value<$("fechaEvento").value
+ ){
+  $("fechaFinEvento").value=$("fechaEvento").value;
+ }
+};
+
+$("cancelarEvento").onclick=()=>{
+ eventoEditando=null;
+ $("modalEvento").classList.remove("visible");
+};
+
 $("guardarEvento").onclick=async()=>{
-const actividad=$("actividad").value.trim(),fecha=$("fechaEvento").value;
-if(!actividad||!fecha){alert("Indica la actividad y la fecha.");return}
-const participantes=[...document.querySelectorAll("#participantes input:checked")].map(c=>c.value);
-const datos={
-fecha,horaInicio:$("todoDia").checked?"":$("horaInicio").value,horaFin:$("todoDia").checked?"":$("horaFin").value,
-todoDia:$("todoDia").checked,participantes,actividad,lugar:$("lugar").value.trim(),notas:$("notas").value.trim(),
-repeticion:$("repeticion").value,finRepeticion:$("repeticion").value?$("finRepeticion").value:"",
-categoria:$("categoria").value,prioridad:$("prioridad").value
-};
-$("guardarEvento").disabled=true;$("guardarEvento").textContent="Guardando...";
-try{
-if(eventoEditando)await updateDoc(doc(db,"eventos",eventoEditando.id),datos);
-else await addDoc(collection(db,"eventos"),{...datos,recordatorio:"",creada:serverTimestamp(),creadoPor:auth.currentUser?.email||""});
-$("modalEvento").classList.remove("visible");eventoEditando=null;
-}catch(e){console.error(e);alert("No se pudo guardar el evento.")}
-finally{$("guardarEvento").disabled=false;$("guardarEvento").textContent="Guardar"}
+ const actividad=$("actividad").value.trim();
+ const fecha=$("fechaEvento").value;
+ const fechaFin=$("fechaFinEvento").value||fecha;
+
+ if(!actividad||!fecha){
+  alert("Indica la actividad y la fecha.");
+  return;
+ }
+
+ if(fechaFin<fecha){
+  alert("La fecha final no puede ser anterior a la fecha inicial.");
+  return;
+ }
+
+ const participantes=[
+  ...document.querySelectorAll("#participantes input:checked")
+ ].map(c=>c.value);
+
+ const datos={
+  fecha,
+  fechaFin,
+  horaInicio:$("todoDia").checked?"":$("horaInicio").value,
+  horaFin:$("todoDia").checked?"":$("horaFin").value,
+  todoDia:$("todoDia").checked,
+  participantes,
+  actividad,
+  lugar:$("lugar").value.trim(),
+  notas:$("notas").value.trim(),
+  repeticion:$("repeticion").value,
+  intervaloRepeticion:
+   $("repeticion").value
+    ?Math.max(1,Number($("intervaloRepeticion").value)||1)
+    :1,
+  finRepeticion:
+   $("repeticion").value
+    ?$("finRepeticion").value
+    :"",
+  categoria:$("categoria").value,
+  prioridad:$("prioridad").value
+ };
+
+ if(eventoEditando){
+  datos.excepciones=eventoEditando.excepciones||[];
+ }
+
+ $("guardarEvento").disabled=true;
+ $("guardarEvento").textContent="Guardando...";
+
+ try{
+  if(eventoEditando){
+   await updateDoc(
+    doc(db,"eventos",eventoEditando.id),
+    datos
+   );
+  }else{
+   await addDoc(
+    collection(db,"eventos"),
+    {
+     ...datos,
+     excepciones:[],
+     recordatorio:"",
+     creada:serverTimestamp(),
+     creadoPor:auth.currentUser?.email||""
+    }
+   );
+  }
+
+  $("modalEvento").classList.remove("visible");
+  eventoEditando=null;
+
+ }catch(e){
+  console.error(e);
+  alert("No se pudo guardar el evento.");
+ }finally{
+  $("guardarEvento").disabled=false;
+  $("guardarEvento").textContent="Guardar";
+ }
 };
 
-/* TAREAS */
+/* =========================
+   TAREAS
+========================= */
+
 function estadoFechaTarea(t){
-if(t.completada||!t.fechaLimite)return "";
-const h=fechaLocal();
-if(t.fechaLimite<h)return "vencida";
-if(t.fechaLimite===h)return "hoy";
-return "";
+ if(t.completada||!t.fechaLimite)return "";
+
+ const h=fechaLocal();
+
+ if(t.fechaLimite<h)return "vencida";
+ if(t.fechaLimite===h)return "hoy";
+
+ return "";
 }
+
+function prioridadNumero(p){
+ return p==="Alta"?0:p==="Normal"?1:2;
+}
+
+function ordenarTareas(lista){
+ const hoy=fechaLocal();
+
+ return [...lista].sort((a,b)=>{
+
+  const grupo=t=>{
+   if(t.completada)return 4;
+   if(t.fechaLimite && t.fechaLimite<hoy)return 0;
+   if(t.fechaLimite===hoy)return 1;
+   if(t.fechaLimite)return 2;
+   return 3;
+  };
+
+  const ga=grupo(a);
+  const gb=grupo(b);
+
+  if(ga!==gb)return ga-gb;
+
+  const pa=prioridadNumero(a.prioridad);
+  const pb=prioridadNumero(b.prioridad);
+
+  if(pa!==pb)return pa-pb;
+
+  return (a.fechaLimite||"9999-12-31")
+   .localeCompare(b.fechaLimite||"9999-12-31");
+ });
+}
+
 function htmlTarea(t){
-const c=Array.isArray(t.checklist)?t.checklist:[],hechos=c.filter(x=>x.hecho).length;
-const pct=c.length?Math.round(hechos/c.length*100):(t.completada?100:0);
-const estado=estadoFechaTarea(t);
-const estadoTxt=estado==="vencida"?'<span class="estadoVencida">VENCIDA</span>':estado==="hoy"?'<span class="estadoHoy">HOY</span>':"";
-return `<div class="tarea ${t.completada?"completada":""} ${estado==="vencida"?"vencida":""} ${estado==="hoy"?"hoyTarea":""}">
-<button class="completarTarea ${t.completada?"hecha":""}" data-completar="${t.id}">${t.completada?"✓":""}</button>
-<div class="barra" style="background:${colorPersonas(t.responsables||[])}"></div>
-<div class="tarea-contenido" data-ver-tarea="${t.id}">
-<div class="tarea-titulo">${escapar(t.titulo||"Sin título")}</div>
-<div class="tarea-meta">${estadoTxt}${estadoTxt&&t.fechaLimite?" · ":""}${t.fechaLimite?escapar(fechaBonita(t.fechaLimite)):"Sin fecha"} · ${escapar(t.prioridad||"Normal")}</div>
-<div class="tarea-personas">${escapar((t.responsables||[]).join(" · "))}</div>
-${c.length?`<div class="progreso"><span style="width:${pct}%"></span></div><div class="tarea-meta">${hechos}/${c.length} completados</div>`:""}
-</div></div>`;
+ const c=Array.isArray(t.checklist)?t.checklist:[];
+ const hechos=c.filter(x=>x.hecho).length;
+
+ const pct=c.length
+  ?Math.round(hechos/c.length*100)
+  :(t.completada?100:0);
+
+ const estado=estadoFechaTarea(t);
+
+ const estadoTxt=
+  estado==="vencida"
+   ?'<span class="estadoVencida">VENCIDA</span>'
+   :estado==="hoy"
+    ?'<span class="estadoHoy">HOY</span>'
+    :"";
+
+ return `
+ <div class="tarea
+ ${t.completada?"completada":""}
+ ${estado==="vencida"?"vencida":""}
+ ${estado==="hoy"?"hoyTarea":""}">
+
+ <button class="completarTarea ${t.completada?"hecha":""}"
+         data-completar="${t.id}">
+ ${t.completada?"✓":""}
+ </button>
+
+ <div class="barra"
+      style="background:${colorPersonas(t.responsables||[])}"></div>
+
+ <div class="tarea-contenido"
+      data-ver-tarea="${t.id}">
+
+ <div class="tarea-titulo">
+ ${escapar(t.titulo||"Sin título")}
+ ${t.repeticion?" ↻":""}
+ </div>
+
+ <div class="tarea-meta">
+ ${estadoTxt}
+ ${estadoTxt&&t.fechaLimite?" · ":""}
+ ${t.fechaLimite?escapar(fechaBonita(t.fechaLimite)):"Sin fecha"}
+ · ${escapar(t.prioridad||"Normal")}
+ </div>
+
+ <div class="tarea-personas">
+ ${escapar((t.responsables||[]).join(" · "))}
+ </div>
+
+ ${
+  c.length
+   ?`<div class="progreso">
+      <span style="width:${pct}%"></span>
+     </div>
+     <div class="tarea-meta">${hechos}/${c.length} completados</div>`
+   :""
+ }
+
+ </div>
+ </div>`;
 }
+
 function insertarTareas(el,lista){
-if(!lista.length){el.innerHTML='<div class="vacio">No hay tareas.</div>';return}
-el.innerHTML=lista.map(htmlTarea).join("");
-el.querySelectorAll("[data-completar]").forEach(b=>b.onclick=async e=>{e.stopPropagation();const t=tareas.find(x=>x.id===b.dataset.completar);if(t)await updateDoc(doc(db,"tareas",t.id),{completada:!t.completada})});
-el.querySelectorAll("[data-ver-tarea]").forEach(x=>x.onclick=()=>abrirFichaTarea(x.dataset.verTarea));
+ if(!lista.length){
+  el.innerHTML='<div class="vacio">No hay tareas.</div>';
+  return;
+ }
+
+ lista=ordenarTareas(lista);
+
+ el.innerHTML=lista.map(htmlTarea).join("");
+
+ el.querySelectorAll("[data-completar]").forEach(b=>{
+  b.onclick=async e=>{
+   e.stopPropagation();
+
+   const t=tareas.find(x=>x.id===b.dataset.completar);
+   if(!t)return;
+
+   if(!t.completada && t.repeticion && t.fechaLimite){
+
+    const siguiente=siguienteFechaTarea(t);
+
+    await updateDoc(
+     doc(db,"tareas",t.id),
+     {
+      fechaLimite:siguiente,
+      completada:false,
+      checklist:(t.checklist||[])
+       .map(x=>({...x,hecho:false}))
+     }
+    );
+
+    return;
+   }
+
+   await updateDoc(
+    doc(db,"tareas",t.id),
+    {completada:!t.completada}
+   );
+  };
+ });
+
+ el.querySelectorAll("[data-ver-tarea]").forEach(x=>{
+  x.onclick=()=>abrirFichaTarea(x.dataset.verTarea);
+ });
 }
+
+function siguienteFechaTarea(t){
+ const actual=desdeFechaLocal(t.fechaLimite);
+ const intervalo=Math.max(1,Number(t.intervaloRepeticion)||1);
+
+ let siguiente;
+
+ if(t.repeticion==="Semanal"){
+  siguiente=sumarDias(actual,7*intervalo);
+ }
+
+ if(t.repeticion==="Mensual"){
+  const objetivo=new Date(
+   actual.getFullYear(),
+   actual.getMonth()+intervalo,
+   1,
+   12
+  );
+
+  objetivo.setDate(
+   Math.min(
+    actual.getDate(),
+    ultimoDiaMes(
+     objetivo.getFullYear(),
+     objetivo.getMonth()
+    )
+   )
+  );
+
+  siguiente=objetivo;
+ }
+
+ if(t.repeticion==="Anual"){
+  const y=actual.getFullYear()+intervalo;
+  const m=actual.getMonth();
+
+  siguiente=new Date(
+   y,
+   m,
+   Math.min(
+    actual.getDate(),
+    ultimoDiaMes(y,m)
+   ),
+   12
+  );
+ }
+
+ const f=fechaLocal(siguiente||actual);
+
+ if(t.finRepeticion && f>t.finRepeticion){
+  return t.fechaLimite;
+ }
+
+ return f;
+}
+
 function abrirFichaTarea(id){
-const t=tareas.find(x=>x.id===id);if(!t)return;tareaSeleccionada=t;
-$("fichaTarea").innerHTML=`
-<div class="fichaEventoTitulo">${escapar(t.titulo||"Sin título")}</div>
-<div class="fichaFila"><div class="fichaIcono">📅</div><div class="fichaTexto"><div class="fichaLabel">Fecha límite</div><div class="fichaValor">${t.fechaLimite?escapar(fechaBonita(t.fechaLimite)):"Sin fecha"}</div></div></div>
-<div class="fichaFila"><div class="fichaIcono">👥</div><div class="fichaTexto"><div class="fichaLabel">Responsables</div><div class="fichaValor">${escapar((t.responsables||[]).join(" · ")||"Sin responsables")}</div></div></div>
-<div class="fichaFila"><div class="fichaIcono">🏷️</div><div class="fichaTexto"><div class="fichaLabel">Prioridad / categoría</div><div class="fichaValor">${escapar(t.prioridad||"Normal")} · ${escapar(t.categoria||"Familia")}</div></div></div>
-${(t.checklist||[]).length?`<div class="fichaFila"><div class="fichaIcono">☑️</div><div class="fichaTexto"><div class="fichaLabel">Checklist</div><div class="fichaValor">${(t.checklist||[]).map(x=>`${x.hecho?"✓":"○"} ${escapar(x.texto)}`).join("<br>")}</div></div></div>`:""}
-${t.notas?`<div class="fichaFila"><div class="fichaIcono">📝</div><div class="fichaTexto"><div class="fichaLabel">Notas</div><div class="fichaValor">${escapar(t.notas)}</div></div></div>`:""}`;
-$("modalFichaTarea").classList.add("visible");
+ const t=tareas.find(x=>x.id===id);
+ if(!t)return;
+
+ tareaSeleccionada=t;
+
+ $("fichaTarea").innerHTML=`
+
+ <div class="fichaEventoTitulo">
+ ${escapar(t.titulo||"Sin título")}
+ </div>
+
+ <div class="fichaFila">
+ <div class="fichaIcono">📅</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Fecha límite</div>
+ <div class="fichaValor">
+ ${t.fechaLimite?escapar(fechaBonita(t.fechaLimite)):"Sin fecha"}
+ </div>
+ </div>
+ </div>
+
+ <div class="fichaFila">
+ <div class="fichaIcono">👥</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Responsables</div>
+ <div class="fichaValor">
+ ${escapar((t.responsables||[]).join(" · ")||"Sin responsables")}
+ </div>
+ </div>
+ </div>
+
+ <div class="fichaFila">
+ <div class="fichaIcono">🏷️</div>
+ <div class="fichaTexto">
+ <div class="fichaLabel">Prioridad / categoría</div>
+ <div class="fichaValor">
+ ${escapar(t.prioridad||"Normal")} · ${escapar(t.categoria||"Familia")}
+ </div>
+ </div>
+ </div>
+
+ ${
+  t.repeticion
+   ?`<div class="fichaFila">
+     <div class="fichaIcono">↻</div>
+     <div class="fichaTexto">
+     <div class="fichaLabel">Repetición</div>
+     <div class="fichaValor">
+     ${escapar(t.repeticion)} · cada ${Number(t.intervaloRepeticion)||1}
+     </div>
+     </div>
+     </div>`
+   :""
+ }
+
+ ${
+  (t.checklist||[]).length
+   ?`<div class="fichaFila">
+     <div class="fichaIcono">☑️</div>
+     <div class="fichaTexto">
+     <div class="fichaLabel">Checklist</div>
+     <div class="fichaValor">
+     ${(t.checklist||[])
+       .map(x=>`${x.hecho?"✓":"○"} ${escapar(x.texto)}`)
+       .join("<br>")}
+     </div>
+     </div>
+     </div>`
+   :""
+ }
+
+ ${
+  t.notas
+   ?`<div class="fichaFila">
+     <div class="fichaIcono">📝</div>
+     <div class="fichaTexto">
+     <div class="fichaLabel">Notas</div>
+     <div class="fichaValor">${escapar(t.notas)}</div>
+     </div>
+     </div>`
+   :""
+ }
+ `;
+
+ $("modalFichaTarea").classList.add("visible");
 }
-$("cerrarFichaTarea").onclick=()=>{$("modalFichaTarea").classList.remove("visible");tareaSeleccionada=null};
-$("editarTarea").onclick=()=>{if(tareaSeleccionada){$("modalFichaTarea").classList.remove("visible");abrirTarea(tareaSeleccionada)}};
-$("eliminarTareaFicha").onclick=async()=>{if(tareaSeleccionada&&confirm("¿Eliminar esta tarea?")){await deleteDoc(doc(db,"tareas",tareaSeleccionada.id));$("modalFichaTarea").classList.remove("visible");tareaSeleccionada=null}};
+
+$("cerrarFichaTarea").onclick=()=>{
+ $("modalFichaTarea").classList.remove("visible");
+ tareaSeleccionada=null;
+};
+
+$("editarTarea").onclick=()=>{
+ if(!tareaSeleccionada)return;
+
+ $("modalFichaTarea").classList.remove("visible");
+ abrirTarea(tareaSeleccionada);
+};
+
+$("eliminarTareaFicha").onclick=async()=>{
+ if(
+  tareaSeleccionada &&
+  confirm("¿Eliminar esta tarea?")
+ ){
+  await deleteDoc(
+   doc(db,"tareas",tareaSeleccionada.id)
+  );
+
+  $("modalFichaTarea").classList.remove("visible");
+  tareaSeleccionada=null;
+ }
+};
 
 function abrirTarea(t=null){
-tareaEditando=t;
-$("tituloModalTarea").textContent=t?"Editar tarea":"Nueva tarea";
-$("tituloTarea").value=t?.titulo||"";$("fechaLimite").value=t?.fechaLimite||"";
-$("prioridadTarea").value=t?.prioridad||"Normal";$("categoriaTarea").value=t?.categoria||"Familia";
-$("notasTarea").value=t?.notas||"";$("textoCheck").value="";
-checklistTemporal=(t?.checklist||[]).map(x=>({...x}));
-document.querySelectorAll("#responsables input").forEach(c=>c.checked=(t?.responsables||[]).includes(c.value));
-renderChecklistEditor();$("modalTarea").classList.add("visible");
+ tareaEditando=t;
+
+ $("tituloModalTarea").textContent=
+  t?"Editar tarea":"Nueva tarea";
+
+ $("tituloTarea").value=t?.titulo||"";
+ $("fechaLimite").value=t?.fechaLimite||"";
+ $("prioridadTarea").value=t?.prioridad||"Normal";
+ $("categoriaTarea").value=t?.categoria||"Familia";
+ $("notasTarea").value=t?.notas||"";
+
+ $("repeticionTarea").value=t?.repeticion||"";
+ $("intervaloTarea").value=
+  Math.max(1,Number(t?.intervaloRepeticion)||1);
+
+ $("finRepeticionTarea").value=
+  t?.finRepeticion||"";
+
+ $("opcionesRepeticionTarea").style.display=
+  $("repeticionTarea").value?"block":"none";
+
+ $("textoCheck").value="";
+
+ checklistTemporal=(t?.checklist||[])
+  .map(x=>({...x}));
+
+ document
+  .querySelectorAll("#responsables input")
+  .forEach(c=>{
+   c.checked=(t?.responsables||[]).includes(c.value);
+  });
+
+ renderChecklistEditor();
+
+ $("modalTarea").classList.add("visible");
 }
-function renderChecklistEditor(){
-$("editorChecklist").innerHTML=checklistTemporal.map((x,i)=>`<div class="itemEditor"><span>${escapar(x.texto)}</span><button type="button" data-quitar-check="${i}">×</button></div>`).join("");
-$("editorChecklist").querySelectorAll("[data-quitar-check]").forEach(b=>b.onclick=()=>{checklistTemporal.splice(Number(b.dataset.quitarCheck),1);renderChecklistEditor()});
-}
-function anadirChecklist(){const t=$("textoCheck").value.trim();if(!t)return;checklistTemporal.push({texto:t,hecho:false});$("textoCheck").value="";renderChecklistEditor()}
-$("anadirCheck").onclick=anadirChecklist;
-$("textoCheck").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();anadirChecklist()}});
-$("cancelarTarea").onclick=()=>{tareaEditando=null;$("modalTarea").classList.remove("visible")};
-$("guardarTarea").onclick=async()=>{
-const titulo=$("tituloTarea").value.trim();if(!titulo){alert("Escribe el título de la tarea.");return}
-const responsables=[...document.querySelectorAll("#responsables input:checked")].map(c=>c.value);
-const datos={titulo,responsables,fechaLimite:$("fechaLimite").value,prioridad:$("prioridadTarea").value,categoria:$("categoriaTarea").value,checklist:checklistTemporal.map(x=>({...x})),notas:$("notasTarea").value.trim()};
-$("guardarTarea").disabled=true;$("guardarTarea").textContent="Guardando...";
-try{
-if(tareaEditando)await updateDoc(doc(db,"tareas",tareaEditando.id),datos);
-else await addDoc(collection(db,"tareas"),{...datos,completada:false,creada:serverTimestamp(),creadoPor:auth.currentUser?.email||""});
-$("modalTarea").classList.remove("visible");tareaEditando=null;
-}catch(e){console.error(e);alert("No se pudo guardar la tarea.")}
-finally{$("guardarTarea").disabled=false;$("guardarTarea").textContent="Guardar"}
+
+$("repeticionTarea").onchange=()=>{
+ $("opcionesRepeticionTarea").style.display=
+  $("repeticionTarea").value?"block":"none";
 };
 
-/* RENDER */
-function renderTodo(){renderInicio();renderAgenda();renderTareas()}
-function renderInicio(){
-const hoy=fechaLocal(),deHoy=eventosEnFecha(hoy);
-const pendientes=tareas.filter(t=>!t.completada);
-const atencion=pendientes.filter(t=>t.fechaLimite&&t.fechaLimite<=hoy).slice(0,5);
-const proximos=aparicionesEntre(sumarDias(new Date(),1),sumarDias(new Date(),30)).slice(0,5);
-$("nHoy").textContent=deHoy.length;$("nTareas").textContent=pendientes.length;
-insertarEventos($("eventosHoy"),deHoy);
-insertarTareas($("tareasInicio"),atencion.length?atencion:pendientes.slice(0,4));
-insertarEventos($("eventosProximos"),proximos);
-}
-function renderAgenda(){
-$("vistaDia").style.display=vistaAgenda==="dia"?"block":"none";
-$("vistaSemana").style.display=vistaAgenda==="semana"?"block":"none";
-$("vistaMes").style.display=vistaAgenda==="mes"?"block":"none";
-document.querySelectorAll("[data-vista]").forEach(b=>b.classList.toggle("activo",b.dataset.vista===vistaAgenda));
-if(vistaAgenda==="dia")renderDia();if(vistaAgenda==="semana")renderSemana();if(vistaAgenda==="mes")renderMes();
-}
-function renderDia(){
-const f=fechaLocal(fechaAgenda),lista=eventosEnFecha(f);
-$("tituloPeriodo").textContent=fechaBonita(f);$("contadorPeriodo").textContent=`${lista.length} ${lista.length===1?"evento":"eventos"}`;
-$("vistaDia").innerHTML='<div class="tarjeta"><div id="listaDia"></div></div>';
-insertarEventos($("listaDia"),lista);
-}
-function renderSemana(){
-const l=lunesDeSemana(fechaAgenda),d=sumarDias(l,6),dias=Array.from({length:7},(_,i)=>sumarDias(l,i));
-const apariciones=aparicionesEntre(l,d);
-$("tituloPeriodo").textContent=tituloSemana(l,d);$("contadorPeriodo").textContent=`${apariciones.length} ${apariciones.length===1?"evento":"eventos"} esta semana`;
-const franja=dias.map(x=>{
-const f=fechaLocal(x),lista=eventosEnFecha(f),letra=new Intl.DateTimeFormat("es-ES",{weekday:"short"}).format(x).replace(".","").charAt(0).toUpperCase();
-return `<button class="diaCompacto ${mismoDia(x,new Date())?"hoy":""}" data-dia-semana="${f}"><span class="letraDia">${letra}</span><span class="numeroDiaCompacto">${x.getDate()}</span><span class="puntosSemana">${lista.slice(0,3).map(e=>`<span class="puntoSemana" style="background:${colorSimple(e.participantes||[])}"></span>`).join("")}</span></button>`;
-}).join("");
-const resumen=dias.map(x=>{
-const f=fechaLocal(x),lista=eventosEnFecha(f),esHoy=mismoDia(x,new Date());
-const nom=capitalizarPrimera(new Intl.DateTimeFormat("es-ES",{weekday:"long"}).format(x));
-const mes=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(x);
-return `<div class="bloqueDiaSemana ${lista.length?"":"sinEventos"} ${esHoy?"esHoy":""}">
-<div class="cabResumenDia" data-abrir-dia="${f}"><span class="fechaResumenDia">${nom}, ${x.getDate()} de ${mes}${esHoy?'<span class="hoyMini">HOY</span>':""}</span>${lista.length?`<span class="contadorDia">${lista.length}</span>`:'<span class="sinEventosSemana">Sin eventos</span>'}</div>
-${lista.map(e=>`<div class="eventoSemanaLinea" data-ver-evento="${e.id}"><div class="barraSemana" style="background:${colorPersonas(e.participantes||[])}"></div><div class="horaSemana">${escapar(textoHora(e))}</div><div class="textoSemana"><div class="tituloSemanaEvento">${escapar(e.actividad)}${e.repeticion?" ↻":""}</div><div class="personasSemana">${escapar((e.participantes||[]).join(" · "))}</div></div></div>`).join("")}</div>`;
-}).join("");
-$("vistaSemana").innerHTML=`<div class="semanaCompacta"><div class="franjaSemana">${franja}</div></div><div class="resumenSemana">${resumen}</div>`;
-$("vistaSemana").querySelectorAll("[data-dia-semana],[data-abrir-dia]").forEach(x=>x.onclick=()=>{fechaAgenda=desdeFechaLocal(x.dataset.diaSemana||x.dataset.abrirDia);vistaAgenda="dia";renderAgenda()});
-$("vistaSemana").querySelectorAll("[data-ver-evento]").forEach(x=>x.onclick=e=>{e.stopPropagation();abrirFichaEvento(x.dataset.verEvento)});
-}
-function renderMes(){
-const y=fechaAgenda.getFullYear(),m=fechaAgenda.getMonth(),primero=new Date(y,m,1,12),dias=new Date(y,m+1,0,12).getDate();
-let huecos=primero.getDay()-1;if(huecos<0)huecos=6;
-const total=Math.ceil((huecos+dias)/7)*7,finales=total-huecos-dias;
-const ini=new Date(y,m,1,12),fin=new Date(y,m,dias,12),apps=aparicionesEntre(ini,fin);
-$("tituloPeriodo").textContent=tituloMes(fechaAgenda);$("contadorPeriodo").textContent=`${apps.length} ${apps.length===1?"evento":"eventos"} este mes`;
-let celdas='<div class="celdaVacia"></div>'.repeat(huecos);
-for(let n=1;n<=dias;n++){
-const x=new Date(y,m,n,12),f=fechaLocal(x),lista=eventosEnFecha(f);
-celdas+=`<div class="celdaDia ${mismoDia(x,new Date())?"hoy":""} ${mismoDia(x,fechaAgenda)?"seleccionado":""}" data-fecha-mes="${f}">
-<div class="numMes">${n}</div><div class="puntosMes">${lista.slice(0,4).map(e=>`<span class="puntoMes" style="background:${colorSimple(e.participantes||[])}"></span>`).join("")}</div>${lista.length>4?`<div class="masMes">+${lista.length-4}</div>`:""}</div>`;
-}
-celdas+='<div class="celdaVacia"></div>'.repeat(finales);
-const fs=fechaLocal(fechaAgenda),lista=eventosEnFecha(fs);
-$("vistaMes").innerHTML=`<div class="calendario"><div class="cabCalendario"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div><div class="rejillaMes">${celdas}</div></div>
-<div class="tarjeta detalleMes"><h2>${escapar(fechaBonita(fs))}</h2><div id="eventosDiaMes"></div></div>`;
-insertarEventos($("eventosDiaMes"),lista);
-$("vistaMes").querySelectorAll("[data-fecha-mes]").forEach(x=>x.onclick=()=>{fechaAgenda=desdeFechaLocal(x.dataset.fechaMes);renderMes()});
-}
-function renderTareas(){
-let lista=[...tareas];
-if(filtroTareas!=="Todos")lista=lista.filter(t=>(t.responsables||[]).includes(filtroTareas));
-if(estadoTareas==="pendientes")lista=lista.filter(t=>!t.completada);
-if(estadoTareas==="completadas")lista=lista.filter(t=>t.completada);
-insertarTareas($("listaTareas"),lista);
+function renderChecklistEditor(){
+ $("editorChecklist").innerHTML=
+  checklistTemporal
+   .map((x,i)=>`
+    <div class="itemEditor">
+     <span>${escapar(x.texto)}</span>
+     <button type="button"
+             data-quitar-check="${i}">×</button>
+    </div>
+   `)
+   .join("");
+
+ $("editorChecklist")
+  .querySelectorAll("[data-quitar-check]")
+  .forEach(b=>{
+   b.onclick=()=>{
+    checklistTemporal.splice(
+     Number(b.dataset.quitarCheck),
+     1
+    );
+    renderChecklistEditor();
+   };
+  });
 }
 
-/* NAVEGACIÓN */
-document.querySelectorAll("[data-vista]").forEach(b=>b.onclick=()=>{vistaAgenda=b.dataset.vista;renderAgenda()});
-$("anterior").onclick=()=>{if(vistaAgenda==="dia")fechaAgenda=sumarDias(fechaAgenda,-1);else if(vistaAgenda==="semana")fechaAgenda=sumarDias(fechaAgenda,-7);else fechaAgenda=new Date(fechaAgenda.getFullYear(),fechaAgenda.getMonth()-1,1,12);renderAgenda()};
-$("siguiente").onclick=()=>{if(vistaAgenda==="dia")fechaAgenda=sumarDias(fechaAgenda,1);else if(vistaAgenda==="semana")fechaAgenda=sumarDias(fechaAgenda,7);else fechaAgenda=new Date(fechaAgenda.getFullYear(),fechaAgenda.getMonth()+1,1,12);renderAgenda()};
-$("irHoy").onclick=()=>{fechaAgenda=new Date();renderAgenda()};
-document.querySelectorAll(".navbtn[data-pantalla]").forEach(b=>b.onclick=()=>{
-pantallaActual=b.dataset.pantalla;document.querySelectorAll(".pantalla").forEach(p=>p.classList.remove("activa"));document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("activo"));
-$(pantallaActual).classList.add("activa");b.classList.add("activo");if(pantallaActual==="agenda")renderAgenda();
+function anadirChecklist(){
+ const t=$("textoCheck").value.trim();
+
+ if(!t)return;
+
+ checklistTemporal.push({
+  texto:t,
+  hecho:false
+ });
+
+ $("textoCheck").value="";
+ renderChecklistEditor();
+}
+
+$("anadirCheck").onclick=anadirChecklist;
+
+$("textoCheck").addEventListener("keydown",e=>{
+ if(e.key==="Enter"){
+  e.preventDefault();
+  anadirChecklist();
+ }
 });
-document.querySelectorAll("[data-estado]").forEach(b=>b.onclick=()=>{estadoTareas=b.dataset.estado;document.querySelectorAll("[data-estado]").forEach(x=>x.classList.remove("activo"));b.classList.add("activo");renderTareas()});
-$("fab").onclick=()=>pantallaActual==="tareas"?abrirTarea():abrirEvento();
+
+$("cancelarTarea").onclick=()=>{
+ tareaEditando=null;
+ $("modalTarea").classList.remove("visible");
+};
+
+$("guardarTarea").onclick=async()=>{
+ const titulo=$("tituloTarea").value.trim();
+
+ if(!titulo){
+  alert("Escribe el título de la tarea.");
+  return;
+ }
+
+ const responsables=[
+  ...document.querySelectorAll("#responsables input:checked")
+ ].map(c=>c.value);
+
+ const datos={
+  titulo,
+  responsables,
+  fechaLimite:$("fechaLimite").value,
+  prioridad:$("prioridadTarea").value,
+  categoria:$("categoriaTarea").value,
+  checklist:checklistTemporal.map(x=>({...x})),
+  notas:$("notasTarea").value.trim(),
+  repeticion:$("repeticionTarea").value,
+  intervaloRepeticion:
+   $("repeticionTarea").value
+    ?Math.max(1,Number($("intervaloTarea").value)||1)
+    :1,
+  finRepeticion:
+   $("repeticionTarea").value
+    ?$("finRepeticionTarea").value
+    :""
+ };
+
+ $("guardarTarea").disabled=true;
+ $("guardarTarea").textContent="Guardando...";
+
+ try{
+  if(tareaEditando){
+   await updateDoc(
+    doc(db,"tareas",tareaEditando.id),
+    datos
+   );
+  }else{
+   await addDoc(
+    collection(db,"tareas"),
+    {
+     ...datos,
+     completada:false,
+     creada:serverTimestamp(),
+     creadoPor:auth.currentUser?.email||""
+    }
+   );
+  }
+
+  $("modalTarea").classList.remove("visible");
+  tareaEditando=null;
+
+ }catch(e){
+  console.error(e);
+  alert("No se pudo guardar la tarea.");
+ }finally{
+  $("guardarTarea").disabled=false;
+  $("guardarTarea").textContent="Guardar";
+ }
+};
+
+/* =========================
+   INICIO
+========================= */
+
+function renderTodo(){
+ renderInicio();
+ renderAgenda();
+ renderTareas();
+ actualizarFab();
+}
+
+function renderInicio(){
+ const hoy=fechaLocal();
+
+ const deHoy=eventosEnFecha(hoy);
+
+ const pendientes=tareas.filter(t=>!t.completada);
+
+ const atencion=ordenarTareas(
+  pendientes.filter(t=>
+   t.fechaLimite &&
+   t.fechaLimite<=hoy
+  )
+ ).slice(0,5);
+
+ $("nHoy").textContent=deHoy.length;
+ $("nTareas").textContent=pendientes.length;
+
+ insertarEventos(
+  $("eventosHoy"),
+  deHoy
+ );
+
+ insertarTareas(
+  $("tareasInicio"),
+  atencion.length
+   ?atencion
+   :ordenarTareas(pendientes).slice(0,4)
+ );
+
+ renderEstaSemana();
+}
+
+function renderEstaSemana(){
+ const hoy=new Date();
+ hoy.setHours(12,0,0,0);
+
+ let html="";
+
+ for(let i=0;i<7;i++){
+  const d=sumarDias(hoy,i);
+  const f=fechaLocal(d);
+
+  const ev=eventosEnFecha(f);
+
+  const ta=ordenarTareas(
+   tareas.filter(t=>
+    !t.completada &&
+    t.fechaLimite===f
+   )
+  );
+
+  if(!ev.length && !ta.length)continue;
+
+  const nombre=
+   i===0
+    ?"Hoy"
+    :capitalizarPrimera(
+      new Intl.DateTimeFormat(
+       "es-ES",
+       {weekday:"long",day:"numeric",month:"short"}
+      ).format(d).replace(".","")
+     );
+
+  html+=`
+   <div class="semanaInicioDia">
+    <div class="semanaInicioTitulo ${i===0?"hoy":""}">
+     ${escapar(nombre)}
+    </div>
+
+    ${ev.map(e=>`
+     <div class="evento"
+          data-inicio-evento="${e.id}"
+          data-inicio-aparicion="${e.fechaAparicion||e.fecha}">
+      <div class="barra"
+           style="background:${colorPersonas(e.participantes||[])}"></div>
+      <div class="evento-contenido">
+       <div class="evento-titulo">
+        ${escapar(e.actividad)}
+       </div>
+       <div class="evento-meta">
+        ${escapar(textoHora(e))}
+       </div>
+      </div>
+     </div>
+    `).join("")}
+
+    ${ta.map(t=>`
+     <div class="tarea">
+      <button class="completarTarea"
+              data-inicio-completar="${t.id}"></button>
+      <div class="tarea-contenido"
+           data-inicio-tarea="${t.id}">
+       <div class="tarea-titulo">
+        ${escapar(t.titulo)}
+       </div>
+       <div class="tarea-meta">
+        Tarea · ${escapar(t.prioridad||"Normal")}
+       </div>
+      </div>
+     </div>
+    `).join("")}
+
+   </div>
+  `;
+ }
+
+ $("estaSemana").innerHTML=
+  html||'<div class="vacio">No hay nada previsto para los próximos 7 días.</div>';
+
+ $("estaSemana")
+  .querySelectorAll("[data-inicio-evento]")
+  .forEach(x=>{
+   x.onclick=()=>abrirFichaEvento(
+    x.dataset.inicioEvento,
+    x.dataset.inicioAparicion
+   );
+  });
+
+ $("estaSemana")
+  .querySelectorAll("[data-inicio-tarea]")
+  .forEach(x=>{
+   x.onclick=()=>abrirFichaTarea(
+    x.dataset.inicioTarea
+   );
+  });
+
+ $("estaSemana")
+  .querySelectorAll("[data-inicio-completar]")
+  .forEach(x=>{
+   x.onclick=async e=>{
+    e.stopPropagation();
+
+    const t=tareas.find(
+     a=>a.id===x.dataset.inicioCompletar
+    );
+
+    if(!t)return;
+
+    if(t.repeticion){
+     const siguiente=siguienteFechaTarea(t);
+
+     await updateDoc(
+      doc(db,"tareas",t.id),
+      {
+       fechaLimite:siguiente,
+       checklist:(t.checklist||[])
+        .map(c=>({...c,hecho:false}))
+      }
+     );
+    }else{
+     await updateDoc(
+      doc(db,"tareas",t.id),
+      {completada:true}
+     );
+    }
+   };
+  });
+}
+
+/* =========================
+   AGENDA
+========================= */
+
+function renderAgenda(){
+ $("vistaDia").style.display=
+  vistaAgenda==="dia"?"block":"none";
+
+ $("vistaSemana").style.display=
+  vistaAgenda==="semana"?"block":"none";
+
+ $("vistaMes").style.display=
+  vistaAgenda==="mes"?"block":"none";
+
+ document
+  .querySelectorAll("[data-vista]")
+  .forEach(b=>{
+   b.classList.toggle(
+    "activo",
+    b.dataset.vista===vistaAgenda
+   );
+  });
+
+ if(vistaAgenda==="dia")renderDia();
+ if(vistaAgenda==="semana")renderSemana();
+ if(vistaAgenda==="mes")renderMes();
+}
+
+function renderDia(){
+ const f=fechaLocal(fechaAgenda);
+ const lista=eventosEnFecha(f);
+
+ $("tituloPeriodo").textContent=
+  fechaBonita(f);
+
+ $("contadorPeriodo").textContent=
+  `${lista.length} ${lista.length===1?"evento":"eventos"}`;
+
+ $("vistaDia").innerHTML=
+  '<div class="tarjeta"><div id="listaDia"></div></div>';
+
+ insertarEventos(
+  $("listaDia"),
+  lista
+ );
+}
+
+function renderSemana(){
+ const l=lunesDeSemana(fechaAgenda);
+ const d=sumarDias(l,6);
+
+ const dias=Array.from(
+  {length:7},
+  (_,i)=>sumarDias(l,i)
+ );
+
+ const apariciones=aparicionesEntre(l,d);
+
+ $("tituloPeriodo").textContent=
+  tituloSemana(l,d);
+
+ $("contadorPeriodo").textContent=
+  `${apariciones.length} ${apariciones.length===1?"evento":"eventos"} esta semana`;
+
+ const franja=dias.map(x=>{
+  const f=fechaLocal(x);
+  const lista=eventosEnFecha(f);
+
+  const letra=
+   new Intl.DateTimeFormat(
+    "es-ES",
+    {weekday:"short"}
+   )
+   .format(x)
+   .replace(".","")
+   .charAt(0)
+   .toUpperCase();
+
+  return `
+   <button class="diaCompacto ${mismoDia(x,new Date())?"hoy":""}"
+           data-dia-semana="${f}">
+    <span class="letraDia">${letra}</span>
+    <span class="numeroDiaCompacto">${x.getDate()}</span>
+    <span class="puntosSemana">
+     ${lista.slice(0,3).map(e=>
+      `<span class="puntoSemana"
+             style="background:${colorSimple(e.participantes||[])}"></span>`
+     ).join("")}
+    </span>
+   </button>`;
+ }).join("");
+
+ const resumen=dias.map(x=>{
+  const f=fechaLocal(x);
+  const lista=eventosEnFecha(f);
+  const esHoy=mismoDia(x,new Date());
+
+  const nom=capitalizarPrimera(
+   new Intl.DateTimeFormat(
+    "es-ES",
+    {weekday:"long"}
+   ).format(x)
+  );
+
+  const mes=
+   new Intl.DateTimeFormat(
+    "es-ES",
+    {month:"long"}
+   ).format(x);
+
+  return `
+   <div class="bloqueDiaSemana
+               ${lista.length?"":"sinEventos"}
+               ${esHoy?"esHoy":""}">
+
+    <div class="cabResumenDia"
+         data-abrir-dia="${f}">
+
+     <span class="fechaResumenDia">
+      ${nom}, ${x.getDate()} de ${mes}
+      ${esHoy?'<span class="hoyMini">HOY</span>':""}
+     </span>
+
+     ${
+      lista.length
+       ?`<span class="contadorDia">${lista.length}</span>`
+       :'<span class="sinEventosSemana">Sin eventos</span>'
+     }
+    </div>
+
+    ${lista.map(e=>`
+     <div class="eventoSemanaLinea"
+          data-ver-evento="${e.id}"
+          data-aparicion="${e.fechaAparicion||e.fecha}">
+
+      <div class="barraSemana"
+           style="background:${colorPersonas(e.participantes||[])}"></div>
+
+      <div class="horaSemana">
+       ${escapar(textoHora(e))}
+      </div>
+
+      <div class="textoSemana">
+       <div class="tituloSemanaEvento">
+        ${escapar(e.actividad)}
+        ${e.repeticion?" ↻":""}
+       </div>
+
+       <div class="personasSemana">
+        ${escapar((e.participantes||[]).join(" · "))}
+       </div>
+      </div>
+     </div>
+    `).join("")}
+
+   </div>`;
+ }).join("");
+
+ $("vistaSemana").innerHTML=`
+  <div class="semanaCompacta">
+   <div class="franjaSemana">${franja}</div>
+  </div>
+  <div class="resumenSemana">${resumen}</div>
+ `;
+
+ $("vistaSemana")
+  .querySelectorAll("[data-dia-semana],[data-abrir-dia]")
+  .forEach(x=>{
+   x.onclick=()=>{
+    fechaAgenda=desdeFechaLocal(
+     x.dataset.diaSemana||
+     x.dataset.abrirDia
+    );
+
+    vistaAgenda="dia";
+    renderAgenda();
+   };
+  });
+
+ $("vistaSemana")
+  .querySelectorAll("[data-ver-evento]")
+  .forEach(x=>{
+   x.onclick=e=>{
+    e.stopPropagation();
+
+    abrirFichaEvento(
+     x.dataset.verEvento,
+     x.dataset.aparicion
+    );
+   };
+  });
+}
+
+/* pulsación larga */
+
+let temporizadorLargo=null;
+let pulsacionLarga=false;
+
+function activarPulsacionLarga(elementos){
+ elementos.forEach(x=>{
+
+  const iniciar=e=>{
+   pulsacionLarga=false;
+
+   temporizadorLargo=setTimeout(()=>{
+    pulsacionLarga=true;
+
+    const fecha=
+     x.dataset.fechaMes||
+     x.dataset.diaSemana||
+     x.dataset.abrirDia;
+
+    if(fecha){
+     abrirEvento(null,null,fecha);
+    }
+
+   },550);
+  };
+
+  const cancelar=()=>{
+   clearTimeout(temporizadorLargo);
+  };
+
+  x.addEventListener("touchstart",iniciar,{passive:true});
+  x.addEventListener("touchend",cancelar);
+  x.addEventListener("touchmove",cancelar);
+
+  x.addEventListener("mousedown",iniciar);
+  x.addEventListener("mouseup",cancelar);
+  x.addEventListener("mouseleave",cancelar);
+ });
+}
+
+function renderMes(){
+ const y=fechaAgenda.getFullYear();
+ const m=fechaAgenda.getMonth();
+
+ const primero=new Date(y,m,1,12);
+ const dias=new Date(y,m+1,0,12).getDate();
+
+ let huecos=primero.getDay()-1;
+ if(huecos<0)huecos=6;
+
+ const total=Math.ceil((huecos+dias)/7)*7;
+ const finales=total-huecos-dias;
+
+ const ini=new Date(y,m,1,12);
+ const fin=new Date(y,m,dias,12);
+
+ const apps=aparicionesEntre(ini,fin);
+
+ $("tituloPeriodo").textContent=
+  tituloMes(fechaAgenda);
+
+ $("contadorPeriodo").textContent=
+  `${apps.length} ${apps.length===1?"evento":"eventos"} este mes`;
+
+ let celdas=
+  '<div class="celdaVacia"></div>'.repeat(huecos);
+
+ for(let n=1;n<=dias;n++){
+
+  const x=new Date(y,m,n,12);
+  const f=fechaLocal(x);
+  const lista=eventosEnFecha(f);
+
+  celdas+=`
+   <div class="celdaDia
+               ${mismoDia(x,new Date())?"hoy":""}
+               ${mismoDia(x,fechaAgenda)?"seleccionado":""}"
+        data-fecha-mes="${f}">
+
+    <div class="numMes">${n}</div>
+
+    <div class="puntosMes">
+     ${lista.slice(0,4).map(e=>
+      `<span class="puntoMes"
+             style="background:${colorSimple(e.participantes||[])}"></span>`
+     ).join("")}
+    </div>
+
+    ${
+     lista.length>4
+      ?`<div class="masMes">+${lista.length-4}</div>`
+      :""
+    }
+
+   </div>`;
+ }
+
+ celdas+=
+  '<div class="celdaVacia"></div>'.repeat(finales);
+
+ const fs=fechaLocal(fechaAgenda);
+ const lista=eventosEnFecha(fs);
+
+ $("vistaMes").innerHTML=`
+  <div class="calendario">
+
+   <div class="cabCalendario">
+    <div>L</div><div>M</div><div>X</div>
+    <div>J</div><div>V</div><div>S</div><div>D</div>
+   </div>
+
+   <div class="rejillaMes">
+    ${celdas}
+   </div>
+
+  </div>
+
+  <div class="tarjeta detalleMes">
+   <h2>${escapar(fechaBonita(fs))}</h2>
+   <div id="eventosDiaMes"></div>
+  </div>
+ `;
+
+ insertarEventos(
+  $("eventosDiaMes"),
+  lista
+ );
+
+ const diasMes=[
+  ...$("vistaMes").querySelectorAll("[data-fecha-mes]")
+ ];
+
+ diasMes.forEach(x=>{
+  x.onclick=()=>{
+   if(pulsacionLarga){
+    pulsacionLarga=false;
+    return;
+   }
+
+   fechaAgenda=desdeFechaLocal(
+    x.dataset.fechaMes
+   );
+
+   renderMes();
+  };
+ });
+
+ activarPulsacionLarga(diasMes);
+}
+
+/* =========================
+   RENDER TAREAS
+========================= */
+
+function renderTareas(){
+ let lista=[...tareas];
+
+ if(filtroTareas!=="Todos"){
+  lista=lista.filter(t=>
+   (t.responsables||[]).includes(filtroTareas)
+  );
+ }
+
+ if(estadoTareas==="pendientes"){
+  lista=lista.filter(t=>!t.completada);
+ }
+
+ if(estadoTareas==="completadas"){
+  lista=lista.filter(t=>t.completada);
+ }
+
+ insertarTareas(
+  $("listaTareas"),
+  ordenarTareas(lista)
+ );
+}
+
+/* =========================
+   NAVEGACIÓN
+========================= */
+
+document
+ .querySelectorAll("[data-vista]")
+ .forEach(b=>{
+  b.onclick=()=>{
+   vistaAgenda=b.dataset.vista;
+   renderAgenda();
+  };
+ });
+
+$("anterior").onclick=()=>{
+ if(vistaAgenda==="dia"){
+  fechaAgenda=sumarDias(fechaAgenda,-1);
+ }
+ else if(vistaAgenda==="semana"){
+  fechaAgenda=sumarDias(fechaAgenda,-7);
+ }
+ else{
+  fechaAgenda=new Date(
+   fechaAgenda.getFullYear(),
+   fechaAgenda.getMonth()-1,
+   1,
+   12
+  );
+ }
+
+ renderAgenda();
+};
+
+$("siguiente").onclick=()=>{
+ if(vistaAgenda==="dia"){
+  fechaAgenda=sumarDias(fechaAgenda,1);
+ }
+ else if(vistaAgenda==="semana"){
+  fechaAgenda=sumarDias(fechaAgenda,7);
+ }
+ else{
+  fechaAgenda=new Date(
+   fechaAgenda.getFullYear(),
+   fechaAgenda.getMonth()+1,
+   1,
+   12
+  );
+ }
+
+ renderAgenda();
+};
+
+$("irHoy").onclick=()=>{
+ fechaAgenda=new Date();
+ renderAgenda();
+};
+
+function actualizarFab(){
+ if(pantallaActual==="tareas"){
+  $("fab").textContent="+ Tarea";
+ }
+ else{
+  $("fab").textContent="+ Evento";
+ }
+}
+
+document
+ .querySelectorAll(".navbtn[data-pantalla]")
+ .forEach(b=>{
+  b.onclick=()=>{
+
+   pantallaActual=b.dataset.pantalla;
+
+   document
+    .querySelectorAll(".pantalla")
+    .forEach(p=>p.classList.remove("activa"));
+
+   document
+    .querySelectorAll(".navbtn")
+    .forEach(x=>x.classList.remove("activo"));
+
+   $(pantallaActual).classList.add("activa");
+   b.classList.add("activo");
+
+   if(pantallaActual==="agenda"){
+    renderAgenda();
+   }
+
+   actualizarFab();
+  };
+ });
+
+document
+ .querySelectorAll("[data-estado]")
+ .forEach(b=>{
+  b.onclick=()=>{
+
+   estadoTareas=b.dataset.estado;
+
+   document
+    .querySelectorAll("[data-estado]")
+    .forEach(x=>x.classList.remove("activo"));
+
+   b.classList.add("activo");
+
+   renderTareas();
+  };
+ });
+
+$("fab").onclick=()=>{
+ if(pantallaActual==="tareas"){
+  abrirTarea();
+ }else{
+  abrirEvento();
+ }
+};
+
+actualizarFab();
+
 </script>
 </body>
 </html>
