@@ -8,13 +8,12 @@
     content="width=device-width, initial-scale=1.0, viewport-fit=cover"
   >
 
-  <!-- Configuración para iPhone / iPad -->
+  <!-- iPhone / iPad -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="apple-mobile-web-app-title" content="Family Hub">
 
-  <!-- Color de la aplicación -->
   <meta name="theme-color" content="#2563eb">
 
   <!-- PWA -->
@@ -23,6 +22,7 @@
   <title>Family Hub</title>
 
   <style>
+
     * {
       box-sizing: border-box;
     }
@@ -35,7 +35,13 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
       background: #f5f7fb;
       color: #172033;
 
@@ -56,66 +62,91 @@
     .logo {
       width: 80px;
       height: 80px;
+
       margin: 40px auto 20px;
+
       border-radius: 24px;
 
       display: flex;
       align-items: center;
       justify-content: center;
 
-      background: linear-gradient(135deg, #2563eb, #6d28d9);
+      background:
+        linear-gradient(
+          135deg,
+          #2563eb,
+          #6d28d9
+        );
 
       color: white;
+
       font-size: 24px;
       font-weight: 900;
 
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+      box-shadow:
+        0 12px 30px
+        rgba(37, 99, 235, 0.25);
     }
 
     h1 {
       margin: 0;
+
       font-size: 34px;
       line-height: 1.1;
     }
 
     .subtitulo {
       margin-top: 16px;
+
       color: #667085;
+
       font-size: 17px;
     }
 
     .tarjeta {
       margin-top: 35px;
+
       padding: 24px 20px;
 
       background: white;
+
       border-radius: 20px;
 
-      box-shadow: 0 7px 24px rgba(15, 23, 42, 0.07);
+      box-shadow:
+        0 7px 24px
+        rgba(15, 23, 42, 0.07);
 
       text-align: left;
     }
 
     .tarjeta h2 {
       margin: 0 0 8px;
+
       font-size: 21px;
     }
 
     .tarjeta p {
       margin: 0;
+
       color: #667085;
+
       font-size: 15px;
       line-height: 1.5;
     }
 
     .boton {
       width: 100%;
+
       border: 0;
+
       border-radius: 14px;
+
       margin-top: 20px;
+
       padding: 15px 18px;
 
       background: #2563eb;
+
       color: white;
 
       font-size: 16px;
@@ -126,37 +157,47 @@
 
     .boton:disabled {
       opacity: 0.6;
-      cursor: default;
     }
 
     .estado {
       display: none;
+
       margin-top: 18px;
+
       padding: 16px;
+
       border-radius: 14px;
+
       line-height: 1.45;
     }
 
     .estado.cargando {
       display: block;
+
       background: #eff6ff;
+
       color: #1d4ed8;
     }
 
     .estado.correcto {
       display: block;
+
       background: #ecfdf3;
+
       color: #166534;
     }
 
     .estado.error {
       display: block;
+
       background: #fef2f2;
+
       color: #991b1b;
     }
 
     .resultado {
       display: none;
+
       margin-top: 18px;
     }
 
@@ -166,54 +207,89 @@
 
     .resumen {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
       gap: 8px;
+
       margin-top: 14px;
     }
 
     .dato {
       background: #f8fafc;
+
       border-radius: 14px;
+
       padding: 14px 6px;
+
       text-align: center;
     }
 
     .numero {
       display: block;
+
       font-size: 25px;
       font-weight: 900;
+
       color: #172033;
     }
 
     .etiqueta {
       display: block;
+
       margin-top: 4px;
+
       font-size: 11px;
       font-weight: 800;
+
       color: #667085;
+
       text-transform: uppercase;
     }
 
     .personas {
       margin-top: 18px;
+
       padding-top: 16px;
-      border-top: 1px solid #e5e7eb;
+
+      border-top:
+        1px solid #e5e7eb;
     }
 
     .personas strong {
       display: block;
+
       margin-bottom: 8px;
     }
 
     #listaPersonas {
       color: #667085;
+
       line-height: 1.6;
+    }
+
+    .detalle {
+      margin-top: 16px;
+
+      padding: 12px;
+
+      border-radius: 12px;
+
+      background: #f8fafc;
+
+      color: #667085;
+
+      font-size: 13px;
+
+      text-align: center;
     }
 
     @media (max-width: 500px) {
 
       .contenedor {
-        padding: 22px 18px 40px;
+        padding:
+          22px 18px 40px;
       }
 
       .logo {
@@ -228,8 +304,10 @@
         font-size: 18px;
       }
     }
+
   </style>
 </head>
+
 
 <body>
 
@@ -239,20 +317,27 @@
       D&amp;N
     </div>
 
-    <h1>Family Hub</h1>
+    <h1>
+      Family Hub
+    </h1>
 
     <p class="subtitulo">
       Agenda y organización familiar
     </p>
 
+
     <section class="tarjeta">
 
-      <h2>Conexión con la familia</h2>
+      <h2>
+        Conexión con la familia
+      </h2>
 
       <p>
-        Vamos a comprobar que Family Hub puede leer
-        los datos reales de vuestra agenda.
+        Vamos a comprobar que Family Hub
+        puede leer los datos reales de
+        vuestra agenda.
       </p>
+
 
       <button
         id="botonPrueba"
@@ -262,32 +347,84 @@
         Probar conexión
       </button>
 
-      <div id="estado" class="estado"></div>
 
-      <div id="resultado" class="resultado">
+      <div
+        id="estado"
+        class="estado"
+      ></div>
+
+
+      <div
+        id="resultado"
+        class="resultado"
+      >
 
         <div class="resumen">
 
           <div class="dato">
-            <span id="numFamilia" class="numero">0</span>
-            <span class="etiqueta">Familia</span>
+
+            <span
+              id="numFamilia"
+              class="numero"
+            >
+              0
+            </span>
+
+            <span class="etiqueta">
+              Familia
+            </span>
+
           </div>
 
-          <div class="dato">
-            <span id="numEventos" class="numero">0</span>
-            <span class="etiqueta">Eventos</span>
-          </div>
 
           <div class="dato">
-            <span id="numTareas" class="numero">0</span>
-            <span class="etiqueta">Tareas</span>
+
+            <span
+              id="numEventos"
+              class="numero"
+            >
+              0
+            </span>
+
+            <span class="etiqueta">
+              Eventos
+            </span>
+
+          </div>
+
+
+          <div class="dato">
+
+            <span
+              id="numTareas"
+              class="numero"
+            >
+              0
+            </span>
+
+            <span class="etiqueta">
+              Tareas
+            </span>
+
           </div>
 
         </div>
 
+
         <div class="personas">
-          <strong>Miembros encontrados</strong>
+
+          <strong>
+            Miembros encontrados
+          </strong>
+
           <div id="listaPersonas"></div>
+
+        </div>
+
+
+        <div class="detalle">
+          Datos leídos directamente desde
+          vuestra hoja de Google Sheets.
         </div>
 
       </div>
@@ -299,142 +436,299 @@
 
   <script>
 
+    /*
+     * BACKEND DE FAMILY HUB
+     */
+
     const API_URL =
       "https://script.google.com/macros/s/AKfycbxsYKNMBzysKTvYfl4LzVzlCrNxzJBM-vsvKMgPbtY1QkYzw31xPJXhZ-qcpAmCEhppKw/exec";
 
 
-    async function probarConexion() {
+    let temporizadorConexion = null;
 
-      const boton = document.getElementById("botonPrueba");
-      const estado = document.getElementById("estado");
-      const resultado = document.getElementById("resultado");
 
-      boton.disabled = true;
-      boton.textContent = "Conectando...";
+    /*
+     * CALLBACK QUE RECIBIRÁ LOS DATOS
+     * DESDE APPS SCRIPT
+     */
 
-      resultado.className = "resultado";
+    function familyHubCallback(respuesta) {
 
-      estado.className = "estado cargando";
-      estado.textContent =
-        "Conectando con vuestra agenda...";
+      clearTimeout(
+        temporizadorConexion
+      );
 
-      try {
 
-        /*
-          Usamos text/plain deliberadamente para realizar
-          una petición sencilla desde GitHub Pages.
-        */
+      const boton =
+        document.getElementById(
+          "botonPrueba"
+        );
 
-        const respuesta = await fetch(
-          API_URL,
-          {
-            method: "POST",
+      const estado =
+        document.getElementById(
+          "estado"
+        );
 
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8"
-            },
-
-            body: JSON.stringify({
-              accion: "obtenerDatos",
-              datos: {}
-            })
-          }
+      const resultado =
+        document.getElementById(
+          "resultado"
         );
 
 
-        if (!respuesta.ok) {
+      try {
+
+        if (
+          !respuesta ||
+          respuesta.ok !== true
+        ) {
+
           throw new Error(
-            "Respuesta HTTP " + respuesta.status
+            "Apps Script no ha devuelto una respuesta válida."
           );
         }
 
 
-        const texto = await respuesta.text();
+        const datos =
+          respuesta.resultado || {};
 
-        let respuestaApi;
-
-        try {
-
-          respuestaApi = JSON.parse(texto);
-
-        } catch (error) {
-
-          throw new Error(
-            "Google no ha devuelto los datos en el formato esperado."
-          );
-        }
-
-
-        if (!respuestaApi.ok) {
-
-          throw new Error(
-            respuestaApi.error ||
-            "Apps Script ha devuelto un error."
-          );
-        }
-
-
-        const datos = respuestaApi.resultado || {};
 
         const familia =
-          Array.isArray(datos.familia)
+          Array.isArray(
+            datos.familia
+          )
             ? datos.familia
             : [];
 
+
         const eventos =
-          Array.isArray(datos.eventos)
+          Array.isArray(
+            datos.eventos
+          )
             ? datos.eventos
             : [];
 
+
         const tareas =
-          Array.isArray(datos.tareas)
+          Array.isArray(
+            datos.tareas
+          )
             ? datos.tareas
             : [];
 
 
-        document.getElementById("numFamilia").textContent =
+        document.getElementById(
+          "numFamilia"
+        ).textContent =
           familia.length;
 
-        document.getElementById("numEventos").textContent =
+
+        document.getElementById(
+          "numEventos"
+        ).textContent =
           eventos.length;
 
-        document.getElementById("numTareas").textContent =
+
+        document.getElementById(
+          "numTareas"
+        ).textContent =
           tareas.length;
 
 
-        const nombres = familia
-          .map(persona => persona.nombre)
-          .filter(Boolean);
+        const nombres =
+          familia
+            .map(
+              persona =>
+                persona.nombre
+            )
+            .filter(Boolean);
 
 
-        document.getElementById("listaPersonas").textContent =
+        document.getElementById(
+          "listaPersonas"
+        ).textContent =
           nombres.length
             ? nombres.join(" · ")
             : "No se encontraron miembros.";
 
 
-        estado.className = "estado correcto";
-        estado.textContent =
-          "Conexión correcta. Family Hub ya puede leer los datos reales.";
+        estado.className =
+          "estado correcto";
 
-        resultado.className = "resultado visible";
+
+        estado.textContent =
+          "Conexión correcta. Family Hub ya está leyendo los datos reales.";
+
+
+        resultado.className =
+          "resultado visible";
 
 
       } catch (error) {
 
-        console.error(error);
+        estado.className =
+          "estado error";
 
-        estado.className = "estado error";
 
         estado.textContent =
-          "Todavía no se ha podido establecer la conexión. " +
+          "Se recibió una respuesta, pero no se pudieron interpretar los datos: " +
           error.message;
 
-      } finally {
+      }
 
-        boton.disabled = false;
-        boton.textContent = "Probar de nuevo";
 
+      boton.disabled = false;
+
+      boton.textContent =
+        "Probar de nuevo";
+
+
+      eliminarScriptConexion();
+    }
+
+
+
+    /*
+     * PRUEBA DE CONEXIÓN
+     *
+     * En lugar de fetch(), cargamos Apps Script
+     * como un script externo.
+     *
+     * Esto evita la petición CORS que Safari
+     * estaba rechazando.
+     */
+
+    function probarConexion() {
+
+      const boton =
+        document.getElementById(
+          "botonPrueba"
+        );
+
+      const estado =
+        document.getElementById(
+          "estado"
+        );
+
+      const resultado =
+        document.getElementById(
+          "resultado"
+        );
+
+
+      boton.disabled = true;
+
+      boton.textContent =
+        "Conectando...";
+
+
+      resultado.className =
+        "resultado";
+
+
+      estado.className =
+        "estado cargando";
+
+
+      estado.textContent =
+        "Conectando con vuestra agenda...";
+
+
+      eliminarScriptConexion();
+
+
+      const script =
+        document.createElement(
+          "script"
+        );
+
+
+      script.id =
+        "familyHubApiScript";
+
+
+      script.src =
+        API_URL +
+        "?api=obtenerDatos" +
+        "&callback=familyHubCallback" +
+        "&t=" +
+        Date.now();
+
+
+      script.onerror =
+        function () {
+
+          clearTimeout(
+            temporizadorConexion
+          );
+
+
+          estado.className =
+            "estado error";
+
+
+          estado.textContent =
+            "No se ha podido cargar la respuesta de Apps Script.";
+
+
+          boton.disabled = false;
+
+
+          boton.textContent =
+            "Probar de nuevo";
+
+
+          eliminarScriptConexion();
+        };
+
+
+      document.body.appendChild(
+        script
+      );
+
+
+      /*
+       * Si en 15 segundos no hemos recibido
+       * respuesta, mostramos un error.
+       */
+
+      temporizadorConexion =
+        setTimeout(
+          function () {
+
+            estado.className =
+              "estado error";
+
+
+            estado.textContent =
+              "Apps Script no ha respondido. Revisaremos la implementación.";
+
+
+            boton.disabled = false;
+
+
+            boton.textContent =
+              "Probar de nuevo";
+
+
+            eliminarScriptConexion();
+
+          },
+          15000
+        );
+    }
+
+
+
+    function eliminarScriptConexion() {
+
+      const anterior =
+        document.getElementById(
+          "familyHubApiScript"
+        );
+
+
+      if (anterior) {
+        anterior.remove();
       }
     }
 
