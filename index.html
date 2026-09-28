@@ -1,1015 +1,787 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-  >
-
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="apple-mobile-web-app-title" content="Family Hub">
-
-  <meta name="theme-color" content="#2563eb">
-  <link rel="manifest" href="./manifest.json">
-
-  <title>Family Hub</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100%;
-    }
-
-    body {
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        Arial,
-        sans-serif;
-
-      background: #f5f7fb;
-      color: #172033;
-
-      padding-top: env(safe-area-inset-top);
-      padding-bottom: env(safe-area-inset-bottom);
-      padding-left: env(safe-area-inset-left);
-      padding-right: env(safe-area-inset-right);
-    }
-
-    .contenedor {
-      width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 32px 20px 50px;
-      text-align: center;
-    }
-
-    .logo {
-      width: 80px;
-      height: 80px;
-      margin: 40px auto 20px;
-      border-radius: 24px;
-
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      background:
-        linear-gradient(
-          135deg,
-          #2563eb,
-          #6d28d9
-        );
-
-      color: white;
-      font-size: 24px;
-      font-weight: 900;
-
-      box-shadow:
-        0 12px 30px
-        rgba(37, 99, 235, 0.25);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 34px;
-      line-height: 1.1;
-    }
-
-    .subtitulo {
-      margin-top: 16px;
-      color: #667085;
-      font-size: 17px;
-    }
-
-    .tarjeta {
-      margin-top: 35px;
-      padding: 24px 20px;
-
-      background: white;
-      border-radius: 20px;
-
-      box-shadow:
-        0 7px 24px
-        rgba(15, 23, 42, 0.07);
-
-      text-align: left;
-    }
-
-    .tarjeta h2 {
-      margin: 0 0 8px;
-      font-size: 21px;
-    }
-
-    .tarjeta p {
-      margin: 0;
-      color: #667085;
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    .campo {
-      margin-top: 16px;
-    }
-
-    .campo label {
-      display: block;
-      margin-bottom: 7px;
-      font-size: 13px;
-      font-weight: 800;
-      color: #344054;
-    }
-
-    .campo input {
-      width: 100%;
-      padding: 14px 15px;
-
-      border: 1px solid #d0d5dd;
-      border-radius: 12px;
-
-      background: white;
-      color: #172033;
-
-      font-size: 16px;
-      outline: none;
-    }
-
-    .boton {
-      width: 100%;
-
-      border: 0;
-      border-radius: 14px;
-
-      margin-top: 20px;
-      padding: 15px 18px;
-
-      background: #2563eb;
-      color: white;
-
-      font-size: 16px;
-      font-weight: 800;
-
-      cursor: pointer;
-    }
-
-    .boton:disabled {
-      opacity: 0.6;
-    }
-
-    .boton-secundario {
-      width: 100%;
-
-      margin-top: 12px;
-      padding: 12px;
-
-      border: 1px solid #d0d5dd;
-      border-radius: 12px;
-
-      background: white;
-      color: #344054;
-
-      font-size: 14px;
-      font-weight: 700;
-
-      cursor: pointer;
-    }
-
-    .estado {
-      display: none;
-
-      margin-top: 18px;
-      padding: 16px;
-
-      border-radius: 14px;
-      line-height: 1.45;
-    }
-
-    .estado.cargando {
-      display: block;
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-
-    .estado.correcto {
-      display: block;
-      background: #ecfdf3;
-      color: #166534;
-    }
-
-    .estado.error {
-      display: block;
-      background: #fef2f2;
-      color: #991b1b;
-    }
-
-    #pantallaLogin,
-    #pantallaApp {
-      display: none;
-    }
-
-    .usuario {
-      margin-top: 12px;
-      color: #667085;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    .familia {
-      margin-top: 20px;
-      display: none;
-    }
-
-    .familia.visible {
-      display: block;
-    }
-
-    .miembro {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-
-      padding: 11px 0;
-
-      border-bottom:
-        1px solid #eaecf0;
-    }
-
-    .miembro:last-child {
-      border-bottom: 0;
-    }
-
-    .color {
-      width: 22px;
-      height: 22px;
-
-      flex: 0 0 22px;
-
-      border-radius: 50%;
-
-      border:
-        1px solid rgba(0, 0, 0, 0.15);
-    }
-
-    .nombre {
-      font-weight: 700;
-    }
-
-    @media (max-width: 500px) {
-      .contenedor {
-        padding: 22px 18px 40px;
-      }
-
-      .logo {
-        margin-top: 38px;
-      }
-
-      h1 {
-        font-size: 36px;
-      }
-
-      .subtitulo {
-        font-size: 18px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Family Hub">
+<meta name="theme-color" content="#2563eb">
+<link rel="manifest" href="./manifest.json">
+<title>Family Hub</title>
+
+<style>
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#f5f7fb;color:#172033;
+  padding-top:env(safe-area-inset-top);
+  padding-bottom:calc(76px + env(safe-area-inset-bottom));
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+
+header{
+  position:sticky;top:0;z-index:20;
+  background:rgba(245,247,251,.96);
+  backdrop-filter:blur(12px);
+  padding:14px 18px 10px;
+  border-bottom:1px solid #e5e7eb;
+}
+.cabecera{
+  max-width:700px;margin:auto;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.marca{display:flex;align-items:center;gap:10px}
+.logo{
+  width:42px;height:42px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,#2563eb,#6d28d9);
+  color:white;font-weight:900;font-size:14px;
+}
+.titulo{font-size:20px;font-weight:900}
+.sub{font-size:11px;color:#667085;margin-top:2px}
+.salir{
+  border:0;background:#e9eef8;color:#344054;
+  border-radius:10px;padding:9px 11px;font-size:12px;font-weight:800;
+}
+
+main{max-width:700px;margin:auto;padding:18px}
+
+.pantalla{display:none}
+.pantalla.activa{display:block}
+
+.bienvenida{margin-bottom:18px}
+.bienvenida h1{margin:0;font-size:28px}
+.bienvenida p{margin:6px 0 0;color:#667085}
+
+.resumen{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:9px;margin-bottom:20px;
+}
+.dato{
+  background:white;border-radius:16px;padding:16px 8px;
+  text-align:center;box-shadow:0 4px 16px rgba(15,23,42,.05);
+}
+.numero{display:block;font-size:25px;font-weight:900}
+.etiqueta{
+  display:block;margin-top:3px;color:#667085;
+  font-size:10px;font-weight:800;text-transform:uppercase;
+}
+
+.tarjeta{
+  background:white;border-radius:18px;padding:18px;
+  margin-bottom:14px;box-shadow:0 4px 16px rgba(15,23,42,.05);
+}
+.tarjeta h2{font-size:18px;margin:0 0 14px}
+
+.evento{
+  padding:13px 0;border-bottom:1px solid #eaecf0;
+  display:flex;gap:11px;align-items:flex-start;
+}
+.evento:last-child{border-bottom:0}
+.barra{
+  width:5px;align-self:stretch;min-height:46px;
+  border-radius:6px;background:#2563eb;
+}
+.evento-contenido{flex:1;min-width:0}
+.evento-titulo{font-weight:800}
+.evento-meta{font-size:13px;color:#667085;margin-top:4px}
+.evento-personas{font-size:12px;color:#667085;margin-top:5px}
+.borrar{
+  border:0;background:#fef2f2;color:#b42318;
+  border-radius:9px;padding:7px 9px;font-weight:800;
+}
+
+.vacio{
+  color:#98a2b3;text-align:center;padding:22px 5px;
+  font-size:14px;
+}
+
+.filtros{
+  display:flex;gap:7px;overflow:auto;
+  padding-bottom:5px;margin-bottom:14px;
+}
+.filtro{
+  white-space:nowrap;border:1px solid #d0d5dd;
+  background:white;border-radius:999px;padding:8px 12px;
+  font-size:12px;font-weight:800;color:#475467;
+}
+.filtro.activo{background:#172033;color:white;border-color:#172033}
+
+.fecha-agenda{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;
+}
+.fecha-agenda h1{font-size:25px;margin:0}
+.fecha-agenda input{
+  border:1px solid #d0d5dd;border-radius:10px;
+  padding:8px;background:white;
+}
+
+.fab{
+  position:fixed;right:20px;
+  bottom:calc(88px + env(safe-area-inset-bottom));
+  width:58px;height:58px;border-radius:50%;
+  border:0;background:#2563eb;color:white;
+  font-size:31px;box-shadow:0 10px 25px rgba(37,99,235,.35);
+  z-index:30;
+}
+
+nav{
+  position:fixed;bottom:0;left:0;right:0;z-index:25;
+  height:calc(68px + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:white;border-top:1px solid #e5e7eb;
+  display:flex;
+}
+.navbtn{
+  flex:1;border:0;background:white;color:#667085;
+  font-size:12px;font-weight:800;
+}
+.navbtn.activo{color:#2563eb}
+
+.modal-fondo{
+  display:none;position:fixed;inset:0;z-index:50;
+  background:rgba(15,23,42,.45);
+  padding:20px;align-items:flex-end;justify-content:center;
+}
+.modal-fondo.visible{display:flex}
+.modal{
+  background:white;width:100%;max-width:600px;
+  max-height:90vh;overflow:auto;border-radius:24px 24px 16px 16px;
+  padding:22px;
+}
+.modal h2{margin:0 0 18px}
+.campo{margin-bottom:14px}
+.campo label{
+  display:block;font-size:12px;font-weight:800;
+  margin-bottom:6px;color:#344054;
+}
+.campo input,.campo select,.campo textarea{
+  width:100%;border:1px solid #d0d5dd;border-radius:11px;
+  padding:12px;background:white;color:#172033;
+}
+.campo textarea{min-height:75px;resize:vertical}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.checks{display:flex;flex-wrap:wrap;gap:8px}
+.check{
+  border:1px solid #d0d5dd;border-radius:999px;
+  padding:8px 11px;font-size:12px;
+}
+.check input{margin-right:5px}
+.acciones{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.cancelar,.guardar{
+  border:0;border-radius:12px;padding:13px;font-weight:900;
+}
+.cancelar{background:#eef2f6;color:#344054}
+.guardar{background:#2563eb;color:white}
+
+.login{
+  min-height:75vh;display:flex;align-items:center;justify-content:center;
+}
+.loginbox{
+  width:100%;max-width:430px;background:white;
+  padding:24px;border-radius:22px;
+  box-shadow:0 8px 28px rgba(15,23,42,.08);
+}
+.loginbox h1{margin-top:0}
+.loginbox input{
+  width:100%;padding:14px;margin-top:12px;
+  border:1px solid #d0d5dd;border-radius:12px;
+}
+.loginbox button{
+  width:100%;margin-top:15px;padding:14px;border:0;
+  border-radius:12px;background:#2563eb;color:white;font-weight:900;
+}
+.error{color:#b42318;margin-top:12px;font-size:13px}
+
+@media(max-width:430px){
+  main{padding:15px}
+  .bienvenida h1{font-size:25px}
+  .tarjeta{padding:16px}
+}
+</style>
 </head>
 
 <body>
 
-  <main class="contenedor">
+<div id="login" class="login" style="display:none">
+  <div class="loginbox">
+    <h1>Family Hub</h1>
+    <p style="color:#667085">Agenda y organización familiar</p>
+    <input id="email" type="email" placeholder="Correo electrónico" autocomplete="username">
+    <input id="password" type="password" placeholder="Contraseña" autocomplete="current-password">
+    <button id="entrar">Entrar</button>
+    <div id="errorLogin" class="error"></div>
+  </div>
+</div>
 
-    <div class="logo">
-      D&amp;N
+<div id="app" style="display:none">
+
+<header>
+  <div class="cabecera">
+    <div class="marca">
+      <div class="logo">D&amp;N</div>
+      <div>
+        <div class="titulo">Family Hub</div>
+        <div id="usuario" class="sub"></div>
+      </div>
+    </div>
+    <button id="salir" class="salir">Salir</button>
+  </div>
+</header>
+
+<main>
+
+<section id="inicio" class="pantalla activa">
+  <div class="bienvenida">
+    <h1>Inicio</h1>
+    <p id="fechaHoy"></p>
+  </div>
+
+  <div class="resumen">
+    <div class="dato">
+      <span id="nHoy" class="numero">0</span>
+      <span class="etiqueta">Hoy</span>
+    </div>
+    <div class="dato">
+      <span id="nProximos" class="numero">0</span>
+      <span class="etiqueta">Próximos</span>
+    </div>
+    <div class="dato">
+      <span id="nFamilia" class="numero">0</span>
+      <span class="etiqueta">Familia</span>
+    </div>
+  </div>
+
+  <div class="tarjeta">
+    <h2>Hoy</h2>
+    <div id="eventosHoy"></div>
+  </div>
+
+  <div class="tarjeta">
+    <h2>Próximos eventos</h2>
+    <div id="eventosProximos"></div>
+  </div>
+</section>
+
+
+<section id="agenda" class="pantalla">
+
+  <div class="fecha-agenda">
+    <h1>Agenda</h1>
+    <input id="fechaAgenda" type="date">
+  </div>
+
+  <div id="filtros" class="filtros"></div>
+
+  <div class="tarjeta">
+    <h2 id="tituloDia"></h2>
+    <div id="listaAgenda"></div>
+  </div>
+
+</section>
+
+</main>
+
+<button id="fab" class="fab">+</button>
+
+<nav>
+  <button class="navbtn activo" data-pantalla="inicio">Inicio</button>
+  <button class="navbtn" data-pantalla="agenda">Agenda</button>
+  <button class="navbtn" id="navTareas">Tareas</button>
+</nav>
+
+</div>
+
+
+<div id="modalEvento" class="modal-fondo">
+  <div class="modal">
+
+    <h2>Nuevo evento</h2>
+
+    <div class="campo">
+      <label>Actividad</label>
+      <input id="actividad" type="text" placeholder="¿Qué hay que hacer?">
     </div>
 
-    <h1>Family Hub</h1>
+    <div class="campo">
+      <label>Fecha</label>
+      <input id="fechaEvento" type="date">
+    </div>
 
-    <p class="subtitulo">
-      Agenda y organización familiar
-    </p>
+    <div class="campo">
+      <label>
+        <input id="todoDia" type="checkbox">
+        Todo el día
+      </label>
+    </div>
 
-
-    <section
-      id="pantallaLogin"
-      class="tarjeta"
-    >
-
-      <h2>Acceso familiar</h2>
-
-      <p>
-        Inicia sesión para acceder a Family Hub.
-      </p>
-
-
+    <div id="horas" class="dos">
       <div class="campo">
-
-        <label for="email">
-          Correo electrónico
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          autocomplete="username"
-          placeholder="tu@email.com"
-        >
-
+        <label>Hora inicio</label>
+        <input id="horaInicio" type="time">
       </div>
 
-
       <div class="campo">
+        <label>Hora fin</label>
+        <input id="horaFin" type="time">
+      </div>
+    </div>
 
-        <label for="password">
-          Contraseña
-        </label>
+    <div class="campo">
+      <label>Participantes</label>
+      <div id="participantes" class="checks"></div>
+    </div>
 
-        <input
-          id="password"
-          type="password"
-          autocomplete="current-password"
-          placeholder="Contraseña"
-        >
+    <div class="campo">
+      <label>Lugar</label>
+      <input id="lugar" type="text">
+    </div>
 
+    <div class="dos">
+      <div class="campo">
+        <label>Categoría</label>
+        <select id="categoria">
+          <option>Familia</option>
+          <option>Colegio</option>
+          <option>Trabajo</option>
+          <option>Salud</option>
+          <option>Ocio</option>
+          <option>Otro</option>
+        </select>
       </div>
 
-
-      <button
-        id="botonLogin"
-        class="boton"
-      >
-        Entrar
-      </button>
-
-
-      <div
-        id="estadoLogin"
-        class="estado"
-      ></div>
-
-    </section>
-
-
-
-    <section
-      id="pantallaApp"
-      class="tarjeta"
-    >
-
-      <h2>Familia</h2>
-
-      <p>
-        Vamos a crear la estructura familiar
-        inicial de Family Hub.
-      </p>
-
-
-      <div
-        id="usuarioActivo"
-        class="usuario"
-      ></div>
-
-
-      <button
-        id="botonFamilia"
-        class="boton"
-      >
-        Cargar familia
-      </button>
-
-
-      <button
-        id="botonSalir"
-        class="boton-secundario"
-      >
-        Cerrar sesión
-      </button>
-
-
-      <div
-        id="estado"
-        class="estado"
-      ></div>
-
-
-      <div
-        id="listaFamilia"
-        class="familia"
-      ></div>
-
-    </section>
-
-  </main>
-
-
-
-  <script type="module">
-
-    import {
-      initializeApp
-    } from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
-
-    import {
-      getAuth,
-      signInWithEmailAndPassword,
-      signOut,
-      onAuthStateChanged,
-      setPersistence,
-      browserLocalPersistence
-    } from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
-
-
-    import {
-      getFirestore,
-      doc,
-      setDoc,
-      collection,
-      getDocs,
-      writeBatch
-    } from
-      "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
-
-
-
-    const firebaseConfig = {
-
-      apiKey:
-        "AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
-
-      authDomain:
-        "family-hub-9fa54.firebaseapp.com",
-
-      projectId:
-        "family-hub-9fa54",
-
-      storageBucket:
-        "family-hub-9fa54.firebasestorage.app",
-
-      messagingSenderId:
-        "517316541547",
-
-      appId:
-        "1:517316541547:web:03db1291d5d1f41f68c52e"
-    };
-
-
-    const app =
-      initializeApp(firebaseConfig);
-
-
-    const auth =
-      getAuth(app);
-
-
-    const db =
-      getFirestore(app);
-
-
-
-    try {
-
-      await setPersistence(
-        auth,
-        browserLocalPersistence
-      );
-
-    } catch (error) {
-
-      console.error(error);
-    }
-
-
-
-    const pantallaLogin =
-      document.getElementById(
-        "pantallaLogin"
-      );
-
-
-    const pantallaApp =
-      document.getElementById(
-        "pantallaApp"
-      );
-
-
-    const emailInput =
-      document.getElementById(
-        "email"
-      );
-
-
-    const passwordInput =
-      document.getElementById(
-        "password"
-      );
-
-
-    const botonLogin =
-      document.getElementById(
-        "botonLogin"
-      );
-
-
-    const botonSalir =
-      document.getElementById(
-        "botonSalir"
-      );
-
-
-    const botonFamilia =
-      document.getElementById(
-        "botonFamilia"
-      );
-
-
-    const estadoLogin =
-      document.getElementById(
-        "estadoLogin"
-      );
-
-
-    const estado =
-      document.getElementById(
-        "estado"
-      );
-
-
-    const usuarioActivo =
-      document.getElementById(
-        "usuarioActivo"
-      );
-
-
-    const listaFamilia =
-      document.getElementById(
-        "listaFamilia"
-      );
-
-
-
-    /*
-     * Datos procedentes de la hoja
-     * Familia de AGENDA RIQUELME CARDENAL.
-     */
-
-    const familiaInicial = [
-
-      {
-        id: "daniel",
-        nombre: "Daniel",
-        activo: true,
-        color: "#E53935",
-        orden: 1
-      },
-
-      {
-        id: "nuria",
-        nombre: "Nuria",
-        activo: true,
-        color: "#00ACC1",
-        orden: 2
-      },
-
-      {
-        id: "julio",
-        nombre: "Julio",
-        activo: true,
-        color: "#FBC02D",
-        orden: 3
-      },
-
-      {
-        id: "ezequiel",
-        nombre: "Ezequiel",
-        activo: true,
-        color: "#1E88E5",
-        orden: 4
-      },
-
-      {
-        id: "isabel",
-        nombre: "Isabel",
-        activo: true,
-        color: "#EC407A",
-        orden: 5
-      },
-
-      {
-        id: "gabriel",
-        nombre: "Gabriel",
-        activo: true,
-        color: "#FFFFFF",
-        orden: 6
-      },
-
-      {
-        id: "familia",
-        nombre: "Familia",
-        activo: true,
-        color: "#43A047",
-        orden: 7
-      }
-
-    ];
-
-
-
-    onAuthStateChanged(
+      <div class="campo">
+        <label>Prioridad</label>
+        <select id="prioridad">
+          <option>Normal</option>
+          <option>Alta</option>
+          <option>Baja</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="campo">
+      <label>Repetición</label>
+      <select id="repeticion">
+        <option value="">No repetir</option>
+        <option>Semanal</option>
+        <option>Mensual</option>
+        <option>Anual</option>
+      </select>
+    </div>
+
+    <div class="campo">
+      <label>Notas</label>
+      <textarea id="notas"></textarea>
+    </div>
+
+    <div class="acciones">
+      <button id="cancelarEvento" class="cancelar">Cancelar</button>
+      <button id="guardarEvento" class="guardar">Guardar</button>
+    </div>
+
+  </div>
+</div>
+
+
+<script type="module">
+
+import { initializeApp } from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence
+} from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+  onSnapshot
+} from
+"https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+
+
+const firebaseConfig={
+  apiKey:"AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
+  authDomain:"family-hub-9fa54.firebaseapp.com",
+  projectId:"family-hub-9fa54",
+  storageBucket:"family-hub-9fa54.firebasestorage.app",
+  messagingSenderId:"517316541547",
+  appId:"1:517316541547:web:03db1291d5d1f41f68c52e"
+};
+
+const firebaseApp=initializeApp(firebaseConfig);
+const auth=getAuth(firebaseApp);
+const db=getFirestore(firebaseApp);
+
+await setPersistence(auth,browserLocalPersistence);
+
+let familia=[];
+let eventos=[];
+let filtroPersona="Todos";
+let unsubscribeEventos=null;
+
+const $=id=>document.getElementById(id);
+
+function fechaLocal(d=new Date()){
+  const y=d.getFullYear();
+  const m=String(d.getMonth()+1).padStart(2,"0");
+  const dia=String(d.getDate()).padStart(2,"0");
+  return `${y}-${m}-${dia}`;
+}
+
+function escapar(t=""){
+  const d=document.createElement("div");
+  d.textContent=t;
+  return d.innerHTML;
+}
+
+function fechaBonita(fecha){
+  if(!fecha)return "";
+  const [y,m,d]=fecha.split("-").map(Number);
+  return new Intl.DateTimeFormat(
+    "es-ES",
+    {weekday:"long",day:"numeric",month:"long"}
+  ).format(new Date(y,m-1,d));
+}
+
+$("fechaHoy").textContent=
+  new Intl.DateTimeFormat(
+    "es-ES",
+    {weekday:"long",day:"numeric",month:"long",year:"numeric"}
+  ).format(new Date());
+
+$("fechaAgenda").value=fechaLocal();
+
+
+$("entrar").onclick=async()=>{
+  $("errorLogin").textContent="";
+  try{
+    await signInWithEmailAndPassword(
       auth,
-      async usuario => {
-
-        if (usuario) {
-
-          pantallaLogin.style.display =
-            "none";
-
-
-          pantallaApp.style.display =
-            "block";
-
-
-          usuarioActivo.textContent =
-            usuario.email;
-
-
-          passwordInput.value =
-            "";
-
-
-          await leerFamilia();
-
-
-        } else {
-
-          pantallaApp.style.display =
-            "none";
-
-
-          pantallaLogin.style.display =
-            "block";
-
-
-          listaFamilia.className =
-            "familia";
-        }
-      }
+      $("email").value.trim(),
+      $("password").value
     );
+  }catch(e){
+    $("errorLogin").textContent="Correo o contraseña incorrectos.";
+  }
+};
+
+$("password").addEventListener("keydown",e=>{
+  if(e.key==="Enter")$("entrar").click();
+});
+
+$("salir").onclick=()=>signOut(auth);
 
 
+onAuthStateChanged(auth,async user=>{
+  if(!user){
+    $("app").style.display="none";
+    $("login").style.display="flex";
+    if(unsubscribeEventos)unsubscribeEventos();
+    return;
+  }
 
-    botonLogin.addEventListener(
-      "click",
-      iniciarSesion
-    );
+  $("login").style.display="none";
+  $("app").style.display="block";
+  $("usuario").textContent=user.email;
 
-
-    passwordInput.addEventListener(
-      "keydown",
-      evento => {
-
-        if (evento.key === "Enter") {
-          iniciarSesion();
-        }
-      }
-    );
-
-
-    async function iniciarSesion() {
-
-      const email =
-        emailInput.value.trim();
+  await cargarFamilia();
+  escucharEventos();
+});
 
 
-      const password =
-        passwordInput.value;
+async function cargarFamilia(){
+  const snap=await getDocs(collection(db,"familia"));
+
+  familia=snap.docs.map(d=>({
+    id:d.id,
+    ...d.data()
+  })).sort((a,b)=>(a.orden||99)-(b.orden||99));
+
+  $("nFamilia").textContent=
+    familia.filter(p=>p.id!=="familia").length;
+
+  crearParticipantes();
+  crearFiltros();
+}
 
 
-      if (!email || !password) {
+function escucharEventos(){
+  if(unsubscribeEventos)unsubscribeEventos();
 
-        estadoLogin.className =
-          "estado error";
+  unsubscribeEventos=onSnapshot(
+    collection(db,"eventos"),
+    snap=>{
+      eventos=snap.docs.map(d=>({
+        id:d.id,
+        ...d.data()
+      }));
 
+      eventos.sort((a,b)=>{
+        const A=(a.fecha||"")+" "+(a.horaInicio||"");
+        const B=(b.fecha||"")+" "+(b.horaInicio||"");
+        return A.localeCompare(B);
+      });
 
-        estadoLogin.textContent =
-          "Introduce el correo y la contraseña.";
-
-        return;
-      }
-
-
-      botonLogin.disabled = true;
-
-      botonLogin.textContent =
-        "Entrando...";
-
-
-      try {
-
-        await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+      renderTodo();
+    }
+  );
+}
 
 
-        estadoLogin.className =
-          "estado";
+function crearParticipantes(){
+  $("participantes").innerHTML="";
+
+  familia
+    .filter(p=>p.activo)
+    .forEach(p=>{
+      const label=document.createElement("label");
+      label.className="check";
+      label.innerHTML=
+        `<input type="checkbox" value="${escapar(p.nombre)}">
+         ${escapar(p.nombre)}`;
+      $("participantes").appendChild(label);
+    });
+}
 
 
-      } catch (error) {
+function crearFiltros(){
+  $("filtros").innerHTML="";
 
-        console.error(error);
+  ["Todos",...familia.filter(p=>p.id!=="familia").map(p=>p.nombre)]
+    .forEach(nombre=>{
+      const b=document.createElement("button");
+      b.className="filtro"+(nombre===filtroPersona?" activo":"");
+      b.textContent=nombre;
+      b.onclick=()=>{
+        filtroPersona=nombre;
+        crearFiltros();
+        renderAgenda();
+      };
+      $("filtros").appendChild(b);
+    });
+}
 
 
-        estadoLogin.className =
-          "estado error";
+function colorEvento(e){
+  const nombres=e.participantes||[];
 
+  if(nombres.length===1){
+    const p=familia.find(x=>x.nombre===nombres[0]);
+    return p?.color||"#2563eb";
+  }
 
-        estadoLogin.textContent =
-          "Correo o contraseña incorrectos.";
+  if(nombres.length>1){
+    const colores=nombres
+      .map(n=>familia.find(x=>x.nombre===n)?.color)
+      .filter(Boolean);
 
-
-      } finally {
-
-        botonLogin.disabled = false;
-
-        botonLogin.textContent =
-          "Entrar";
-      }
+    if(colores.length>1){
+      return `linear-gradient(${colores.join(",")})`;
     }
 
+    if(colores.length===1)return colores[0];
+  }
+
+  return "#43A047";
+}
 
 
-    botonSalir.addEventListener(
-      "click",
-      async () => {
+function htmlEvento(e){
+  const hora=e.todoDia
+    ?"Todo el día"
+    :[e.horaInicio,e.horaFin].filter(Boolean).join("–");
 
-        await signOut(auth);
+  return `
+    <div class="evento">
+      <div class="barra" style="background:${colorEvento(e)}"></div>
+      <div class="evento-contenido">
+        <div class="evento-titulo">${escapar(e.actividad||"Sin título")}</div>
+        <div class="evento-meta">
+          ${escapar(hora)}
+          ${e.lugar?" · "+escapar(e.lugar):""}
+        </div>
+        <div class="evento-personas">
+          ${escapar((e.participantes||[]).join(" · "))}
+        </div>
+      </div>
+      <button class="borrar" data-borrar="${e.id}">×</button>
+    </div>`;
+}
+
+
+function insertarEventos(elemento,lista){
+  if(!lista.length){
+    elemento.innerHTML='<div class="vacio">No hay eventos.</div>';
+    return;
+  }
+
+  elemento.innerHTML=lista.map(htmlEvento).join("");
+
+  elemento.querySelectorAll("[data-borrar]").forEach(b=>{
+    b.onclick=async()=>{
+      if(confirm("¿Eliminar este evento?")){
+        await deleteDoc(doc(db,"eventos",b.dataset.borrar));
       }
+    };
+  });
+}
+
+
+function renderTodo(){
+  renderInicio();
+  renderAgenda();
+}
+
+
+function renderInicio(){
+  const hoy=fechaLocal();
+
+  const deHoy=eventos.filter(e=>e.fecha===hoy);
+
+  const proximos=eventos
+    .filter(e=>e.fecha>hoy)
+    .slice(0,5);
+
+  $("nHoy").textContent=deHoy.length;
+  $("nProximos").textContent=eventos.filter(e=>e.fecha>hoy).length;
+
+  insertarEventos($("eventosHoy"),deHoy);
+  insertarEventos($("eventosProximos"),proximos);
+}
+
+
+function renderAgenda(){
+  const fecha=$("fechaAgenda").value;
+
+  $("tituloDia").textContent=
+    fechaBonita(fecha);
+
+  let lista=eventos.filter(e=>e.fecha===fecha);
+
+  if(filtroPersona!=="Todos"){
+    lista=lista.filter(
+      e=>(e.participantes||[]).includes(filtroPersona)
     );
+  }
+
+  insertarEventos($("listaAgenda"),lista);
+}
+
+
+$("fechaAgenda").onchange=renderAgenda;
+
+
+document.querySelectorAll(".navbtn[data-pantalla]").forEach(b=>{
+  b.onclick=()=>{
+    document.querySelectorAll(".pantalla").forEach(p=>p.classList.remove("activa"));
+    document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("activo"));
+
+    $(b.dataset.pantalla).classList.add("activa");
+    b.classList.add("activo");
+  };
+});
+
+
+$("navTareas").onclick=()=>{
+  alert("Tareas será el siguiente módulo que incorporaremos.");
+};
+
+
+$("fab").onclick=()=>{
+  $("fechaEvento").value=$("fechaAgenda").value||fechaLocal();
+  $("actividad").value="";
+  $("horaInicio").value="";
+  $("horaFin").value="";
+  $("todoDia").checked=false;
+  $("lugar").value="";
+  $("notas").value="";
+  $("categoria").value="Familia";
+  $("prioridad").value="Normal";
+  $("repeticion").value="";
+
+  document
+    .querySelectorAll("#participantes input")
+    .forEach(c=>c.checked=false);
+
+  $("horas").style.display="grid";
+  $("modalEvento").classList.add("visible");
+};
+
+
+$("cancelarEvento").onclick=()=>{
+  $("modalEvento").classList.remove("visible");
+};
+
+
+$("todoDia").onchange=()=>{
+  $("horas").style.display=
+    $("todoDia").checked?"none":"grid";
+};
+
+
+$("guardarEvento").onclick=async()=>{
+  const actividad=$("actividad").value.trim();
+  const fecha=$("fechaEvento").value;
+
+  if(!actividad||!fecha){
+    alert("Indica la actividad y la fecha.");
+    return;
+  }
+
+  const participantes=[
+    ...document.querySelectorAll("#participantes input:checked")
+  ].map(c=>c.value);
+
+  $("guardarEvento").disabled=true;
+  $("guardarEvento").textContent="Guardando...";
+
+  try{
+    await addDoc(collection(db,"eventos"),{
+      fecha,
+      horaInicio:$("todoDia").checked?"":$("horaInicio").value,
+      horaFin:$("todoDia").checked?"":$("horaFin").value,
+      todoDia:$("todoDia").checked,
+      participantes,
+      actividad,
+      lugar:$("lugar").value.trim(),
+      notas:$("notas").value.trim(),
+      repeticion:$("repeticion").value,
+      categoria:$("categoria").value,
+      prioridad:$("prioridad").value,
+      recordatorio:"",
+      creada:serverTimestamp(),
+      creadoPor:auth.currentUser?.email||""
+    });
+
+    $("modalEvento").classList.remove("visible");
+
+  }catch(e){
+    alert("No se pudo guardar el evento.");
+    console.error(e);
+  }finally{
+    $("guardarEvento").disabled=false;
+    $("guardarEvento").textContent="Guardar";
+  }
+};
 
-
-
-    botonFamilia.addEventListener(
-      "click",
-      cargarFamilia
-    );
-
-
-
-    async function cargarFamilia() {
-
-      if (!auth.currentUser) {
-
-        estado.className =
-          "estado error";
-
-
-        estado.textContent =
-          "No hay una sesión iniciada.";
-
-        return;
-      }
-
-
-      botonFamilia.disabled =
-        true;
-
-
-      botonFamilia.textContent =
-        "Guardando...";
-
-
-      estado.className =
-        "estado cargando";
-
-
-      estado.textContent =
-        "Creando la familia en Firestore...";
-
-
-      try {
-
-        /*
-         * Batch: los siete documentos se guardan
-         * juntos. Si hubiera un fallo, no queda
-         * una migración a medias.
-         */
-
-        const batch =
-          writeBatch(db);
-
-
-        familiaInicial.forEach(
-          persona => {
-
-            const referencia =
-              doc(
-                db,
-                "familia",
-                persona.id
-              );
-
-
-            batch.set(
-              referencia,
-              {
-                nombre: persona.nombre,
-                activo: persona.activo,
-                color: persona.color,
-                orden: persona.orden
-              }
-            );
-          }
-        );
-
-
-        await batch.commit();
-
-
-        estado.className =
-          "estado correcto";
-
-
-        estado.textContent =
-          "Familia guardada correctamente en Firestore.";
-
-
-        await leerFamilia();
-
-
-      } catch (error) {
-
-        console.error(error);
-
-
-        estado.className =
-          "estado error";
-
-
-        estado.textContent =
-          "No se pudo guardar la familia: " +
-          error.message;
-
-
-      } finally {
-
-        botonFamilia.disabled =
-          false;
-
-
-        botonFamilia.textContent =
-          "Cargar familia";
-      }
-    }
-
-
-
-    async function leerFamilia() {
-
-      try {
-
-        const consulta =
-          await getDocs(
-            collection(
-              db,
-              "familia"
-            )
-          );
-
-
-        const personas = [];
-
-
-        consulta.forEach(
-          documento => {
-
-            personas.push({
-              id: documento.id,
-              ...documento.data()
-            });
-          }
-        );
-
-
-        personas.sort(
-          (a, b) =>
-            (a.orden || 999) -
-            (b.orden || 999)
-        );
-
-
-        mostrarFamilia(
-          personas
-        );
-
-
-        if (personas.length === 7) {
-
-          botonFamilia.textContent =
-            "Familia cargada";
-
-        }
-
-      } catch (error) {
-
-        console.error(error);
-      }
-    }
-
-
-
-    function mostrarFamilia(personas) {
-
-      listaFamilia.innerHTML =
-        "";
-
-
-      if (!personas.length) {
-
-        listaFamilia.className =
-          "familia";
-
-        return;
-      }
-
-
-      personas.forEach(
-        persona => {
-
-          const fila =
-            document.createElement(
-              "div"
-            );
-
-
-          fila.className =
-            "miembro";
-
-
-          const color =
-            document.createElement(
-              "span"
-            );
-
-
-          color.className =
-            "color";
-
-
-          color.style.background =
-            persona.color;
-
-
-          const nombre =
-            document.createElement(
-              "span"
-            );
-
-
-          nombre.className =
-            "nombre";
-
-
-          nombre.textContent =
-            persona.nombre;
-
-
-          fila.appendChild(
-            color
-          );
-
-
-          fila.appendChild(
-            nombre
-          );
-
-
-          listaFamilia.appendChild(
-            fila
-          );
-        }
-      );
-
-
-      listaFamilia.className =
-        "familia visible";
-    }
-
-  </script>
-
+</script>
 </body>
 </html>
