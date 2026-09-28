@@ -18,7 +18,7 @@ body{
 font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
 background:#f5f7fb;color:#172033;
 padding-top:env(safe-area-inset-top);
-padding-bottom:calc(76px + env(safe-area-inset-bottom))
+padding-bottom:calc(88px + env(safe-area-inset-bottom))
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
@@ -927,21 +927,20 @@ font-size:13px
 }
 
 .fab{
-position:fixed;
-left:50%;
-bottom:calc(18px + env(safe-area-inset-bottom));
-transform:translateX(-50%);
-width:48px;
-height:48px;
+width:56px;
+height:56px;
 border-radius:50%;
 border:4px solid white;
 background:#2563eb;
 color:white;
-font-size:28px;
+font-size:31px;
 font-weight:400;
 line-height:1;
 padding:0;
-box-shadow:0 4px 14px rgba(37,99,235,.25);
+box-shadow:0 5px 16px rgba(37,99,235,.28);
+justify-self:center;
+align-self:center;
+transform:translateY(-8px);
 z-index:30
 }
 
@@ -951,8 +950,8 @@ bottom:0;
 left:0;
 right:0;
 z-index:25;
-height:calc(68px + env(safe-area-inset-bottom));
-padding-bottom:env(safe-area-inset-bottom);
+height:calc(72px + env(safe-area-inset-bottom));
+padding:0 4px env(safe-area-inset-bottom);
 background:white;
 border-top:1px solid #e5e7eb;
 display:grid;
@@ -966,65 +965,17 @@ background:white;
 color:#667085;
 font-size:12px;
 font-weight:800;
-height:100%
+height:100%;
+min-width:0
 }
 
 .navbtn.activo{color:#2563eb}
 
-.navInicio{grid-column:1}
-.navAgenda{grid-column:2}
-.navTareas{grid-column:4}
-.navHueco{grid-column:3;pointer-events:none}
-
-.siguienteInicio{
-background:#f8fafc;
-border:1px solid #e8edf4;
-border-radius:14px;
-padding:11px 12px;
-margin:-2px 0 12px;
-display:flex;
-align-items:center;
-gap:10px
-}
-
-.siguienteInicioIcono{
-width:34px;
-height:34px;
-border-radius:11px;
-background:#eaf2ff;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:17px;
-flex:none
-}
-
-.siguienteInicioTexto{
-min-width:0;
-flex:1
-}
-
-.siguienteInicioLabel{
-font-size:9px;
-font-weight:900;
-color:#98a2b3;
-text-transform:uppercase
-}
-
-.siguienteInicioTitulo{
-font-size:13px;
-font-weight:900;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis;
-margin-top:2px
-}
-
-.siguienteInicioMeta{
-font-size:10px;
-color:#667085;
-margin-top:2px
-}
+.masGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.masOpcion{border:0;border-radius:16px;background:white;padding:18px;text-align:left;box-shadow:0 4px 16px rgba(15,23,42,.05)}
+.masIcono{font-size:24px;margin-bottom:8px}.masTitulo{font-weight:900}.masTexto{font-size:11px;color:#667085;margin-top:4px}
+.pendientesAlerta{color:#b42318!important}.pendientesAlertaDato{box-shadow:0 0 0 2px #fecaca,0 4px 16px rgba(15,23,42,.05)!important}
+.guardar:disabled{opacity:.55;cursor:default}
 
 .tarjetaSemanaVacia{
 padding:13px 15px;
@@ -1033,42 +984,52 @@ align-items:center;
 justify-content:space-between;
 gap:10px
 }
+.tarjetaSemanaVacia h2{font-size:16px;margin:0}
+.tarjetaSemanaVacia .vacio{padding:0;text-align:right;font-size:12px}
 
-.tarjetaSemanaVacia h2{
-font-size:16px;
-margin:0
+.siguienteInicio{
+margin:-7px 0 14px;
+padding:10px 13px;
+border-radius:14px;
+background:#eef4ff;
+color:#344054;
+font-size:12px;
+display:flex;
+align-items:center;
+gap:8px;
+min-width:0
 }
-
-.tarjetaSemanaVacia .vacio{
-padding:0;
-text-align:right;
-font-size:12px
-}
+.siguienteInicio strong{color:#2563eb;white-space:nowrap}
+.siguienteInicio span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
 .compraBadge{
-font-size:10px;
-background:#fff7d6;
-color:#8a6100;
+font-size:9px;
+background:#ecfdf3;
+color:#15803d;
 border-radius:999px;
 padding:3px 6px;
 margin-left:5px;
 font-weight:900
 }
 
-.sinFechaBloque{
-background:#fafbfc;
-border:1px dashed #d0d5dd;
-border-radius:14px;
-padding:0 10px 5px;
-margin-top:14px
+.sinFechaBadge{
+font-size:9px;
+background:#f2f4f7;
+color:#667085;
+border-radius:999px;
+padding:3px 6px;
+margin-left:5px;
+font-weight:900
 }
 
-.sinFechaBloque .subtituloInicio{
-margin-top:10px
+.bloqueSinFecha{
+margin-top:16px;
+padding-top:2px;
+border-top:1px solid #eaecf0
 }
 
 @media(max-width:430px){
-main{padding:15px;padding-bottom:44px}
+main{padding:15px;padding-bottom:55px}
 .bienvenida h1,.cabPantalla h1{font-size:25px}
 .tarjeta{padding:16px}
 .celdaDia,.celdaVacia{min-height:70px}
@@ -1127,12 +1088,10 @@ main{padding:15px;padding-bottom:44px}
 </div>
 
 <div class="dato">
-<span id="nProximo" class="numero">—</span>
+<span id="nProximo" class="numero">0</span>
 <span id="etiquetaProximo" class="etiqueta proximoDato">Próximo</span>
 </div>
 </div>
-
-<div id="siguienteInicio"></div>
 
 <div id="tarjetaHoy" class="tarjeta">
 <h2>Hoy</h2>
@@ -1148,6 +1107,8 @@ main{padding:15px;padding-bottom:44px}
 <h2>Esta semana</h2>
 <div id="estaSemana"></div>
 </div>
+
+<div id="siguienteInicio" class="siguienteInicio" style="display:none"></div>
 
 <div id="tarjetaProximamente" class="tarjeta">
 <h2>Próximamente</h2>
@@ -1203,16 +1164,22 @@ main{padding:15px;padding-bottom:44px}
 
 </section>
 
+<section id="mas" class="pantalla">
+<div class="cabPantalla"><h1>Más</h1></div>
+<div class="masGrid">
+<button class="masOpcion" id="masFamilia"><div class="masIcono">👥</div><div class="masTitulo">Familia</div><div class="masTexto">Miembros y colores de Family Hub</div></button>
+<button class="masOpcion" id="masAjustes"><div class="masIcono">⚙️</div><div class="masTitulo">Ajustes</div><div class="masTexto">Preferencias de la aplicación</div></button>
+</div>
+</section>
+
 </main>
 
-<button id="fab" class="fab">+</button>
-
 <nav>
-<button class="navbtn navInicio activo" data-pantalla="inicio">Inicio</button>
-<button class="navbtn navAgenda" data-pantalla="agenda">Agenda</button>
-<div class="navHueco"></div>
-<button class="navbtn navTareas" data-pantalla="tareas">Tareas</button>
-<div></div>
+<button class="navbtn activo" data-pantalla="inicio">Inicio</button>
+<button class="navbtn" data-pantalla="agenda">Agenda</button>
+<button id="fab" class="fab" aria-label="Añadir">+</button>
+<button class="navbtn" data-pantalla="tareas">Tareas</button>
+<button class="navbtn" data-pantalla="mas">Más</button>
 </nav>
 
 </div>
@@ -1530,6 +1497,7 @@ let fechaAgenda=new Date();
 let eventoSeleccionado=null;
 let aparicionSeleccionada=null;
 let eventoEditando=null;
+let origenAparicionEditada=null;
 let tareaSeleccionada=null;
 let tareaEditando=null;
 
@@ -2170,52 +2138,28 @@ $("todaSerie").textContent=
 $("modalSerie").classList.add("visible");
 
 }
-
-$("cancelarSerie").onclick=()=>{
-
+  $("cancelarSerie").onclick=()=>{
 $("modalSerie").classList.remove("visible");
 accionSerie=null
-
 };
 
 $("soloAparicion").onclick=()=>{
-
 const a=accionSerie;
-
 $("modalSerie").classList.remove("visible");
 accionSerie=null;
-
 a?.fnSolo()
-
 };
 
 $("todaSerie").onclick=()=>{
-
 const a=accionSerie;
-
 $("modalSerie").classList.remove("visible");
 accionSerie=null;
-
 a?.fnToda()
-
 };
 
 async function editarSoloAparicion(){
-
 const e=eventoSeleccionado;
 const a=aparicionSeleccionada;
-
-await updateDoc(
-doc(db,"eventos",e.id),
-{
-excepciones:[
-...new Set([
-...(e.excepciones||[]),
-a
-])
-]
-}
-);
 
 const copia={
 ...e,
@@ -2234,18 +2178,20 @@ excepciones:[]
 
 delete copia.id;
 
+origenAparicionEditada={
+id:e.id,
+fecha:a,
+excepciones:e.excepciones||[]
+};
+
 $("modalFicha").classList.remove("visible");
-
 abrirEvento(null,copia);
-
 }
 
 $("editarEvento").onclick=()=>{
-
 if(!eventoSeleccionado)return;
 
 if(eventoSeleccionado.repeticion){
-
 pedirAccionSerie(
 "editar",
 editarSoloAparicion,
@@ -2254,22 +2200,16 @@ $("modalFicha").classList.remove("visible");
 abrirEvento(eventoSeleccionado)
 }
 );
-
 }else{
-
 $("modalFicha").classList.remove("visible");
 abrirEvento(eventoSeleccionado)
-
 }
-
 };
 
 $("eliminarEvento").onclick=()=>{
-
 if(!eventoSeleccionado)return;
 
 const borrarSolo=async()=>{
-
 await updateDoc(
 doc(db,"eventos",eventoSeleccionado.id),
 {
@@ -2281,19 +2221,14 @@ aparicionSeleccionada
 ]
 }
 );
-
 $("modalFicha").classList.remove("visible")
-
 };
 
 const borrarTodo=async()=>{
-
 await deleteDoc(
 doc(db,"eventos",eventoSeleccionado.id)
 );
-
 $("modalFicha").classList.remove("visible")
-
 };
 
 eventoSeleccionado.repeticion
@@ -2303,11 +2238,9 @@ borrarSolo,
 borrarTodo
 )
 :borrarTodo()
-
 };
 
 $("duplicarEvento").onclick=()=>{
-
 const c={...eventoSeleccionado};
 
 delete c.id;
@@ -2327,13 +2260,10 @@ c.repeticion="";
 c.excepciones=[];
 
 $("modalFicha").classList.remove("visible");
-
 abrirEvento(null,c)
-
 };
 
 function actualizarUnidad(){
-
 const r=$("repeticion").value;
 
 $("opcionesRepeticion").style.display=
@@ -2347,12 +2277,14 @@ r==="Semanal"
 :r==="Anual"
 ?"año(s)"
 :""
-
 }
 
 function abrirEvento(e=null,p=null,f=null){
-
 eventoEditando=e;
+
+if(e||!p){
+origenAparicionEditada=null;
+}
 
 const x=e||p||{};
 const base=f||x.fecha||fechaLocal(fechaAgenda);
@@ -2384,52 +2316,41 @@ $("todoDia").checked
 document
 .querySelectorAll("#participantes input")
 .forEach(c=>{
-
 c.checked=
 (x.participantes||[])
 .includes(c.value)
-
 });
 
 $("modalEvento").classList.add("visible");
-
 }
 
 $("repeticion").onchange=
 actualizarUnidad;
 
 $("categoria").onchange=()=>{
-
 if(
 ["Cumpleaños","Aniversario"]
 .includes($("categoria").value)
 ){
-
 $("repeticion").value="Anual";
 $("intervaloRepeticion").value=1;
 actualizarUnidad();
-
 }
-
 };
 
 $("todoDia").onchange=()=>{
-
 $("horas").style.display=
 $("todoDia").checked
 ?"none"
 :"grid"
-
 };
 
 $("cancelarEvento").onclick=()=>{
-
+origenAparicionEditada=null;
 $("modalEvento").classList.remove("visible")
-
 };
 
 $("guardarEvento").onclick=async()=>{
-
 const actividad=
 $("actividad").value.trim();
 
@@ -2440,19 +2361,15 @@ const fechaFin=
 $("fechaFinEvento").value||fecha;
 
 if(!actividad||!fecha){
-
 return alert(
 "Indica actividad y fecha."
 )
-
 }
 
 if(fechaFin<fecha){
-
 return alert(
 "La fecha final no puede ser anterior."
 )
-
 }
 
 if(
@@ -2461,13 +2378,13 @@ if(
 &&
 !$("repeticion").value
 ){
-
 $("repeticion").value="Anual";
-
 }
 
-const datos={
+const botonGuardarEvento=$("guardarEvento");
+botonGuardarEvento.disabled=true;
 
+const datos={
 actividad,
 fecha,
 fechaFin,
@@ -2519,8 +2436,9 @@ $("notas").value.trim(),
 
 excepciones:
 eventoEditando?.excepciones||[]
-
 };
+
+try{
 
 if(eventoEditando){
 
@@ -2545,13 +2463,45 @@ auth.currentUser?.email||""
 }
 );
 
+if(origenAparicionEditada){
+
+await updateDoc(
+doc(
+db,
+"eventos",
+origenAparicionEditada.id
+),
+{
+excepciones:[
+...new Set([
+...origenAparicionEditada.excepciones,
+origenAparicionEditada.fecha
+])
+]
+}
+);
+
+}
+
 }
 
 $("modalEvento").classList.remove("visible");
 eventoEditando=null;
+origenAparicionEditada=null;
 
+}catch(e){
+
+console.error(e);
+alert("No se ha podido guardar el evento.");
+
+}finally{
+
+botonGuardarEvento.disabled=false;
+
+}
 };
-  function estadoT(t){
+
+function estadoT(t){
 if(t.completada||!t.fechaLimite)return"";
 
 return t.fechaLimite<fechaLocal()
@@ -2566,7 +2516,6 @@ return p==="Alta"?0:p==="Normal"?1:2
 }
 
 function ordenarTareas(l){
-
 return [...l].sort((a,b)=>{
 
 const g=t=>
@@ -2578,21 +2527,10 @@ t.fechaLimite?2:3;
 return g(a)-g(b)
 ||prioridadN(a.prioridad)-prioridadN(b.prioridad)
 ||(a.fechaLimite||"9999").localeCompare(b.fechaLimite||"9999")
-
 })
-
-}
-
-function distintivoTarea(t){
-
-return t.categoria==="Compras"
-?'<span class="compraBadge">🛒 COMPRA</span>'
-:""
-
 }
 
 function htmlTarea(t){
-
 const c=t.checklist||[];
 const h=c.filter(x=>x.hecho).length;
 const p=c.length?Math.round(h/c.length*100):0;
@@ -2618,8 +2556,9 @@ data-ver-tarea="${t.id}">
 
 <div class="tarea-titulo">
 ${escapar(t.titulo)}
-${distintivoTarea(t)}
 ${t.repeticion?" ↻":""}
+${t.categoria==="Compras"?'<span class="compraBadge">🛒 COMPRA</span>':""}
+${!t.fechaLimite?'<span class="sinFechaBadge">SIN FECHA</span>':""}
 </div>
 
 <div class="tarea-meta">
@@ -2655,18 +2594,13 @@ ${h}/${c.length} completados
 </div>
 </div>
 `
-
 }
 
 function insertarTareas(el,l){
-
 if(!l.length){
-
 el.innerHTML=
 '<div class="vacio">No hay tareas.</div>';
-
 return
-
 }
 
 el.innerHTML=
@@ -2676,7 +2610,6 @@ el.querySelectorAll("[data-completar]")
 .forEach(b=>{
 
 b.onclick=async e=>{
-
 e.stopPropagation();
 
 const t=tareas.find(
@@ -2686,19 +2619,15 @@ x=>x.id===b.dataset.completar
 if(t){
 await completarTarea(t)
 }
-
 }
 
 });
 
 el.querySelectorAll("[data-ver-tarea]")
 .forEach(x=>{
-
 x.onclick=()=>
 abrirFichaTarea(x.dataset.verTarea)
-
 });
-
 }
 
 async function completarTarea(t){
@@ -2715,7 +2644,7 @@ doc(db,"tareas",t.id),
 if(!t.fechaLimite){
 
 return alert(
-"Esta tarea recurrente no tiene fecha límite. Edítala y añade una fecha."
+"Esta tarea recurrente necesita una fecha límite."
 )
 
 }
@@ -2788,11 +2717,9 @@ checklist:(t.checklist||[])
 .map(x=>({...x,hecho:false}))
 }
 );
-
 }
 
 function abrirFichaTarea(id){
-
 const t=tareas.find(x=>x.id===id);
 
 if(!t)return;
@@ -2803,7 +2730,7 @@ $("fichaTarea").innerHTML=`
 
 <div class="fichaEventoTitulo">
 ${escapar(t.titulo)}
-${distintivoTarea(t)}
+${t.categoria==="Compras"?'<span class="compraBadge">🛒 COMPRA</span>':""}
 </div>
 
 <div class="fichaFila">
@@ -2839,20 +2766,15 @@ ${escapar(t.categoria||"Familia")}
 </div>
 
 ${t.repeticion?`
-
 <div class="fichaFila">
 <div class="fichaIcono">↻</div>
 <div class="fichaTexto">
 <div class="fichaLabel">Repetición</div>
 <div class="fichaValor">
 ${escapar(t.repeticion)}
-${(+t.intervaloRepeticion||1)>1
-?` · Cada ${+t.intervaloRepeticion}`
-:""}
 </div>
 </div>
 </div>
-
 `:""}
 
 ${(t.checklist||[]).length?`
@@ -2932,31 +2854,24 @@ doc(db,"tareas",t.id),
 t.checklist=nuevo;
 
 abrirFichaTarea(t.id);
-
 }
 
 });
-
 }
 
 $("cerrarFichaTarea").onclick=()=>{
-
 $("modalFichaTarea")
 .classList.remove("visible")
-
 };
 
 $("editarTarea").onclick=()=>{
-
 $("modalFichaTarea")
 .classList.remove("visible");
 
 abrirTarea(tareaSeleccionada)
-
 };
 
 $("eliminarTareaFicha").onclick=async()=>{
-
 if(tareaSeleccionada){
 
 await deleteDoc(
@@ -2969,13 +2884,10 @@ tareaSeleccionada.id
 
 $("modalFichaTarea")
 .classList.remove("visible")
-
 }
-
 };
 
 function abrirTarea(t=null){
-
 tareaEditando=t;
 
 $("tituloModalTarea").textContent=
@@ -3017,31 +2929,25 @@ checklistTemporal=
 document
 .querySelectorAll("#responsables input")
 .forEach(c=>{
-
 c.checked=
 (t?.responsables||[])
 .includes(c.value)
-
 });
 
 renderChecklistEditor();
 
 $("modalTarea")
 .classList.add("visible");
-
 }
 
 $("repeticionTarea").onchange=()=>{
-
 $("opcionesRepeticionTarea").style.display=
 $("repeticionTarea").value
 ?"block"
 :"none"
-
 };
 
 function renderChecklistEditor(){
-
 $("editorChecklist").innerHTML=
 checklistTemporal
 .map((x,i)=>`
@@ -3059,22 +2965,18 @@ $("editorChecklist")
 .forEach(b=>{
 
 b.onclick=()=>{
-
 checklistTemporal.splice(
 +b.dataset.quitar,
 1
 );
 
 renderChecklistEditor();
-
 }
 
 });
-
 }
 
 $("anadirCheck").onclick=()=>{
-
 const x=
 $("textoCheck").value.trim();
 
@@ -3088,44 +2990,37 @@ hecho:false
 $("textoCheck").value="";
 
 renderChecklistEditor();
-
 }
-
 };
 
 $("cancelarTarea").onclick=()=>{
-
 $("modalTarea")
 .classList.remove("visible")
-
 };
 
 $("guardarTarea").onclick=async()=>{
-
 const titulo=
 $("tituloTarea").value.trim();
 
 if(!titulo){
-
 return alert(
 "Escribe un título."
 )
-
 }
 
 if(
 $("repeticionTarea").value &&
 !$("fechaLimite").value
 ){
-
 return alert(
 "Una tarea recurrente necesita fecha límite."
 )
-
 }
 
-const datos={
+const botonGuardarTarea=$("guardarTarea");
+botonGuardarTarea.disabled=true;
 
+const datos={
 titulo,
 
 responsables:[
@@ -3162,8 +3057,9 @@ checklistTemporal,
 
 notas:
 $("notasTarea").value.trim()
-
 };
+
+try{
 
 if(tareaEditando){
 
@@ -3194,199 +3090,25 @@ $("modalTarea")
 
 tareaEditando=null;
 
+}catch(e){
+
+console.error(e);
+alert("No se ha podido guardar la tarea.");
+
+}finally{
+
+botonGuardarTarea.disabled=false;
+
+}
 };
 
 function renderTodo(){
-
 renderInicio();
 renderAgenda();
 renderTareas();
-
-}
-
-function proximoElemento(){
-
-const hoy=fechaLocal();
-let candidatos=[];
-
-for(let i=0;i<=365;i++){
-
-const d=sumarDias(new Date(),i);
-const f=fechaLocal(d);
-
-eventosEnFechaTodos(f)
-.forEach(e=>{
-
-candidatos.push({
-tipo:"evento",
-fecha:f,
-dias:i,
-titulo:e.actividad||"Evento",
-hora:textoHora(e),
-dato:e
-})
-
-});
-
-tareas
-.filter(
-t=>
-!t.completada &&
-t.fechaLimite===f
-)
-.forEach(t=>{
-
-candidatos.push({
-tipo:"tarea",
-fecha:f,
-dias:i,
-titulo:t.titulo||"Tarea",
-hora:"",
-dato:t
-})
-
-});
-
-if(candidatos.length){
-break
-}
-
-}
-
-if(!candidatos.length){
-return null
-}
-
-candidatos.sort((a,b)=>{
-
-if(
-a.tipo==="evento" &&
-b.tipo==="evento"
-){
-
-const ha=
-a.dato.todoDia
-?"00:00"
-:(a.dato.horaInicio||"23:59");
-
-const hb=
-b.dato.todoDia
-?"00:00"
-:(b.dato.horaInicio||"23:59");
-
-return ha.localeCompare(hb)
-
-}
-
-return a.tipo==="evento"?-1:1
-
-});
-
-return candidatos[0]
-
-}
-
-function renderSiguienteInicio(){
-
-const p=proximoElemento();
-
-if(!p){
-
-$("siguienteInicio").innerHTML="";
-$("nProximo").textContent="—";
-$("etiquetaProximo").textContent="Próximo";
-return
-
-}
-
-$("nProximo").textContent=
-p.dias===0
-?"HOY"
-:p.dias;
-
-$("etiquetaProximo").textContent=
-p.dias===0
-?"Próximo"
-:p.dias===1
-?"Día"
-:"Días";
-
-const icono=
-p.tipo==="tarea"
-?(p.dato.categoria==="Compras"?"🛒":"✓")
-:p.dato.categoria==="Cumpleaños"
-?"🎂"
-:p.dato.categoria==="Aniversario"
-?"♥"
-:"📅";
-
-const cuando=
-p.dias===0
-?"Hoy"
-:p.dias===1
-?"Mañana"
-:`Dentro de ${p.dias} días`;
-
-$("siguienteInicio").innerHTML=`
-
-<div
-class="siguienteInicio"
-data-siguiente-tipo="${p.tipo}"
-data-siguiente-id="${p.dato.id}"
-data-siguiente-fecha="${p.fecha}">
-
-<div class="siguienteInicioIcono">
-${icono}
-</div>
-
-<div class="siguienteInicioTexto">
-
-<div class="siguienteInicioLabel">
-Siguiente
-</div>
-
-<div class="siguienteInicioTitulo">
-${escapar(p.titulo)}
-</div>
-
-<div class="siguienteInicioMeta">
-${cuando}
-${p.hora?" · "+escapar(p.hora):""}
-</div>
-
-</div>
-</div>
-`;
-
-const b=
-$("siguienteInicio")
-.querySelector("[data-siguiente-id]");
-
-if(b){
-
-b.onclick=()=>{
-
-if(p.tipo==="evento"){
-
-abrirFichaEvento(
-p.dato.id,
-p.dato.fechaAparicion||p.fecha
-);
-
-}else{
-
-abrirFichaTarea(p.dato.id)
-
-}
-
-}
-
-}
-
 }
 
 function renderInicio(){
-
 const hoy=fechaLocal();
 
 const ev=
@@ -3413,7 +3135,18 @@ ev.length+hoyT.length;
 $("nTareas").textContent=
 pend.length;
 
-renderSiguienteInicio();
+$("nTareas")
+.classList.toggle(
+"pendientesAlerta",
+venc.length>0
+);
+
+$("nTareas")
+.closest(".dato")
+.classList.toggle(
+"pendientesAlertaDato",
+venc.length>0
+);
 
 const tHoy=
 $("tarjetaHoy");
@@ -3473,34 +3206,27 @@ tTar.classList.toggle(
 );
 
 if(venc.length){
-
 insertarTareas(
 $("iniVenc"),
 venc
 );
-
 }
 
 if(hoyT.length){
-
 insertarTareas(
 $("iniHoyT"),
 hoyT
 );
-
 }
 
 renderEstaSemana();
 renderProximamente();
-
 }
 
 function renderEstaSemana(){
-
 let html="";
-let cantidad=0;
 
-const h=new Date();
+let h=new Date();
 h.setHours(12,0,0,0);
 
 for(let i=0;i<7;i++){
@@ -3517,8 +3243,6 @@ t=>
 !t.completada &&
 t.fechaLimite===f
 );
-
-cantidad+=ev.length+ta.length;
 
 if(
 !ev.length &&
@@ -3569,38 +3293,31 @@ ${ta.map(htmlTarea).join("")}
 
 }
 
-const tarjeta=
-$("tarjetaSemanaInicio");
-
-tarjeta.classList.toggle(
-"tarjetaSemanaVacia",
-cantidad===0
-);
-
 $("estaSemana").innerHTML=
 html||
 '<div class="vacio">Nada previsto.</div>';
 
+$("tarjetaSemanaInicio").classList.toggle(
+"tarjetaSemanaVacia",
+!html
+);
+
 $("estaSemana")
 .querySelectorAll("[data-ver-evento]")
 .forEach(x=>{
-
 x.onclick=()=>abrirFichaEvento(
 x.dataset.verEvento,
 x.dataset.aparicion
 )
-
 });
 
 $("estaSemana")
 .querySelectorAll("[data-ver-tarea]")
 .forEach(x=>{
-
 x.onclick=()=>
 abrirFichaTarea(
 x.dataset.verTarea
 )
-
 });
 
 $("estaSemana")
@@ -3608,7 +3325,6 @@ $("estaSemana")
 .forEach(b=>{
 
 b.onclick=async e=>{
-
 e.stopPropagation();
 
 const t=tareas.find(
@@ -3618,7 +3334,6 @@ x=>x.id===b.dataset.completar
 if(t){
 await completarTarea(t)
 }
-
 }
 
 });
@@ -3628,7 +3343,6 @@ $("estaSemana")
 .forEach(b=>{
 
 b.onclick=()=>{
-
 fechaAgenda=
 desdeFechaLocal(
 b.dataset.irDia
@@ -3637,30 +3351,28 @@ b.dataset.irDia
 vistaAgenda="dia";
 
 cambiarPantalla("agenda");
-
 }
 
 });
-
 }
 
 function renderProximamente(){
-
 const base=new Date();
 base.setHours(12,0,0,0);
 
-let items=[];
+let todos=[];
 
-for(let i=7;i<=30;i++){
+for(let i=1;i<=30;i++){
 
 const d=sumarDias(base,i);
 const f=fechaLocal(d);
 
 eventosEnFechaTodos(f)
 .forEach(e=>
-items.push({
+todos.push({
 tipo:"evento",
 fecha:f,
+dias:i,
 e
 })
 );
@@ -3672,16 +3384,117 @@ t=>
 t.fechaLimite===f
 )
 .forEach(t=>
-items.push({
+todos.push({
 tipo:"tarea",
 fecha:f,
+dias:i,
 t
 })
 );
 
 }
 
-items=items.slice(0,5);
+todos.sort((a,b)=>{
+
+if(a.dias!==b.dias){
+return a.dias-b.dias;
+}
+
+const ha=
+a.tipo==="evento"
+?(a.e.todoDia
+?"00:00"
+:a.e.horaInicio||"23:59")
+:"23:58";
+
+const hb=
+b.tipo==="evento"
+?(b.e.todoDia
+?"00:00"
+:b.e.horaInicio||"23:59")
+:"23:58";
+
+return ha.localeCompare(hb);
+});
+
+const primero=todos[0];
+
+$("nProximo").textContent=
+primero
+?primero.dias
+:"—";
+
+$("etiquetaProximo").textContent=
+primero
+?(primero.dias===1
+?"Día · próximo"
+:"Días · próximo")
+:"Próximo";
+
+if(primero){
+
+const titulo=
+primero.tipo==="evento"
+?primero.e.actividad
+:primero.t.titulo;
+
+const icono=
+primero.tipo==="evento" &&
+primero.e.categoria==="Cumpleaños"
+?"🎂 "
+:primero.tipo==="evento" &&
+primero.e.categoria==="Aniversario"
+?"♥ "
+:primero.tipo==="tarea" &&
+primero.t.categoria==="Compras"
+?"🛒 "
+:"";
+
+$("siguienteInicio").style.display="flex";
+
+$("siguienteInicio").innerHTML=`
+<strong>Siguiente</strong>
+<span>
+${primero.dias===1
+?"Mañana"
+:`En ${primero.dias} días`}
+ · ${icono}${escapar(titulo)}
+</span>
+`;
+
+$("siguienteInicio").style.cursor="pointer";
+
+$("siguienteInicio").onclick=()=>{
+
+if(primero.tipo==="evento"){
+
+abrirFichaEvento(
+primero.e.id,
+primero.e.fechaAparicion||primero.fecha
+);
+
+}else{
+
+abrirFichaTarea(
+primero.t.id
+);
+
+}
+
+};
+
+}else{
+
+$("siguienteInicio").style.display="none";
+$("siguienteInicio").innerHTML="";
+$("siguienteInicio").onclick=null;
+
+}
+
+const items=
+todos
+.filter(x=>x.dias>=7)
+.slice(0,5);
 
 $("proximamente").innerHTML=
 items.length
@@ -3719,23 +3532,19 @@ items.length
 $("proximamente")
 .querySelectorAll("[data-ver-evento]")
 .forEach(x=>{
-
 x.onclick=()=>abrirFichaEvento(
 x.dataset.verEvento,
 x.dataset.aparicion
 )
-
 });
 
 $("proximamente")
 .querySelectorAll("[data-ver-tarea]")
 .forEach(x=>{
-
 x.onclick=()=>
 abrirFichaTarea(
 x.dataset.verTarea
 )
-
 });
 
 $("proximamente")
@@ -3743,7 +3552,6 @@ $("proximamente")
 .forEach(b=>{
 
 b.onclick=async e=>{
-
 e.stopPropagation();
 
 const t=tareas.find(
@@ -3753,11 +3561,9 @@ x=>x.id===b.dataset.completar
 if(t){
 await completarTarea(t)
 }
-
 }
 
 });
-
 }
 
 function renderAgenda(){
@@ -3791,11 +3597,9 @@ vistaAgenda==="dia"
 :vistaAgenda==="semana"
 ?renderSemana()
 :renderMes();
-
 }
 
 function renderDia(){
-
 const f=fechaLocal(fechaAgenda);
 
 const l=eventosEnFecha(f);
@@ -3813,11 +3617,9 @@ insertarEventos(
 $("listaDia"),
 l
 );
-
 }
 
 function renderSemana(){
-
 const l=
 lunesDeSemana(fechaAgenda);
 
@@ -3843,9 +3645,7 @@ const franja=
 dias.map(d=>{
 
 const f=fechaLocal(d);
-
-const ev=
-eventosEnFecha(f);
+const ev=eventosEnFecha(f);
 
 const letra=
 new Intl.DateTimeFormat(
@@ -3890,9 +3690,7 @@ const resumen=
 dias.map(d=>{
 
 const f=fechaLocal(d);
-
-const ev=
-eventosEnFecha(f);
+const ev=eventosEnFecha(f);
 
 const nom=
 cap(
@@ -3984,16 +3782,13 @@ $("vistaSemana")
 .forEach(x=>{
 
 x.onclick=()=>{
-
 fechaAgenda=
 desdeFechaLocal(
 x.dataset.dia
 );
 
 vistaAgenda="dia";
-
 renderAgenda();
-
 }
 
 });
@@ -4003,22 +3798,18 @@ $("vistaSemana")
 .forEach(x=>{
 
 x.onclick=e=>{
-
 e.stopPropagation();
 
 abrirFichaEvento(
 x.dataset.verEvento,
 x.dataset.aparicion
 );
-
 }
 
 });
-
 }
 
 function renderMes(){
-
 const y=
 fechaAgenda.getFullYear();
 
@@ -4113,7 +3904,6 @@ ${ev.length>1
 </div>
 
 `;
-
 }
 
 c+=
@@ -4183,7 +3973,6 @@ x.dataset.fecha
 ultimo=0;
 
 return
-
 }
 
 ultimo=ahora;
@@ -4198,21 +3987,16 @@ setTimeout(()=>{
 if(
 Date.now()-ultimo>=350
 ){
-
 renderMes()
-
 }
 
 },360);
-
 }
 
 });
-
 }
 
 function renderTareas(){
-
 let l=[...tareas];
 
 if(filtroTareas!=="Todos"){
@@ -4226,36 +4010,51 @@ t=>
 }
 
 if(estadoTareas==="pendientes"){
-
 l=l.filter(
 t=>!t.completada
 );
-
 }
 
 if(estadoTareas==="completadas"){
-
 l=l.filter(
 t=>t.completada
 );
-
 }
 
 if(estadoTareas==="pendientes"){
 
+const compras=
+l.filter(
+t=>t.categoria==="Compras"
+);
+
+const resto=
+l.filter(
+t=>t.categoria!=="Compras"
+);
+
 const con=
-l.filter(t=>t.fechaLimite);
+resto.filter(t=>t.fechaLimite);
 
 const sin=
-l.filter(t=>!t.fechaLimite);
+resto.filter(t=>!t.fechaLimite);
 
 $("listaTareas").innerHTML=`
 
 <div id="tareasConFecha"></div>
 
+${compras.length
+?`
+<div class="subtituloInicio">
+🛒 Compras · ${compras.length}
+</div>
+<div id="tareasCompras"></div>
+`
+:""}
+
 ${sin.length
 ?`
-<div class="sinFechaBloque">
+<div class="bloqueSinFecha">
 <div class="subtituloInicio">
 Sin fecha · ${sin.length}
 </div>
@@ -4270,6 +4069,15 @@ insertarTareas(
 $("tareasConFecha"),
 con
 );
+
+if(compras.length){
+
+insertarTareas(
+$("tareasCompras"),
+compras
+);
+
+}
 
 if(sin.length){
 
@@ -4288,7 +4096,6 @@ l
 );
 
 }
-
 }
 
 document
@@ -4296,18 +4103,15 @@ document
 .forEach(b=>{
 
 b.onclick=()=>{
-
 vistaAgenda=
 b.dataset.vista;
 
 renderAgenda();
-
 }
 
 });
 
 $("anterior").onclick=()=>{
-
 fechaAgenda=
 vistaAgenda==="dia"
 ?sumarDias(fechaAgenda,-1)
@@ -4321,11 +4125,9 @@ fechaAgenda.getMonth()-1,
 );
 
 renderAgenda();
-
 };
 
 $("siguiente").onclick=()=>{
-
 fechaAgenda=
 vistaAgenda==="dia"
 ?sumarDias(fechaAgenda,1)
@@ -4339,19 +4141,14 @@ fechaAgenda.getMonth()+1,
 );
 
 renderAgenda();
-
 };
 
 $("irHoy").onclick=()=>{
-
 fechaAgenda=new Date();
-
 renderAgenda();
-
 };
 
 function cambiarPantalla(p){
-
 pantallaActual=p;
 
 document
@@ -4382,7 +4179,6 @@ renderTareas()
 if(p==="inicio"){
 renderInicio()
 }
-
 }
 
 document
@@ -4401,7 +4197,6 @@ document
 .forEach(b=>{
 
 b.onclick=()=>{
-
 estadoTareas=
 b.dataset.estado;
 
@@ -4415,13 +4210,11 @@ x===b
 );
 
 renderTareas();
-
 }
 
 });
 
 $("fab").onclick=()=>{
-
 if(pantallaActual==="tareas"){
 
 abrirTarea();
@@ -4436,32 +4229,43 @@ $("modalRapido")
 .classList.add("visible");
 
 }
-
 };
 
 $("rapidoEvento").onclick=()=>{
-
 $("modalRapido")
 .classList.remove("visible");
 
 abrirEvento();
-
 };
 
 $("rapidoTarea").onclick=()=>{
-
 $("modalRapido")
 .classList.remove("visible");
 
 abrirTarea();
-
 };
 
 $("cerrarRapido").onclick=()=>{
-
 $("modalRapido")
 .classList.remove("visible");
+};
 
+$("masFamilia").onclick=()=>{
+const nombres=
+familia
+.filter(p=>p.activo)
+.map(p=>p.nombre)
+.join(", ");
+
+alert(
+"Familia: "+nombres+". La edición de miembros la añadiremos cuando realmente la necesitéis."
+);
+};
+
+$("masAjustes").onclick=()=>{
+alert(
+"Ajustes preparados. Por ahora Family Hub usa las preferencias familiares actuales."
+);
 };
 
 [
@@ -4479,12 +4283,15 @@ e=>{
 
 if(e.target===$(id)){
 
+if(id==="modalEvento"){
+origenAparicionEditada=null;
+}
+
 if(id==="modalSerie"){
-accionSerie=null
+accionSerie=null;
 }
 
 $(id).classList.remove("visible");
-
 }
 
 }
@@ -4505,7 +4312,7 @@ m.classList.remove("visible")
 );
 
 accionSerie=null;
-
+origenAparicionEditada=null;
 }
 );
 
