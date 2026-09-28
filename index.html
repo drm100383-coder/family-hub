@@ -134,44 +134,89 @@ main{max-width:700px;margin:auto;padding:18px}
   box-shadow:0 2px 8px rgba(15,23,42,.05)
 }
 .tituloPeriodo{
-  flex:1;text-align:center;font-weight:900;
+  flex:1;text-align:center;font-weight:900
 }
 .hoyBtn{
   border:0;background:#e9eef8;color:#2563eb;
   padding:9px 11px;border-radius:10px;font-size:12px;font-weight:900
 }
 
-.semana{
-  display:flex;flex-direction:column;gap:10px
+/* SEMANA */
+.semanaCompacta{
+  background:white;border-radius:18px;padding:12px 8px;
+  box-shadow:0 4px 16px rgba(15,23,42,.05);
+  margin-bottom:14px
 }
-.diaSemana{
-  background:white;border-radius:16px;padding:14px;
-  box-shadow:0 3px 12px rgba(15,23,42,.04)
+.franjaSemana{
+  display:grid;grid-template-columns:repeat(7,1fr);gap:3px
 }
-.diaSemana.clickeable{cursor:pointer}
-.diaSemana.hoy{outline:2px solid #2563eb}
-.cabDiaSemana{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-bottom:5px
+.diaCompacto{
+  border:0;background:transparent;border-radius:13px;
+  min-width:0;padding:8px 2px 7px;color:#172033
 }
-.nombreDia{font-weight:900;text-transform:capitalize}
-.numeroDiaSemana{
-  width:31px;height:31px;border-radius:50%;
+.diaCompacto:active{background:#f2f4f7}
+.letraDia{
+  display:block;font-size:10px;font-weight:900;
+  color:#667085;text-transform:uppercase;margin-bottom:6px
+}
+.numeroDiaCompacto{
+  width:32px;height:32px;margin:auto;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-weight:900
+  font-size:14px;font-weight:900
 }
-.diaSemana.hoy .numeroDiaSemana{
+.diaCompacto.hoy .numeroDiaCompacto{
   background:#2563eb;color:white
 }
-.miniEvento{
-  display:flex;align-items:center;gap:7px;
-  padding:7px 0;font-size:13px
+.diaCompacto.hoy .letraDia{color:#2563eb}
+.puntosSemana{
+  height:13px;display:flex;align-items:center;
+  justify-content:center;gap:2px;margin-top:5px;overflow:hidden
 }
-.puntoEvento{
-  width:9px;height:9px;border-radius:50%;flex:none
+.puntoSemana{
+  width:6px;height:6px;border-radius:50%;flex:none;
+  border:1px solid rgba(0,0,0,.08)
 }
-.sinEventosMini{font-size:12px;color:#98a2b3;padding-top:4px}
+.resumenSemana{
+  background:white;border-radius:18px;padding:5px 16px;
+  box-shadow:0 4px 16px rgba(15,23,42,.05)
+}
+.bloqueDiaSemana{
+  padding:13px 0;border-bottom:1px solid #eaecf0
+}
+.bloqueDiaSemana:last-child{border-bottom:0}
+.cabResumenDia{
+  display:flex;justify-content:space-between;
+  align-items:center;margin-bottom:7px;cursor:pointer
+}
+.fechaResumenDia{
+  font-size:13px;font-weight:900;text-transform:capitalize
+}
+.contadorDia{
+  font-size:10px;font-weight:800;color:#667085;
+  background:#f2f4f7;border-radius:999px;padding:4px 7px
+}
+.eventoSemanaLinea{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:5px 0;font-size:13px;cursor:pointer
+}
+.barraSemana{
+  width:4px;min-width:4px;height:31px;border-radius:5px
+}
+.horaSemana{
+  min-width:43px;color:#667085;font-size:11px;
+  font-weight:800;padding-top:2px
+}
+.textoSemana{flex:1;min-width:0}
+.tituloSemanaEvento{font-weight:800}
+.personasSemana{
+  font-size:10px;color:#98a2b3;margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis
+}
+.sinEventosSemana{
+  color:#98a2b3;font-size:12px;padding:3px 0
+}
 
+/* MES */
 .calendario{
   background:white;border-radius:18px;padding:12px;
   box-shadow:0 4px 16px rgba(15,23,42,.05)
@@ -188,9 +233,7 @@ main{max-width:700px;margin:auto;padding:18px}
   cursor:pointer;overflow:hidden
 }
 .celdaDia:hover{background:#f8fafc}
-.celdaVacia{
-  min-height:70px;
-}
+.celdaVacia{min-height:70px}
 .celdaDia.seleccionado{background:#eff6ff}
 .numMes{
   width:27px;height:27px;display:flex;
@@ -202,12 +245,8 @@ main{max-width:700px;margin:auto;padding:18px}
   display:flex;gap:2px;justify-content:center;
   flex-wrap:wrap;margin-top:4px
 }
-.puntoMes{
-  width:6px;height:6px;border-radius:50%
-}
-.masMes{
-  text-align:center;font-size:9px;color:#667085;margin-top:2px
-}
+.puntoMes{width:6px;height:6px;border-radius:50%}
+.masMes{text-align:center;font-size:9px;color:#667085;margin-top:2px}
 .detalleMes{margin-top:14px}
 
 .fab{
@@ -328,6 +367,8 @@ nav{
   .bienvenida h1,.cabPantalla h1{font-size:25px}
   .tarjeta{padding:16px}
   .celdaDia,.celdaVacia{min-height:62px;padding:4px 2px}
+  .semanaCompacta{padding:10px 5px}
+  .numeroDiaCompacto{width:30px;height:30px}
 }
 </style>
 </head>
@@ -369,38 +410,17 @@ nav{
   </div>
 
   <div class="resumen">
-    <div class="dato">
-      <span id="nHoy" class="numero">0</span>
-      <span class="etiqueta">Hoy</span>
-    </div>
-    <div class="dato">
-      <span id="nTareas" class="numero">0</span>
-      <span class="etiqueta">Tareas</span>
-    </div>
-    <div class="dato">
-      <span id="nFamilia" class="numero">0</span>
-      <span class="etiqueta">Familia</span>
-    </div>
+    <div class="dato"><span id="nHoy" class="numero">0</span><span class="etiqueta">Hoy</span></div>
+    <div class="dato"><span id="nTareas" class="numero">0</span><span class="etiqueta">Tareas</span></div>
+    <div class="dato"><span id="nFamilia" class="numero">0</span><span class="etiqueta">Familia</span></div>
   </div>
 
-  <div class="tarjeta">
-    <h2>Hoy</h2>
-    <div id="eventosHoy"></div>
-  </div>
-
-  <div class="tarjeta">
-    <h2>Tareas pendientes</h2>
-    <div id="tareasInicio"></div>
-  </div>
-
-  <div class="tarjeta">
-    <h2>Próximos eventos</h2>
-    <div id="eventosProximos"></div>
-  </div>
+  <div class="tarjeta"><h2>Hoy</h2><div id="eventosHoy"></div></div>
+  <div class="tarjeta"><h2>Tareas pendientes</h2><div id="tareasInicio"></div></div>
+  <div class="tarjeta"><h2>Próximos eventos</h2><div id="eventosProximos"></div></div>
 </section>
 
 <section id="agenda" class="pantalla">
-
   <div class="cabAgenda">
     <h1>Agenda</h1>
     <button id="irHoy" class="hoyBtn">Hoy</button>
@@ -423,14 +443,10 @@ nav{
   <div id="vistaDia"></div>
   <div id="vistaSemana" style="display:none"></div>
   <div id="vistaMes" style="display:none"></div>
-
 </section>
 
 <section id="tareas" class="pantalla">
-  <div class="cabPantalla">
-    <h1>Tareas</h1>
-  </div>
-
+  <div class="cabPantalla"><h1>Tareas</h1></div>
   <div id="filtrosTareas" class="filtros"></div>
 
   <div class="estado-tareas">
@@ -439,9 +455,7 @@ nav{
     <button class="filtro" data-estado="completadas">Completadas</button>
   </div>
 
-  <div class="tarjeta">
-    <div id="listaTareas"></div>
-  </div>
+  <div class="tarjeta"><div id="listaTareas"></div></div>
 </section>
 
 </main>
@@ -457,191 +471,119 @@ nav{
 </div>
 
 <div id="modalEvento" class="modal-fondo">
-  <div class="modal">
-    <h2>Nuevo evento</h2>
+<div class="modal">
+<h2>Nuevo evento</h2>
 
-    <div class="campo">
-      <label>Actividad</label>
-      <input id="actividad" type="text" placeholder="¿Qué hay que hacer?">
-    </div>
+<div class="campo"><label>Actividad</label><input id="actividad" type="text" placeholder="¿Qué hay que hacer?"></div>
+<div class="campo"><label>Fecha</label><input id="fechaEvento" type="date"></div>
+<div class="campo"><label><input id="todoDia" type="checkbox"> Todo el día</label></div>
 
-    <div class="campo">
-      <label>Fecha</label>
-      <input id="fechaEvento" type="date">
-    </div>
+<div id="horas" class="dos">
+<div class="campo"><label>Hora inicio</label><input id="horaInicio" type="time"></div>
+<div class="campo"><label>Hora fin</label><input id="horaFin" type="time"></div>
+</div>
 
-    <div class="campo">
-      <label><input id="todoDia" type="checkbox"> Todo el día</label>
-    </div>
+<div class="campo"><label>Participantes</label><div id="participantes" class="checks"></div></div>
+<div class="campo"><label>Lugar</label><input id="lugar" type="text"></div>
 
-    <div id="horas" class="dos">
-      <div class="campo">
-        <label>Hora inicio</label>
-        <input id="horaInicio" type="time">
-      </div>
-      <div class="campo">
-        <label>Hora fin</label>
-        <input id="horaFin" type="time">
-      </div>
-    </div>
+<div class="dos">
+<div class="campo">
+<label>Categoría</label>
+<select id="categoria">
+<option>Familia</option><option>Colegio</option><option>Trabajo</option>
+<option>Salud</option><option>Ocio</option><option>Otro</option>
+</select>
+</div>
 
-    <div class="campo">
-      <label>Participantes</label>
-      <div id="participantes" class="checks"></div>
-    </div>
+<div class="campo">
+<label>Prioridad</label>
+<select id="prioridad"><option>Normal</option><option>Alta</option><option>Baja</option></select>
+</div>
+</div>
 
-    <div class="campo">
-      <label>Lugar</label>
-      <input id="lugar" type="text">
-    </div>
+<div class="campo">
+<label>Repetición</label>
+<select id="repeticion">
+<option value="">No repetir</option>
+<option>Semanal</option><option>Mensual</option><option>Anual</option>
+</select>
+</div>
 
-    <div class="dos">
-      <div class="campo">
-        <label>Categoría</label>
-        <select id="categoria">
-          <option>Familia</option>
-          <option>Colegio</option>
-          <option>Trabajo</option>
-          <option>Salud</option>
-          <option>Ocio</option>
-          <option>Otro</option>
-        </select>
-      </div>
+<div class="campo"><label>Notas</label><textarea id="notas"></textarea></div>
 
-      <div class="campo">
-        <label>Prioridad</label>
-        <select id="prioridad">
-          <option>Normal</option>
-          <option>Alta</option>
-          <option>Baja</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Repetición</label>
-      <select id="repeticion">
-        <option value="">No repetir</option>
-        <option>Semanal</option>
-        <option>Mensual</option>
-        <option>Anual</option>
-      </select>
-    </div>
-
-    <div class="campo">
-      <label>Notas</label>
-      <textarea id="notas"></textarea>
-    </div>
-
-    <div class="acciones">
-      <button id="cancelarEvento" class="cancelar">Cancelar</button>
-      <button id="guardarEvento" class="guardar">Guardar</button>
-    </div>
-  </div>
+<div class="acciones">
+<button id="cancelarEvento" class="cancelar">Cancelar</button>
+<button id="guardarEvento" class="guardar">Guardar</button>
+</div>
+</div>
 </div>
 
 <div id="modalTarea" class="modal-fondo">
-  <div class="modal">
-    <h2>Nueva tarea</h2>
+<div class="modal">
+<h2>Nueva tarea</h2>
 
-    <div class="campo">
-      <label>Título</label>
-      <input id="tituloTarea" type="text" placeholder="¿Qué hay que hacer?">
-    </div>
+<div class="campo"><label>Título</label><input id="tituloTarea" type="text" placeholder="¿Qué hay que hacer?"></div>
+<div class="campo"><label>Responsables</label><div id="responsables" class="checks"></div></div>
+<div class="campo"><label>Fecha límite</label><input id="fechaLimite" type="date"></div>
 
-    <div class="campo">
-      <label>Responsables</label>
-      <div id="responsables" class="checks"></div>
-    </div>
+<div class="dos">
+<div class="campo">
+<label>Prioridad</label>
+<select id="prioridadTarea"><option>Normal</option><option>Alta</option><option>Baja</option></select>
+</div>
 
-    <div class="campo">
-      <label>Fecha límite</label>
-      <input id="fechaLimite" type="date">
-    </div>
+<div class="campo">
+<label>Categoría</label>
+<select id="categoriaTarea">
+<option>Familia</option><option>Casa</option><option>Colegio</option>
+<option>Trabajo</option><option>Compras</option><option>Salud</option><option>Otro</option>
+</select>
+</div>
+</div>
 
-    <div class="dos">
-      <div class="campo">
-        <label>Prioridad</label>
-        <select id="prioridadTarea">
-          <option>Normal</option>
-          <option>Alta</option>
-          <option>Baja</option>
-        </select>
-      </div>
+<div class="campo">
+<label>Checklist</label>
+<div class="nuevoCheck">
+<input id="textoCheck" type="text" placeholder="Añadir paso...">
+<button id="anadirCheck" type="button">+</button>
+</div>
+<div id="editorChecklist"></div>
+</div>
 
-      <div class="campo">
-        <label>Categoría</label>
-        <select id="categoriaTarea">
-          <option>Familia</option>
-          <option>Casa</option>
-          <option>Colegio</option>
-          <option>Trabajo</option>
-          <option>Compras</option>
-          <option>Salud</option>
-          <option>Otro</option>
-        </select>
-      </div>
-    </div>
+<div class="campo"><label>Notas</label><textarea id="notasTarea"></textarea></div>
 
-    <div class="campo">
-      <label>Checklist</label>
-      <div class="nuevoCheck">
-        <input id="textoCheck" type="text" placeholder="Añadir paso...">
-        <button id="anadirCheck" type="button">+</button>
-      </div>
-      <div id="editorChecklist"></div>
-    </div>
-
-    <div class="campo">
-      <label>Notas</label>
-      <textarea id="notasTarea"></textarea>
-    </div>
-
-    <div class="acciones">
-      <button id="cancelarTarea" class="cancelar">Cancelar</button>
-      <button id="guardarTarea" class="guardar">Guardar</button>
-    </div>
-  </div>
+<div class="acciones">
+<button id="cancelarTarea" class="cancelar">Cancelar</button>
+<button id="guardarTarea" class="guardar">Guardar</button>
+</div>
+</div>
 </div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-
 import {
-  getAuth,
-  signInWithEmailAndPassword,
-  signOut,
-  onAuthStateChanged,
-  setPersistence,
-  browserLocalPersistence
+getAuth,signInWithEmailAndPassword,signOut,onAuthStateChanged,
+setPersistence,browserLocalPersistence
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 import {
-  getFirestore,
-  collection,
-  getDocs,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-  serverTimestamp,
-  onSnapshot
+getFirestore,collection,getDocs,addDoc,deleteDoc,updateDoc,
+doc,serverTimestamp,onSnapshot
 } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig={
-  apiKey:"AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
-  authDomain:"family-hub-9fa54.firebaseapp.com",
-  projectId:"family-hub-9fa54",
-  storageBucket:"family-hub-9fa54.firebasestorage.app",
-  messagingSenderId:"517316541547",
-  appId:"1:517316541547:web:03db1291d5d1f41f68c52e"
+apiKey:"AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
+authDomain:"family-hub-9fa54.firebaseapp.com",
+projectId:"family-hub-9fa54",
+storageBucket:"family-hub-9fa54.firebasestorage.app",
+messagingSenderId:"517316541547",
+appId:"1:517316541547:web:03db1291d5d1f41f68c52e"
 };
 
 const firebaseApp=initializeApp(firebaseConfig);
 const auth=getAuth(firebaseApp);
 const db=getFirestore(firebaseApp);
-
 await setPersistence(auth,browserLocalPersistence);
 
 let familia=[];
@@ -660,855 +602,705 @@ let unsubscribeTareas=null;
 const $=id=>document.getElementById(id);
 
 function fechaLocal(d=new Date()){
-  const y=d.getFullYear();
-  const m=String(d.getMonth()+1).padStart(2,"0");
-  const dia=String(d.getDate()).padStart(2,"0");
-  return `${y}-${m}-${dia}`;
+const y=d.getFullYear();
+const m=String(d.getMonth()+1).padStart(2,"0");
+const dia=String(d.getDate()).padStart(2,"0");
+return `${y}-${m}-${dia}`;
 }
 
 function desdeFechaLocal(s){
-  const [y,m,d]=s.split("-").map(Number);
-  return new Date(y,m-1,d,12);
+const [y,m,d]=s.split("-").map(Number);
+return new Date(y,m-1,d,12);
 }
 
 function escapar(t=""){
-  const d=document.createElement("div");
-  d.textContent=String(t);
-  return d.innerHTML;
+const d=document.createElement("div");
+d.textContent=String(t);
+return d.innerHTML;
 }
 
-function capitalizarPrimera(texto=""){
-  return texto.charAt(0).toUpperCase()+texto.slice(1);
+function capitalizarPrimera(t=""){
+return t.charAt(0).toUpperCase()+t.slice(1);
 }
 
 function fechaBonita(fecha){
-  if(!fecha)return "";
-  return capitalizarPrimera(
-    new Intl.DateTimeFormat("es-ES",{
-      weekday:"long",day:"numeric",month:"long"
-    }).format(desdeFechaLocal(fecha))
-  );
+if(!fecha)return "";
+return capitalizarPrimera(new Intl.DateTimeFormat("es-ES",{
+weekday:"long",day:"numeric",month:"long"
+}).format(desdeFechaLocal(fecha)));
 }
 
 function tituloMes(fecha){
-  const mes=new Intl.DateTimeFormat("es-ES",{
-    month:"long"
-  }).format(fecha);
-
-  return `${capitalizarPrimera(mes)} de ${fecha.getFullYear()}`;
+const mes=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(fecha);
+return `${capitalizarPrimera(mes)} de ${fecha.getFullYear()}`;
 }
 
-function mismoDia(a,b){
-  return fechaLocal(a)===fechaLocal(b);
-}
+function mismoDia(a,b){return fechaLocal(a)===fechaLocal(b)}
 
 function lunesDeSemana(fecha){
-  const d=new Date(fecha);
-  const dia=d.getDay();
-  const diferencia=dia===0?-6:1-dia;
-  d.setDate(d.getDate()+diferencia);
-  d.setHours(12,0,0,0);
-  return d;
+const d=new Date(fecha);
+const dia=d.getDay();
+d.setDate(d.getDate()+(dia===0?-6:1-dia));
+d.setHours(12,0,0,0);
+return d;
 }
 
 function sumarDias(fecha,n){
-  const d=new Date(fecha);
-  d.setDate(d.getDate()+n);
-  return d;
+const d=new Date(fecha);
+d.setDate(d.getDate()+n);
+return d;
 }
 
-$("fechaHoy").textContent=
-  capitalizarPrimera(
-    new Intl.DateTimeFormat("es-ES",{
-      weekday:"long",day:"numeric",month:"long",year:"numeric"
-    }).format(new Date())
-  );
+$("fechaHoy").textContent=capitalizarPrimera(
+new Intl.DateTimeFormat("es-ES",{
+weekday:"long",day:"numeric",month:"long",year:"numeric"
+}).format(new Date())
+);
 
 $("entrar").onclick=async()=>{
-  $("errorLogin").textContent="";
-  try{
-    await signInWithEmailAndPassword(
-      auth,
-      $("email").value.trim(),
-      $("password").value
-    );
-  }catch(e){
-    $("errorLogin").textContent="Correo o contraseña incorrectos.";
-  }
+$("errorLogin").textContent="";
+try{
+await signInWithEmailAndPassword(auth,$("email").value.trim(),$("password").value);
+}catch(e){
+$("errorLogin").textContent="Correo o contraseña incorrectos.";
+}
 };
 
 $("password").addEventListener("keydown",e=>{
-  if(e.key==="Enter")$("entrar").click();
+if(e.key==="Enter")$("entrar").click();
 });
 
 $("salir").onclick=()=>signOut(auth);
 
 onAuthStateChanged(auth,async user=>{
-  if(!user){
-    $("app").style.display="none";
-    $("login").style.display="flex";
-    if(unsubscribeEventos)unsubscribeEventos();
-    if(unsubscribeTareas)unsubscribeTareas();
-    return;
-  }
+if(!user){
+$("app").style.display="none";
+$("login").style.display="flex";
+if(unsubscribeEventos)unsubscribeEventos();
+if(unsubscribeTareas)unsubscribeTareas();
+return;
+}
 
-  $("login").style.display="none";
-  $("app").style.display="block";
-  $("usuario").textContent=user.email;
+$("login").style.display="none";
+$("app").style.display="block";
+$("usuario").textContent=user.email;
 
-  await cargarFamilia();
-  escucharEventos();
-  escucharTareas();
+await cargarFamilia();
+escucharEventos();
+escucharTareas();
 });
 
 async function cargarFamilia(){
-  const snap=await getDocs(collection(db,"familia"));
+const snap=await getDocs(collection(db,"familia"));
+familia=snap.docs.map(d=>({id:d.id,...d.data()}))
+.sort((a,b)=>(a.orden||99)-(b.orden||99));
 
-  familia=snap.docs.map(d=>({
-    id:d.id,...d.data()
-  })).sort((a,b)=>(a.orden||99)-(b.orden||99));
-
-  $("nFamilia").textContent=
-    familia.filter(p=>p.id!=="familia").length;
-
-  crearPersonas();
-  crearFiltros();
+$("nFamilia").textContent=familia.filter(p=>p.id!=="familia").length;
+crearPersonas();
+crearFiltros();
 }
 
 function crearPersonas(){
-  $("participantes").innerHTML="";
-  $("responsables").innerHTML="";
+$("participantes").innerHTML="";
+$("responsables").innerHTML="";
 
-  familia.filter(p=>p.activo).forEach(p=>{
-    const e=document.createElement("label");
-    e.className="check";
-    e.innerHTML=
-      `<input type="checkbox" value="${escapar(p.nombre)}">
-       ${escapar(p.nombre)}`;
-    $("participantes").appendChild(e);
+familia.filter(p=>p.activo).forEach(p=>{
+const e=document.createElement("label");
+e.className="check";
+e.innerHTML=`<input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}`;
+$("participantes").appendChild(e);
 
-    const t=document.createElement("label");
-    t.className="check";
-    t.innerHTML=
-      `<input type="checkbox" value="${escapar(p.nombre)}">
-       ${escapar(p.nombre)}`;
-    $("responsables").appendChild(t);
-  });
+const t=document.createElement("label");
+t.className="check";
+t.innerHTML=`<input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}`;
+$("responsables").appendChild(t);
+});
 }
 
 function crearFiltros(){
-  crearFiltroPersonas("filtrosAgenda",filtroAgenda,nombre=>{
-    filtroAgenda=nombre;
-    crearFiltros();
-    renderAgenda();
-  });
-
-  crearFiltroPersonas("filtrosTareas",filtroTareas,nombre=>{
-    filtroTareas=nombre;
-    crearFiltros();
-    renderTareas();
-  });
+crearFiltroPersonas("filtrosAgenda",filtroAgenda,n=>{
+filtroAgenda=n;crearFiltros();renderAgenda();
+});
+crearFiltroPersonas("filtrosTareas",filtroTareas,n=>{
+filtroTareas=n;crearFiltros();renderTareas();
+});
 }
 
 function crearFiltroPersonas(id,seleccionado,accion){
-  $(id).innerHTML="";
-
-  ["Todos",...familia
-    .filter(p=>p.id!=="familia")
-    .map(p=>p.nombre)]
-    .forEach(nombre=>{
-      const b=document.createElement("button");
-      b.className="filtro"+(nombre===seleccionado?" activo":"");
-      b.textContent=nombre;
-      b.onclick=()=>accion(nombre);
-      $(id).appendChild(b);
-    });
+$(id).innerHTML="";
+["Todos",...familia.filter(p=>p.id!=="familia").map(p=>p.nombre)].forEach(nombre=>{
+const b=document.createElement("button");
+b.className="filtro"+(nombre===seleccionado?" activo":"");
+b.textContent=nombre;
+b.onclick=()=>accion(nombre);
+$(id).appendChild(b);
+});
 }
 
 function escucharEventos(){
-  if(unsubscribeEventos)unsubscribeEventos();
+if(unsubscribeEventos)unsubscribeEventos();
 
-  unsubscribeEventos=onSnapshot(collection(db,"eventos"),snap=>{
-    eventos=snap.docs.map(d=>({id:d.id,...d.data()}));
-
-    eventos.sort((a,b)=>{
-      const A=(a.fecha||"")+" "+(a.horaInicio||"");
-      const B=(b.fecha||"")+" "+(b.horaInicio||"");
-      return A.localeCompare(B);
-    });
-
-    renderTodo();
-  });
+unsubscribeEventos=onSnapshot(collection(db,"eventos"),snap=>{
+eventos=snap.docs.map(d=>({id:d.id,...d.data()}));
+eventos.sort((a,b)=>
+((a.fecha||"")+" "+(a.horaInicio||"")).localeCompare(
+(b.fecha||"")+" "+(b.horaInicio||""))
+);
+renderTodo();
+});
 }
 
 function escucharTareas(){
-  if(unsubscribeTareas)unsubscribeTareas();
+if(unsubscribeTareas)unsubscribeTareas();
 
-  unsubscribeTareas=onSnapshot(collection(db,"tareas"),snap=>{
-    tareas=snap.docs.map(d=>({id:d.id,...d.data()}));
-
-    tareas.sort((a,b)=>{
-      if(!!a.completada!==!!b.completada)
-        return a.completada?1:-1;
-
-      return (a.fechaLimite||"9999-12-31")
-        .localeCompare(b.fechaLimite||"9999-12-31");
-    });
-
-    renderTodo();
-  });
+unsubscribeTareas=onSnapshot(collection(db,"tareas"),snap=>{
+tareas=snap.docs.map(d=>({id:d.id,...d.data()}));
+tareas.sort((a,b)=>{
+if(!!a.completada!==!!b.completada)return a.completada?1:-1;
+return (a.fechaLimite||"9999-12-31").localeCompare(b.fechaLimite||"9999-12-31");
+});
+renderTodo();
+});
 }
 
 function colorPersonas(nombres=[]){
-  if(nombres.length===1){
-    return familia.find(x=>x.nombre===nombres[0])?.color||"#2563eb";
-  }
+if(nombres.length===1)
+return familia.find(x=>x.nombre===nombres[0])?.color||"#2563eb";
 
-  const colores=nombres
-    .map(n=>familia.find(x=>x.nombre===n)?.color)
-    .filter(Boolean);
-
-  if(colores.length>1)
-    return `linear-gradient(90deg,${colores.join(",")})`;
-
-  return colores[0]||"#43A047";
+const colores=nombres.map(n=>familia.find(x=>x.nombre===n)?.color).filter(Boolean);
+if(colores.length>1)return `linear-gradient(90deg,${colores.join(",")})`;
+return colores[0]||"#43A047";
 }
 
 function colorSimple(nombres=[]){
-  if(!nombres.length)return "#43A047";
-  return familia.find(x=>x.nombre===nombres[0])?.color||"#2563eb";
+if(!nombres.length)return "#43A047";
+return familia.find(x=>x.nombre===nombres[0])?.color||"#2563eb";
 }
 
 function eventosFiltrados(){
-  if(filtroAgenda==="Todos")return eventos;
-
-  return eventos.filter(
-    e=>(e.participantes||[]).includes(filtroAgenda)
-  );
+if(filtroAgenda==="Todos")return eventos;
+return eventos.filter(e=>(e.participantes||[]).includes(filtroAgenda));
 }
 
 function htmlEvento(e){
-  const hora=e.todoDia
-    ?"Todo el día"
-    :[e.horaInicio,e.horaFin].filter(Boolean).join("–");
+const hora=e.todoDia?"Todo el día":[e.horaInicio,e.horaFin].filter(Boolean).join("–");
 
-  return `
-  <div class="evento">
-    <div class="barra" style="background:${colorPersonas(e.participantes||[])}"></div>
-    <div class="evento-contenido">
-      <div class="evento-titulo">${escapar(e.actividad||"Sin título")}</div>
-      <div class="evento-meta">
-        ${escapar(hora)}
-        ${e.lugar?" · "+escapar(e.lugar):""}
-      </div>
-      <div class="evento-personas">
-        ${escapar((e.participantes||[]).join(" · "))}
-      </div>
-    </div>
-    <button class="borrar" data-borrar-evento="${e.id}">×</button>
-  </div>`;
+return `
+<div class="evento">
+<div class="barra" style="background:${colorPersonas(e.participantes||[])}"></div>
+<div class="evento-contenido">
+<div class="evento-titulo">${escapar(e.actividad||"Sin título")}</div>
+<div class="evento-meta">${escapar(hora)}${e.lugar?" · "+escapar(e.lugar):""}</div>
+<div class="evento-personas">${escapar((e.participantes||[]).join(" · "))}</div>
+</div>
+<button class="borrar" data-borrar-evento="${e.id}">×</button>
+</div>`;
 }
 
 function insertarEventos(elemento,lista){
-  if(!lista.length){
-    elemento.innerHTML='<div class="vacio">No hay eventos.</div>';
-    return;
-  }
+if(!lista.length){
+elemento.innerHTML='<div class="vacio">No hay eventos.</div>';
+return;
+}
 
-  elemento.innerHTML=lista.map(htmlEvento).join("");
+elemento.innerHTML=lista.map(htmlEvento).join("");
 
-  elemento.querySelectorAll("[data-borrar-evento]").forEach(b=>{
-    b.onclick=async()=>{
-      if(confirm("¿Eliminar este evento?")){
-        await deleteDoc(doc(db,"eventos",b.dataset.borrarEvento));
-      }
-    };
-  });
+elemento.querySelectorAll("[data-borrar-evento]").forEach(b=>{
+b.onclick=async()=>{
+if(confirm("¿Eliminar este evento?"))
+await deleteDoc(doc(db,"eventos",b.dataset.borrarEvento));
+};
+});
 }
 
 function htmlTarea(t){
-  const checklist=Array.isArray(t.checklist)?t.checklist:[];
-  const hechos=checklist.filter(x=>x.hecho).length;
-  const porcentaje=checklist.length
-    ?Math.round(hechos/checklist.length*100)
-    :(t.completada?100:0);
+const checklist=Array.isArray(t.checklist)?t.checklist:[];
+const hechos=checklist.filter(x=>x.hecho).length;
+const porcentaje=checklist.length?Math.round(hechos/checklist.length*100):(t.completada?100:0);
 
-  const prioridad=t.prioridad==="Alta"
-    ?'<span class="prioridadAlta">Alta</span>'
-    :escapar(t.prioridad||"Normal");
+const prioridad=t.prioridad==="Alta"
+?'<span class="prioridadAlta">Alta</span>'
+:escapar(t.prioridad||"Normal");
 
-  const items=checklist.length
-    ?`<div class="checklistVista">
-       ${checklist.map((x,i)=>`
-       <div class="checkItem ${x.hecho?"hecho":""}">
-         <input type="checkbox"
-           data-check-tarea="${t.id}"
-           data-check-indice="${i}"
-           ${x.hecho?"checked":""}>
-         <span>${escapar(x.texto)}</span>
-       </div>`).join("")}
-       <div class="progreso"><span style="width:${porcentaje}%"></span></div>
-       <div style="margin-top:5px">${hechos}/${checklist.length} completados</div>
-       </div>`
-    :"";
+const items=checklist.length?`
+<div class="checklistVista">
+${checklist.map((x,i)=>`
+<div class="checkItem ${x.hecho?"hecho":""}">
+<input type="checkbox" data-check-tarea="${t.id}" data-check-indice="${i}" ${x.hecho?"checked":""}>
+<span>${escapar(x.texto)}</span>
+</div>`).join("")}
+<div class="progreso"><span style="width:${porcentaje}%"></span></div>
+<div style="margin-top:5px">${hechos}/${checklist.length} completados</div>
+</div>`:"";
 
-  return `
-  <div class="tarea ${t.completada?"completada":""}">
-    <button
-      class="completarTarea ${t.completada?"hecha":""}"
-      data-completar="${t.id}">
-      ${t.completada?"✓":""}
-    </button>
-
-    <div class="barra" style="background:${colorPersonas(t.responsables||[])}"></div>
-
-    <div class="tarea-contenido">
-      <div class="tarea-titulo">${escapar(t.titulo||"Sin título")}</div>
-
-      <div class="tarea-meta">
-        ${t.fechaLimite?"Límite: "+escapar(fechaBonita(t.fechaLimite)):"Sin fecha"}
-        · ${prioridad}
-        ${t.categoria?" · "+escapar(t.categoria):""}
-      </div>
-
-      <div class="tarea-personas">
-        ${escapar((t.responsables||[]).join(" · "))}
-      </div>
-
-      ${items}
-
-      ${t.notas
-        ?`<div class="tarea-meta" style="margin-top:8px">${escapar(t.notas)}</div>`
-        :""}
-    </div>
-
-    <button class="borrar" data-borrar-tarea="${t.id}">×</button>
-  </div>`;
+return `
+<div class="tarea ${t.completada?"completada":""}">
+<button class="completarTarea ${t.completada?"hecha":""}" data-completar="${t.id}">
+${t.completada?"✓":""}
+</button>
+<div class="barra" style="background:${colorPersonas(t.responsables||[])}"></div>
+<div class="tarea-contenido">
+<div class="tarea-titulo">${escapar(t.titulo||"Sin título")}</div>
+<div class="tarea-meta">
+${t.fechaLimite?"Límite: "+escapar(fechaBonita(t.fechaLimite)):"Sin fecha"}
+· ${prioridad}${t.categoria?" · "+escapar(t.categoria):""}
+</div>
+<div class="tarea-personas">${escapar((t.responsables||[]).join(" · "))}</div>
+${items}
+${t.notas?`<div class="tarea-meta" style="margin-top:8px">${escapar(t.notas)}</div>`:""}
+</div>
+<button class="borrar" data-borrar-tarea="${t.id}">×</button>
+</div>`;
 }
 
 function insertarTareas(elemento,lista){
-  if(!lista.length){
-    elemento.innerHTML='<div class="vacio">No hay tareas.</div>';
-    return;
-  }
+if(!lista.length){
+elemento.innerHTML='<div class="vacio">No hay tareas.</div>';
+return;
+}
 
-  elemento.innerHTML=lista.map(htmlTarea).join("");
+elemento.innerHTML=lista.map(htmlTarea).join("");
 
-  elemento.querySelectorAll("[data-completar]").forEach(b=>{
-    b.onclick=async()=>{
-      const tarea=tareas.find(t=>t.id===b.dataset.completar);
-      if(!tarea)return;
+elemento.querySelectorAll("[data-completar]").forEach(b=>{
+b.onclick=async()=>{
+const tarea=tareas.find(t=>t.id===b.dataset.completar);
+if(tarea)await updateDoc(doc(db,"tareas",tarea.id),{completada:!tarea.completada});
+};
+});
 
-      await updateDoc(doc(db,"tareas",tarea.id),{
-        completada:!tarea.completada
-      });
-    };
-  });
+elemento.querySelectorAll("[data-borrar-tarea]").forEach(b=>{
+b.onclick=async()=>{
+if(confirm("¿Eliminar esta tarea?"))
+await deleteDoc(doc(db,"tareas",b.dataset.borrarTarea));
+};
+});
 
-  elemento.querySelectorAll("[data-borrar-tarea]").forEach(b=>{
-    b.onclick=async()=>{
-      if(confirm("¿Eliminar esta tarea?")){
-        await deleteDoc(doc(db,"tareas",b.dataset.borrarTarea));
-      }
-    };
-  });
-
-  elemento.querySelectorAll("[data-check-tarea]").forEach(c=>{
-    c.onchange=async()=>{
-      const tarea=tareas.find(t=>t.id===c.dataset.checkTarea);
-      if(!tarea)return;
-
-      const lista=(tarea.checklist||[]).map(x=>({...x}));
-      const indice=Number(c.dataset.checkIndice);
-
-      if(lista[indice]){
-        lista[indice].hecho=c.checked;
-
-        await updateDoc(doc(db,"tareas",tarea.id),{
-          checklist:lista
-        });
-      }
-    };
-  });
+elemento.querySelectorAll("[data-check-tarea]").forEach(c=>{
+c.onchange=async()=>{
+const tarea=tareas.find(t=>t.id===c.dataset.checkTarea);
+if(!tarea)return;
+const lista=(tarea.checklist||[]).map(x=>({...x}));
+const indice=Number(c.dataset.checkIndice);
+if(lista[indice]){
+lista[indice].hecho=c.checked;
+await updateDoc(doc(db,"tareas",tarea.id),{checklist:lista});
+}
+};
+});
 }
 
 function renderTodo(){
-  renderInicio();
-  renderAgenda();
-  renderTareas();
+renderInicio();
+renderAgenda();
+renderTareas();
 }
 
 function renderInicio(){
-  const hoy=fechaLocal();
+const hoy=fechaLocal();
+const deHoy=eventos.filter(e=>e.fecha===hoy);
+const proximos=eventos.filter(e=>e.fecha>hoy).slice(0,5);
+const pendientes=tareas.filter(t=>!t.completada);
 
-  const deHoy=eventos.filter(e=>e.fecha===hoy);
+$("nHoy").textContent=deHoy.length;
+$("nTareas").textContent=pendientes.length;
 
-  const proximos=eventos
-    .filter(e=>e.fecha>hoy)
-    .slice(0,5);
-
-  const pendientes=tareas.filter(t=>!t.completada);
-
-  $("nHoy").textContent=deHoy.length;
-  $("nTareas").textContent=pendientes.length;
-
-  insertarEventos($("eventosHoy"),deHoy);
-  insertarTareas($("tareasInicio"),pendientes.slice(0,4));
-  insertarEventos($("eventosProximos"),proximos);
+insertarEventos($("eventosHoy"),deHoy);
+insertarTareas($("tareasInicio"),pendientes.slice(0,4));
+insertarEventos($("eventosProximos"),proximos);
 }
 
 function renderAgenda(){
-  $("vistaDia").style.display=vistaAgenda==="dia"?"block":"none";
-  $("vistaSemana").style.display=vistaAgenda==="semana"?"block":"none";
-  $("vistaMes").style.display=vistaAgenda==="mes"?"block":"none";
+$("vistaDia").style.display=vistaAgenda==="dia"?"block":"none";
+$("vistaSemana").style.display=vistaAgenda==="semana"?"block":"none";
+$("vistaMes").style.display=vistaAgenda==="mes"?"block":"none";
 
-  document.querySelectorAll("[data-vista]").forEach(b=>{
-    b.classList.toggle("activo",b.dataset.vista===vistaAgenda);
-  });
+document.querySelectorAll("[data-vista]").forEach(b=>
+b.classList.toggle("activo",b.dataset.vista===vistaAgenda)
+);
 
-  if(vistaAgenda==="dia")renderDia();
-  if(vistaAgenda==="semana")renderSemana();
-  if(vistaAgenda==="mes")renderMes();
+if(vistaAgenda==="dia")renderDia();
+if(vistaAgenda==="semana")renderSemana();
+if(vistaAgenda==="mes")renderMes();
 }
 
 function renderDia(){
-  const fecha=fechaLocal(fechaAgenda);
+const fecha=fechaLocal(fechaAgenda);
 
-  $("tituloPeriodo").textContent=
-    capitalizarPrimera(
-      new Intl.DateTimeFormat("es-ES",{
-        weekday:"long",day:"numeric",month:"long"
-      }).format(fechaAgenda)
-    );
+$("tituloPeriodo").textContent=capitalizarPrimera(
+new Intl.DateTimeFormat("es-ES",{
+weekday:"long",day:"numeric",month:"long"
+}).format(fechaAgenda)
+);
 
-  const lista=eventosFiltrados().filter(e=>e.fecha===fecha);
+const lista=eventosFiltrados().filter(e=>e.fecha===fecha);
 
-  $("vistaDia").innerHTML=`
-    <div class="tarjeta">
-      <h2>${escapar(fechaBonita(fecha))}</h2>
-      <div id="listaDia"></div>
-    </div>`;
+$("vistaDia").innerHTML=`
+<div class="tarjeta">
+<h2>${escapar(fechaBonita(fecha))}</h2>
+<div id="listaDia"></div>
+</div>`;
 
-  insertarEventos($("listaDia"),lista);
+insertarEventos($("listaDia"),lista);
 }
 
 function renderSemana(){
-  const lunes=lunesDeSemana(fechaAgenda);
-  const domingo=sumarDias(lunes,6);
+const lunes=lunesDeSemana(fechaAgenda);
+const domingo=sumarDias(lunes,6);
+const filtrados=eventosFiltrados();
 
-  const f1=new Intl.DateTimeFormat("es-ES",{
-    day:"numeric",month:"short"
-  }).format(lunes);
+const inicio=new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"}).format(lunes);
+const fin=new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"}).format(domingo);
+$("tituloPeriodo").textContent=`${inicio} – ${fin}`;
 
-  const f2=new Intl.DateTimeFormat("es-ES",{
-    day:"numeric",month:"short"
-  }).format(domingo);
+const dias=Array.from({length:7},(_,i)=>sumarDias(lunes,i));
 
-  $("tituloPeriodo").textContent=`${f1} – ${f2}`;
+const franja=dias.map(d=>{
+const fecha=fechaLocal(d);
+const lista=filtrados.filter(e=>e.fecha===fecha);
 
-  const filtrados=eventosFiltrados();
+const letra=new Intl.DateTimeFormat("es-ES",{weekday:"short"}).format(d)
+.replace(".","").charAt(0).toUpperCase();
 
-  $("vistaSemana").innerHTML=
-    `<div class="semana">
-      ${Array.from({length:7},(_,i)=>{
-        const d=sumarDias(lunes,i);
-        const fecha=fechaLocal(d);
-        const lista=filtrados.filter(e=>e.fecha===fecha);
+const puntos=lista.slice(0,3).map(e=>
+`<span class="puntoSemana" style="background:${colorSimple(e.participantes||[])}"></span>`
+).join("");
 
-        const nombre=new Intl.DateTimeFormat("es-ES",{
-          weekday:"long"
-        }).format(d);
+return `
+<button class="diaCompacto ${mismoDia(d,new Date())?"hoy":""}" data-dia-semana="${fecha}">
+<span class="letraDia">${letra}</span>
+<span class="numeroDiaCompacto">${d.getDate()}</span>
+<span class="puntosSemana">${puntos}</span>
+</button>`;
+}).join("");
 
-        return `
-        <div class="diaSemana clickeable ${mismoDia(d,new Date())?"hoy":""}"
-             data-fecha-semana="${fecha}">
-          <div class="cabDiaSemana">
-            <div class="nombreDia">${escapar(nombre)}</div>
-            <div class="numeroDiaSemana">${d.getDate()}</div>
-          </div>
+const resumen=dias.map(d=>{
+const fecha=fechaLocal(d);
+const lista=filtrados.filter(e=>e.fecha===fecha);
 
-          ${lista.length
-            ?lista.map(e=>`
-              <div class="miniEvento">
-                <span class="puntoEvento"
-                  style="background:${colorSimple(e.participantes||[])}"></span>
-                <strong>${escapar(e.horaInicio||"")}</strong>
-                <span>${escapar(e.actividad||"Sin título")}</span>
-              </div>`).join("")
-            :'<div class="sinEventosMini">Sin eventos</div>'}
-        </div>`;
-      }).join("")}
-    </div>`;
+const nombre=capitalizarPrimera(
+new Intl.DateTimeFormat("es-ES",{
+weekday:"long",day:"numeric",month:"long"
+}).format(d)
+);
 
-  $("vistaSemana").querySelectorAll("[data-fecha-semana]").forEach(el=>{
-    el.onclick=()=>{
-      fechaAgenda=desdeFechaLocal(el.dataset.fechaSemana);
-      vistaAgenda="dia";
-      renderAgenda();
-    };
-  });
+return `
+<div class="bloqueDiaSemana">
+<div class="cabResumenDia" data-abrir-dia="${fecha}">
+<span class="fechaResumenDia">${escapar(nombre)}</span>
+${lista.length?`<span class="contadorDia">${lista.length}</span>`:""}
+</div>
+
+${lista.length?lista.map(e=>{
+const hora=e.todoDia?"Todo el día":(e.horaInicio||"");
+return `
+<div class="eventoSemanaLinea" data-abrir-dia="${fecha}">
+<div class="barraSemana" style="background:${colorPersonas(e.participantes||[])}"></div>
+<div class="horaSemana">${escapar(hora)}</div>
+<div class="textoSemana">
+<div class="tituloSemanaEvento">${escapar(e.actividad||"Sin título")}</div>
+<div class="personasSemana">${escapar((e.participantes||[]).join(" · "))}</div>
+</div>
+</div>`;
+}).join("")
+:`<div class="sinEventosSemana">Sin eventos</div>`}
+</div>`;
+}).join("");
+
+$("vistaSemana").innerHTML=`
+<div class="semanaCompacta">
+<div class="franjaSemana">${franja}</div>
+</div>
+<div class="resumenSemana">${resumen}</div>`;
+
+$("vistaSemana").querySelectorAll("[data-dia-semana],[data-abrir-dia]").forEach(el=>{
+el.onclick=()=>{
+fechaAgenda=desdeFechaLocal(el.dataset.diaSemana||el.dataset.abrirDia);
+vistaAgenda="dia";
+renderAgenda();
+};
+});
 }
 
 function renderMes(){
-  const año=fechaAgenda.getFullYear();
-  const mes=fechaAgenda.getMonth();
+const año=fechaAgenda.getFullYear();
+const mes=fechaAgenda.getMonth();
 
-  $("tituloPeriodo").textContent=tituloMes(fechaAgenda);
+$("tituloPeriodo").textContent=tituloMes(fechaAgenda);
 
-  const primerDia=new Date(año,mes,1,12);
-  const ultimoDiaMes=new Date(año,mes+1,0,12);
-  const diasDelMes=ultimoDiaMes.getDate();
+const primerDia=new Date(año,mes,1,12);
+const ultimoDiaMes=new Date(año,mes+1,0,12);
+const diasDelMes=ultimoDiaMes.getDate();
 
-  let huecosIniciales=primerDia.getDay()-1;
-  if(huecosIniciales<0)huecosIniciales=6;
+let huecosIniciales=primerDia.getDay()-1;
+if(huecosIniciales<0)huecosIniciales=6;
 
-  const totalNecesario=huecosIniciales+diasDelMes;
-  const numeroSemanas=Math.ceil(totalNecesario/7);
-  const totalCeldas=numeroSemanas*7;
-  const huecosFinales=totalCeldas-totalNecesario;
+const totalNecesario=huecosIniciales+diasDelMes;
+const numeroSemanas=Math.ceil(totalNecesario/7);
+const totalCeldas=numeroSemanas*7;
+const huecosFinales=totalCeldas-totalNecesario;
+const filtrados=eventosFiltrados();
 
-  const filtrados=eventosFiltrados();
+let celdas="";
 
-  let celdas="";
+for(let i=0;i<huecosIniciales;i++)celdas+='<div class="celdaVacia"></div>';
 
-  for(let i=0;i<huecosIniciales;i++){
-    celdas+='<div class="celdaVacia"></div>';
-  }
+for(let dia=1;dia<=diasDelMes;dia++){
+const d=new Date(año,mes,dia,12);
+const fecha=fechaLocal(d);
+const lista=filtrados.filter(e=>e.fecha===fecha);
 
-  for(let dia=1;dia<=diasDelMes;dia++){
-    const d=new Date(año,mes,dia,12);
-    const fecha=fechaLocal(d);
-    const lista=filtrados.filter(e=>e.fecha===fecha);
+const puntos=lista.slice(0,4).map(e=>
+`<span class="puntoMes" style="background:${colorSimple(e.participantes||[])}"></span>`
+).join("");
 
-    const puntos=lista.slice(0,4).map(e=>
-      `<span class="puntoMes"
-       style="background:${colorSimple(e.participantes||[])}"></span>`
-    ).join("");
+celdas+=`
+<div class="celdaDia ${mismoDia(d,new Date())?"hoy":""} ${mismoDia(d,fechaAgenda)?"seleccionado":""}"
+data-fecha-mes="${fecha}">
+<div class="numMes">${dia}</div>
+<div class="puntosMes">${puntos}</div>
+${lista.length>4?`<div class="masMes">+${lista.length-4}</div>`:""}
+</div>`;
+}
 
-    celdas+=`
-    <div class="celdaDia
-      ${mismoDia(d,new Date())?"hoy":""}
-      ${mismoDia(d,fechaAgenda)?"seleccionado":""}"
-      data-fecha-mes="${fecha}">
+for(let i=0;i<huecosFinales;i++)celdas+='<div class="celdaVacia"></div>';
 
-      <div class="numMes">${dia}</div>
+const fechaSeleccionada=fechaLocal(fechaAgenda);
+const eventosSeleccionados=filtrados.filter(e=>e.fecha===fechaSeleccionada);
 
-      <div class="puntosMes">${puntos}</div>
+$("vistaMes").innerHTML=`
+<div class="calendario">
+<div class="cabCalendario">
+<div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div>
+</div>
+<div class="rejillaMes">${celdas}</div>
+</div>
 
-      ${lista.length>4
-        ?`<div class="masMes">+${lista.length-4}</div>`
-        :""}
-    </div>`;
-  }
+<div class="tarjeta detalleMes">
+<h2>${escapar(fechaBonita(fechaSeleccionada))}</h2>
+<div id="eventosDiaMes"></div>
+</div>`;
 
-  for(let i=0;i<huecosFinales;i++){
-    celdas+='<div class="celdaVacia"></div>';
-  }
+insertarEventos($("eventosDiaMes"),eventosSeleccionados);
 
-  const fechaSeleccionada=fechaLocal(fechaAgenda);
-  const eventosSeleccionados=
-    filtrados.filter(e=>e.fecha===fechaSeleccionada);
-
-  $("vistaMes").innerHTML=`
-    <div class="calendario">
-      <div class="cabCalendario">
-        <div>L</div><div>M</div><div>X</div><div>J</div>
-        <div>V</div><div>S</div><div>D</div>
-      </div>
-
-      <div class="rejillaMes">${celdas}</div>
-    </div>
-
-    <div class="tarjeta detalleMes">
-      <h2>${escapar(fechaBonita(fechaSeleccionada))}</h2>
-      <div id="eventosDiaMes"></div>
-    </div>`;
-
-  insertarEventos($("eventosDiaMes"),eventosSeleccionados);
-
-  $("vistaMes").querySelectorAll("[data-fecha-mes]").forEach(el=>{
-    el.onclick=()=>{
-      fechaAgenda=desdeFechaLocal(el.dataset.fechaMes);
-      renderMes();
-    };
-  });
+$("vistaMes").querySelectorAll("[data-fecha-mes]").forEach(el=>{
+el.onclick=()=>{
+fechaAgenda=desdeFechaLocal(el.dataset.fechaMes);
+renderMes();
+};
+});
 }
 
 function renderTareas(){
-  let lista=[...tareas];
+let lista=[...tareas];
 
-  if(filtroTareas!=="Todos"){
-    lista=lista.filter(
-      t=>(t.responsables||[]).includes(filtroTareas)
-    );
-  }
+if(filtroTareas!=="Todos")
+lista=lista.filter(t=>(t.responsables||[]).includes(filtroTareas));
 
-  if(estadoTareas==="pendientes"){
-    lista=lista.filter(t=>!t.completada);
-  }
+if(estadoTareas==="pendientes")lista=lista.filter(t=>!t.completada);
+if(estadoTareas==="completadas")lista=lista.filter(t=>t.completada);
 
-  if(estadoTareas==="completadas"){
-    lista=lista.filter(t=>t.completada);
-  }
-
-  insertarTareas($("listaTareas"),lista);
+insertarTareas($("listaTareas"),lista);
 }
 
 document.querySelectorAll("[data-vista]").forEach(b=>{
-  b.onclick=()=>{
-    vistaAgenda=b.dataset.vista;
-    renderAgenda();
-  };
+b.onclick=()=>{
+vistaAgenda=b.dataset.vista;
+renderAgenda();
+};
 });
 
 $("anterior").onclick=()=>{
-  if(vistaAgenda==="dia"){
-    fechaAgenda=sumarDias(fechaAgenda,-1);
-  }else if(vistaAgenda==="semana"){
-    fechaAgenda=sumarDias(fechaAgenda,-7);
-  }else{
-    fechaAgenda=new Date(
-      fechaAgenda.getFullYear(),
-      fechaAgenda.getMonth()-1,
-      1,12
-    );
-  }
-
-  renderAgenda();
+if(vistaAgenda==="dia")fechaAgenda=sumarDias(fechaAgenda,-1);
+else if(vistaAgenda==="semana")fechaAgenda=sumarDias(fechaAgenda,-7);
+else fechaAgenda=new Date(fechaAgenda.getFullYear(),fechaAgenda.getMonth()-1,1,12);
+renderAgenda();
 };
 
 $("siguiente").onclick=()=>{
-  if(vistaAgenda==="dia"){
-    fechaAgenda=sumarDias(fechaAgenda,1);
-  }else if(vistaAgenda==="semana"){
-    fechaAgenda=sumarDias(fechaAgenda,7);
-  }else{
-    fechaAgenda=new Date(
-      fechaAgenda.getFullYear(),
-      fechaAgenda.getMonth()+1,
-      1,12
-    );
-  }
-
-  renderAgenda();
+if(vistaAgenda==="dia")fechaAgenda=sumarDias(fechaAgenda,1);
+else if(vistaAgenda==="semana")fechaAgenda=sumarDias(fechaAgenda,7);
+else fechaAgenda=new Date(fechaAgenda.getFullYear(),fechaAgenda.getMonth()+1,1,12);
+renderAgenda();
 };
 
 $("irHoy").onclick=()=>{
-  fechaAgenda=new Date();
-  renderAgenda();
+fechaAgenda=new Date();
+renderAgenda();
 };
 
 document.querySelectorAll(".navbtn[data-pantalla]").forEach(b=>{
-  b.onclick=()=>{
-    pantallaActual=b.dataset.pantalla;
+b.onclick=()=>{
+pantallaActual=b.dataset.pantalla;
 
-    document.querySelectorAll(".pantalla")
-      .forEach(p=>p.classList.remove("activa"));
+document.querySelectorAll(".pantalla").forEach(p=>p.classList.remove("activa"));
+document.querySelectorAll(".navbtn").forEach(x=>x.classList.remove("activo"));
 
-    document.querySelectorAll(".navbtn")
-      .forEach(x=>x.classList.remove("activo"));
+$(pantallaActual).classList.add("activa");
+b.classList.add("activo");
 
-    $(pantallaActual).classList.add("activa");
-    b.classList.add("activo");
-
-    if(pantallaActual==="agenda")renderAgenda();
-  };
+if(pantallaActual==="agenda")renderAgenda();
+};
 });
 
 document.querySelectorAll("[data-estado]").forEach(b=>{
-  b.onclick=()=>{
-    estadoTareas=b.dataset.estado;
-
-    document.querySelectorAll("[data-estado]")
-      .forEach(x=>x.classList.remove("activo"));
-
-    b.classList.add("activo");
-    renderTareas();
-  };
+b.onclick=()=>{
+estadoTareas=b.dataset.estado;
+document.querySelectorAll("[data-estado]").forEach(x=>x.classList.remove("activo"));
+b.classList.add("activo");
+renderTareas();
+};
 });
 
 $("fab").onclick=()=>{
-  if(pantallaActual==="tareas"){
-    abrirTarea();
-  }else{
-    abrirEvento();
-  }
+if(pantallaActual==="tareas")abrirTarea();
+else abrirEvento();
 };
 
 function abrirEvento(){
-  $("fechaEvento").value=fechaLocal(fechaAgenda);
-  $("actividad").value="";
-  $("horaInicio").value="";
-  $("horaFin").value="";
-  $("todoDia").checked=false;
-  $("lugar").value="";
-  $("notas").value="";
-  $("categoria").value="Familia";
-  $("prioridad").value="Normal";
-  $("repeticion").value="";
-
-  document.querySelectorAll("#participantes input")
-    .forEach(c=>c.checked=false);
-
-  $("horas").style.display="grid";
-  $("modalEvento").classList.add("visible");
+$("fechaEvento").value=fechaLocal(fechaAgenda);
+$("actividad").value="";
+$("horaInicio").value="";
+$("horaFin").value="";
+$("todoDia").checked=false;
+$("lugar").value="";
+$("notas").value="";
+$("categoria").value="Familia";
+$("prioridad").value="Normal";
+$("repeticion").value="";
+document.querySelectorAll("#participantes input").forEach(c=>c.checked=false);
+$("horas").style.display="grid";
+$("modalEvento").classList.add("visible");
 }
 
 function abrirTarea(){
-  $("tituloTarea").value="";
-  $("fechaLimite").value="";
-  $("prioridadTarea").value="Normal";
-  $("categoriaTarea").value="Familia";
-  $("notasTarea").value="";
-  $("textoCheck").value="";
-  checklistTemporal=[];
-
-  document.querySelectorAll("#responsables input")
-    .forEach(c=>c.checked=false);
-
-  renderChecklistEditor();
-  $("modalTarea").classList.add("visible");
+$("tituloTarea").value="";
+$("fechaLimite").value="";
+$("prioridadTarea").value="Normal";
+$("categoriaTarea").value="Familia";
+$("notasTarea").value="";
+$("textoCheck").value="";
+checklistTemporal=[];
+document.querySelectorAll("#responsables input").forEach(c=>c.checked=false);
+renderChecklistEditor();
+$("modalTarea").classList.add("visible");
 }
 
-$("cancelarEvento").onclick=()=>{
-  $("modalEvento").classList.remove("visible");
-};
-
-$("cancelarTarea").onclick=()=>{
-  $("modalTarea").classList.remove("visible");
-};
+$("cancelarEvento").onclick=()=>$("modalEvento").classList.remove("visible");
+$("cancelarTarea").onclick=()=>$("modalTarea").classList.remove("visible");
 
 $("todoDia").onchange=()=>{
-  $("horas").style.display=
-    $("todoDia").checked?"none":"grid";
+$("horas").style.display=$("todoDia").checked?"none":"grid";
 };
 
 $("guardarEvento").onclick=async()=>{
-  const actividad=$("actividad").value.trim();
-  const fecha=$("fechaEvento").value;
+const actividad=$("actividad").value.trim();
+const fecha=$("fechaEvento").value;
 
-  if(!actividad||!fecha){
-    alert("Indica la actividad y la fecha.");
-    return;
-  }
+if(!actividad||!fecha){
+alert("Indica la actividad y la fecha.");
+return;
+}
 
-  const participantes=[
-    ...document.querySelectorAll("#participantes input:checked")
-  ].map(c=>c.value);
+const participantes=[...document.querySelectorAll("#participantes input:checked")].map(c=>c.value);
 
-  $("guardarEvento").disabled=true;
-  $("guardarEvento").textContent="Guardando...";
+$("guardarEvento").disabled=true;
+$("guardarEvento").textContent="Guardando...";
 
-  try{
-    await addDoc(collection(db,"eventos"),{
-      fecha,
-      horaInicio:$("todoDia").checked?"":$("horaInicio").value,
-      horaFin:$("todoDia").checked?"":$("horaFin").value,
-      todoDia:$("todoDia").checked,
-      participantes,
-      actividad,
-      lugar:$("lugar").value.trim(),
-      notas:$("notas").value.trim(),
-      repeticion:$("repeticion").value,
-      categoria:$("categoria").value,
-      prioridad:$("prioridad").value,
-      recordatorio:"",
-      creada:serverTimestamp(),
-      creadoPor:auth.currentUser?.email||""
-    });
-
-    $("modalEvento").classList.remove("visible");
-
-  }catch(e){
-    alert("No se pudo guardar el evento.");
-    console.error(e);
-  }finally{
-    $("guardarEvento").disabled=false;
-    $("guardarEvento").textContent="Guardar";
-  }
+try{
+await addDoc(collection(db,"eventos"),{
+fecha,
+horaInicio:$("todoDia").checked?"":$("horaInicio").value,
+horaFin:$("todoDia").checked?"":$("horaFin").value,
+todoDia:$("todoDia").checked,
+participantes,
+actividad,
+lugar:$("lugar").value.trim(),
+notas:$("notas").value.trim(),
+repeticion:$("repeticion").value,
+categoria:$("categoria").value,
+prioridad:$("prioridad").value,
+recordatorio:"",
+creada:serverTimestamp(),
+creadoPor:auth.currentUser?.email||""
+});
+$("modalEvento").classList.remove("visible");
+}catch(e){
+alert("No se pudo guardar el evento.");
+console.error(e);
+}finally{
+$("guardarEvento").disabled=false;
+$("guardarEvento").textContent="Guardar";
+}
 };
 
 function renderChecklistEditor(){
-  $("editorChecklist").innerHTML=
-    checklistTemporal.map((x,i)=>`
-      <div class="itemEditor">
-        <span>${escapar(x.texto)}</span>
-        <button type="button" data-quitar-check="${i}">×</button>
-      </div>
-    `).join("");
+$("editorChecklist").innerHTML=checklistTemporal.map((x,i)=>`
+<div class="itemEditor">
+<span>${escapar(x.texto)}</span>
+<button type="button" data-quitar-check="${i}">×</button>
+</div>`).join("");
 
-  $("editorChecklist")
-    .querySelectorAll("[data-quitar-check]")
-    .forEach(b=>{
-      b.onclick=()=>{
-        checklistTemporal.splice(Number(b.dataset.quitarCheck),1);
-        renderChecklistEditor();
-      };
-    });
+$("editorChecklist").querySelectorAll("[data-quitar-check]").forEach(b=>{
+b.onclick=()=>{
+checklistTemporal.splice(Number(b.dataset.quitarCheck),1);
+renderChecklistEditor();
+};
+});
 }
 
 function anadirChecklist(){
-  const texto=$("textoCheck").value.trim();
+const texto=$("textoCheck").value.trim();
+if(!texto)return;
 
-  if(!texto)return;
-
-  checklistTemporal.push({
-    texto,
-    hecho:false
-  });
-
-  $("textoCheck").value="";
-  renderChecklistEditor();
-  $("textoCheck").focus();
+checklistTemporal.push({texto,hecho:false});
+$("textoCheck").value="";
+renderChecklistEditor();
+$("textoCheck").focus();
 }
 
 $("anadirCheck").onclick=anadirChecklist;
 
 $("textoCheck").addEventListener("keydown",e=>{
-  if(e.key==="Enter"){
-    e.preventDefault();
-    anadirChecklist();
-  }
+if(e.key==="Enter"){
+e.preventDefault();
+anadirChecklist();
+}
 });
 
 $("guardarTarea").onclick=async()=>{
-  const titulo=$("tituloTarea").value.trim();
+const titulo=$("tituloTarea").value.trim();
 
-  if(!titulo){
-    alert("Escribe el título de la tarea.");
-    return;
-  }
+if(!titulo){
+alert("Escribe el título de la tarea.");
+return;
+}
 
-  const responsables=[
-    ...document.querySelectorAll("#responsables input:checked")
-  ].map(c=>c.value);
+const responsables=[...document.querySelectorAll("#responsables input:checked")].map(c=>c.value);
 
-  $("guardarTarea").disabled=true;
-  $("guardarTarea").textContent="Guardando...";
+$("guardarTarea").disabled=true;
+$("guardarTarea").textContent="Guardando...";
 
-  try{
-    await addDoc(collection(db,"tareas"),{
-      titulo,
-      responsables,
-      fechaLimite:$("fechaLimite").value,
-      prioridad:$("prioridadTarea").value,
-      categoria:$("categoriaTarea").value,
-      completada:false,
-      checklist:checklistTemporal.map(x=>({...x})),
-      notas:$("notasTarea").value.trim(),
-      creada:serverTimestamp(),
-      creadoPor:auth.currentUser?.email||""
-    });
-
-    $("modalTarea").classList.remove("visible");
-
-  }catch(e){
-    alert("No se pudo guardar la tarea.");
-    console.error(e);
-  }finally{
-    $("guardarTarea").disabled=false;
-    $("guardarTarea").textContent="Guardar";
-  }
+try{
+await addDoc(collection(db,"tareas"),{
+titulo,
+responsables,
+fechaLimite:$("fechaLimite").value,
+prioridad:$("prioridadTarea").value,
+categoria:$("categoriaTarea").value,
+completada:false,
+checklist:checklistTemporal.map(x=>({...x})),
+notas:$("notasTarea").value.trim(),
+creada:serverTimestamp(),
+creadoPor:auth.currentUser?.email||""
+});
+$("modalTarea").classList.remove("visible");
+}catch(e){
+alert("No se pudo guardar la tarea.");
+console.error(e);
+}finally{
+$("guardarTarea").disabled=false;
+$("guardarTarea").textContent="Guardar";
+}
 };
 
 </script>
