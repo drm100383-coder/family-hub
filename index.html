@@ -135,7 +135,6 @@ main{max-width:700px;margin:auto;padding:18px}
 }
 .tituloPeriodo{
   flex:1;text-align:center;font-weight:900;
-  text-transform:capitalize
 }
 .hoyBtn{
   border:0;background:#e9eef8;color:#2563eb;
@@ -189,7 +188,9 @@ main{max-width:700px;margin:auto;padding:18px}
   cursor:pointer;overflow:hidden
 }
 .celdaDia:hover{background:#f8fafc}
-.celdaDia.otroMes{opacity:.28}
+.celdaVacia{
+  min-height:70px;
+}
 .celdaDia.seleccionado{background:#eff6ff}
 .numMes{
   width:27px;height:27px;display:flex;
@@ -326,7 +327,7 @@ nav{
   main{padding:15px}
   .bienvenida h1,.cabPantalla h1{font-size:25px}
   .tarjeta{padding:16px}
-  .celdaDia{min-height:62px;padding:4px 2px}
+  .celdaDia,.celdaVacia{min-height:62px;padding:4px 2px}
 }
 </style>
 </head>
@@ -667,7 +668,7 @@ function fechaLocal(d=new Date()){
 
 function desdeFechaLocal(s){
   const [y,m,d]=s.split("-").map(Number);
-  return new Date(y,m-1,d);
+  return new Date(y,m-1,d,12);
 }
 
 function escapar(t=""){
@@ -676,11 +677,25 @@ function escapar(t=""){
   return d.innerHTML;
 }
 
+function capitalizarPrimera(texto=""){
+  return texto.charAt(0).toUpperCase()+texto.slice(1);
+}
+
 function fechaBonita(fecha){
   if(!fecha)return "";
-  return new Intl.DateTimeFormat("es-ES",{
-    weekday:"long",day:"numeric",month:"long"
-  }).format(desdeFechaLocal(fecha));
+  return capitalizarPrimera(
+    new Intl.DateTimeFormat("es-ES",{
+      weekday:"long",day:"numeric",month:"long"
+    }).format(desdeFechaLocal(fecha))
+  );
+}
+
+function tituloMes(fecha){
+  const mes=new Intl.DateTimeFormat("es-ES",{
+    month:"long"
+  }).format(fecha);
+
+  return `${capitalizarPrimera(mes)} de ${fecha.getFullYear()}`;
 }
 
 function mismoDia(a,b){
@@ -703,9 +718,11 @@ function sumarDias(fecha,n){
 }
 
 $("fechaHoy").textContent=
-  new Intl.DateTimeFormat("es-ES",{
-    weekday:"long",day:"numeric",month:"long",year:"numeric"
-  }).format(new Date());
+  capitalizarPrimera(
+    new Intl.DateTimeFormat("es-ES",{
+      weekday:"long",day:"numeric",month:"long",year:"numeric"
+    }).format(new Date())
+  );
 
 $("entrar").onclick=async()=>{
   $("errorLogin").textContent="";
@@ -1058,9 +1075,11 @@ function renderDia(){
   const fecha=fechaLocal(fechaAgenda);
 
   $("tituloPeriodo").textContent=
-    new Intl.DateTimeFormat("es-ES",{
-      weekday:"long",day:"numeric",month:"long"
-    }).format(fechaAgenda);
+    capitalizarPrimera(
+      new Intl.DateTimeFormat("es-ES",{
+        weekday:"long",day:"numeric",month:"long"
+      }).format(fechaAgenda)
+    );
 
   const lista=eventosFiltrados().filter(e=>e.fecha===fecha);
 
@@ -1134,20 +1153,30 @@ function renderMes(){
   const año=fechaAgenda.getFullYear();
   const mes=fechaAgenda.getMonth();
 
-  $("tituloPeriodo").textContent=
-    new Intl.DateTimeFormat("es-ES",{
-      month:"long",year:"numeric"
-    }).format(fechaAgenda);
+  $("tituloPeriodo").textContent=tituloMes(fechaAgenda);
 
-  const primero=new Date(año,mes,1,12);
-  let desplazamiento=primero.getDay()-1;
-  if(desplazamiento<0)desplazamiento=6;
+  const primerDia=new Date(año,mes,1,12);
+  const ultimoDiaMes=new Date(año,mes+1,0,12);
+  const diasDelMes=ultimoDiaMes.getDate();
 
-  const inicio=sumarDias(primero,-desplazamiento);
+  let huecosIniciales=primerDia.getDay()-1;
+  if(huecosIniciales<0)huecosIniciales=6;
+
+  const totalNecesario=huecosIniciales+diasDelMes;
+  const numeroSemanas=Math.ceil(totalNecesario/7);
+  const totalCeldas=numeroSemanas*7;
+  const huecosFinales=totalCeldas-totalNecesario;
+
   const filtrados=eventosFiltrados();
 
-  const celdas=Array.from({length:42},(_,i)=>{
-    const d=sumarDias(inicio,i);
+  let celdas="";
+
+  for(let i=0;i<huecosIniciales;i++){
+    celdas+='<div class="celdaVacia"></div>';
+  }
+
+  for(let dia=1;dia<=diasDelMes;dia++){
+    const d=new Date(año,mes,dia,12);
     const fecha=fechaLocal(d);
     const lista=filtrados.filter(e=>e.fecha===fecha);
 
@@ -1156,14 +1185,13 @@ function renderMes(){
        style="background:${colorSimple(e.participantes||[])}"></span>`
     ).join("");
 
-    return `
+    celdas+=`
     <div class="celdaDia
-      ${d.getMonth()!==mes?"otroMes":""}
       ${mismoDia(d,new Date())?"hoy":""}
       ${mismoDia(d,fechaAgenda)?"seleccionado":""}"
       data-fecha-mes="${fecha}">
 
-      <div class="numMes">${d.getDate()}</div>
+      <div class="numMes">${dia}</div>
 
       <div class="puntosMes">${puntos}</div>
 
@@ -1171,7 +1199,11 @@ function renderMes(){
         ?`<div class="masMes">+${lista.length-4}</div>`
         :""}
     </div>`;
-  }).join("");
+  }
+
+  for(let i=0;i<huecosFinales;i++){
+    celdas+='<div class="celdaVacia"></div>';
+  }
 
   const fechaSeleccionada=fechaLocal(fechaAgenda);
   const eventosSeleccionados=
@@ -1196,14 +1228,7 @@ function renderMes(){
 
   $("vistaMes").querySelectorAll("[data-fecha-mes]").forEach(el=>{
     el.onclick=()=>{
-      const nueva=desdeFechaLocal(el.dataset.fechaMes);
-
-      if(nueva.getMonth()!==fechaAgenda.getMonth()){
-        fechaAgenda=nueva;
-      }else{
-        fechaAgenda=nueva;
-      }
-
+      fechaAgenda=desdeFechaLocal(el.dataset.fechaMes);
       renderMes();
     };
   });
