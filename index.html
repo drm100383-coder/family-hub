@@ -22,6 +22,7 @@ body{
 }
 button,input,select,textarea{font:inherit}
 button{cursor:pointer}
+
 header{
   position:sticky;top:0;z-index:20;background:rgba(245,247,251,.96);
   backdrop-filter:blur(12px);padding:14px 18px 10px;
@@ -44,12 +45,14 @@ header{
   border:0;background:#e9eef8;color:#344054;
   border-radius:10px;padding:9px 11px;font-size:12px;font-weight:800
 }
+
 main{max-width:700px;margin:auto;padding:18px}
 .pantalla{display:none}
 .pantalla.activa{display:block}
 .bienvenida{margin-bottom:18px}
 .bienvenida h1,.cabPantalla h1{margin:0;font-size:28px}
 .bienvenida p{margin:6px 0 0;color:#667085}
+
 .resumen{
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:9px;margin-bottom:20px
@@ -63,11 +66,13 @@ main{max-width:700px;margin:auto;padding:18px}
   display:block;margin-top:3px;color:#667085;
   font-size:10px;font-weight:800;text-transform:uppercase
 }
+
 .tarjeta{
   background:white;border-radius:18px;padding:18px;
   margin-bottom:14px;box-shadow:0 4px 16px rgba(15,23,42,.05)
 }
 .tarjeta h2{font-size:18px;margin:0 0 14px}
+
 .evento,.tarea{
   padding:13px 0;border-bottom:1px solid #eaecf0;
   display:flex;gap:11px;align-items:flex-start
@@ -88,6 +93,7 @@ main{max-width:700px;margin:auto;padding:18px}
 .vacio{
   color:#98a2b3;text-align:center;padding:22px 5px;font-size:14px
 }
+
 .filtros{
   display:flex;gap:7px;overflow:auto;padding-bottom:5px;margin-bottom:14px
 }
@@ -97,14 +103,112 @@ main{max-width:700px;margin:auto;padding:18px}
   font-weight:800;color:#475467
 }
 .filtro.activo{background:#172033;color:white;border-color:#172033}
-.fecha-agenda,.cabPantalla{
+
+.cabAgenda,.cabPantalla{
   display:flex;align-items:center;justify-content:space-between;
   margin-bottom:14px;gap:10px
 }
-.fecha-agenda h1{font-size:25px;margin:0}
-.fecha-agenda input{
-  border:1px solid #d0d5dd;border-radius:10px;padding:8px;background:white
+.cabAgenda h1{font-size:25px;margin:0}
+
+.vistas{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  background:#e9eef8;border-radius:12px;padding:4px;
+  margin-bottom:12px
 }
+.vistaBtn{
+  border:0;background:transparent;padding:9px;
+  border-radius:9px;color:#667085;font-size:13px;font-weight:900
+}
+.vistaBtn.activo{
+  background:white;color:#2563eb;
+  box-shadow:0 2px 8px rgba(15,23,42,.08)
+}
+
+.navegadorFecha{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;gap:8px
+}
+.navFecha{
+  width:38px;height:38px;border:0;border-radius:11px;
+  background:white;color:#344054;font-size:20px;font-weight:900;
+  box-shadow:0 2px 8px rgba(15,23,42,.05)
+}
+.tituloPeriodo{
+  flex:1;text-align:center;font-weight:900;
+  text-transform:capitalize
+}
+.hoyBtn{
+  border:0;background:#e9eef8;color:#2563eb;
+  padding:9px 11px;border-radius:10px;font-size:12px;font-weight:900
+}
+
+.semana{
+  display:flex;flex-direction:column;gap:10px
+}
+.diaSemana{
+  background:white;border-radius:16px;padding:14px;
+  box-shadow:0 3px 12px rgba(15,23,42,.04)
+}
+.diaSemana.clickeable{cursor:pointer}
+.diaSemana.hoy{outline:2px solid #2563eb}
+.cabDiaSemana{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:5px
+}
+.nombreDia{font-weight:900;text-transform:capitalize}
+.numeroDiaSemana{
+  width:31px;height:31px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900
+}
+.diaSemana.hoy .numeroDiaSemana{
+  background:#2563eb;color:white
+}
+.miniEvento{
+  display:flex;align-items:center;gap:7px;
+  padding:7px 0;font-size:13px
+}
+.puntoEvento{
+  width:9px;height:9px;border-radius:50%;flex:none
+}
+.sinEventosMini{font-size:12px;color:#98a2b3;padding-top:4px}
+
+.calendario{
+  background:white;border-radius:18px;padding:12px;
+  box-shadow:0 4px 16px rgba(15,23,42,.05)
+}
+.cabCalendario,.rejillaMes{
+  display:grid;grid-template-columns:repeat(7,1fr)
+}
+.cabCalendario div{
+  text-align:center;font-size:11px;font-weight:900;
+  color:#667085;padding:7px 0
+}
+.celdaDia{
+  min-height:70px;padding:5px 3px;border-radius:10px;
+  cursor:pointer;overflow:hidden
+}
+.celdaDia:hover{background:#f8fafc}
+.celdaDia.otroMes{opacity:.28}
+.celdaDia.seleccionado{background:#eff6ff}
+.numMes{
+  width:27px;height:27px;display:flex;
+  align-items:center;justify-content:center;
+  border-radius:50%;font-size:13px;font-weight:800
+}
+.celdaDia.hoy .numMes{background:#2563eb;color:white}
+.puntosMes{
+  display:flex;gap:2px;justify-content:center;
+  flex-wrap:wrap;margin-top:4px
+}
+.puntoMes{
+  width:6px;height:6px;border-radius:50%
+}
+.masMes{
+  text-align:center;font-size:9px;color:#667085;margin-top:2px
+}
+.detalleMes{margin-top:14px}
+
 .fab{
   position:fixed;right:20px;bottom:calc(88px + env(safe-area-inset-bottom));
   width:58px;height:58px;border-radius:50%;border:0;
@@ -122,6 +226,7 @@ nav{
   font-size:12px;font-weight:800
 }
 .navbtn.activo{color:#2563eb}
+
 .modal-fondo{
   display:none;position:fixed;inset:0;z-index:50;
   background:rgba(15,23,42,.45);padding:20px;
@@ -159,6 +264,7 @@ nav{
 }
 .cancelar{background:#eef2f6;color:#344054}
 .guardar{background:#2563eb;color:white}
+
 .login{
   min-height:75vh;display:flex;align-items:center;justify-content:center
 }
@@ -176,6 +282,7 @@ nav{
   border-radius:12px;background:#2563eb;color:white;font-weight:900
 }
 .error{color:#b42318;margin-top:12px;font-size:13px}
+
 .estado-tareas{
   display:flex;gap:7px;margin-bottom:14px;overflow:auto
 }
@@ -186,12 +293,8 @@ nav{
 .progreso span{
   display:block;height:100%;background:#2563eb;border-radius:10px
 }
-.checklistVista{
-  margin-top:9px;font-size:12px;color:#475467
-}
-.checkItem{
-  display:flex;align-items:center;gap:8px;margin-top:6px
-}
+.checklistVista{margin-top:9px;font-size:12px;color:#475467}
+.checkItem{display:flex;align-items:center;gap:8px;margin-top:6px}
 .checkItem.hecho{text-decoration:line-through;color:#98a2b3}
 .completarTarea{
   width:23px;height:23px;min-width:23px;border-radius:50%;
@@ -204,9 +307,7 @@ nav{
   text-decoration:line-through;color:#98a2b3
 }
 .prioridadAlta{color:#b42318;font-weight:800}
-.nuevoCheck{
-  display:flex;gap:8px;margin-bottom:8px
-}
+.nuevoCheck{display:flex;gap:8px;margin-bottom:8px}
 .nuevoCheck input{flex:1}
 .nuevoCheck button{
   border:0;border-radius:10px;background:#eef2f6;
@@ -220,10 +321,12 @@ nav{
 .itemEditor button{
   border:0;background:transparent;color:#b42318;font-weight:900
 }
+
 @media(max-width:430px){
   main{padding:15px}
   .bienvenida h1,.cabPantalla h1{font-size:25px}
   .tarjeta{padding:16px}
+  .celdaDia{min-height:62px;padding:4px 2px}
 }
 </style>
 </head>
@@ -296,17 +399,30 @@ nav{
 </section>
 
 <section id="agenda" class="pantalla">
-  <div class="fecha-agenda">
+
+  <div class="cabAgenda">
     <h1>Agenda</h1>
-    <input id="fechaAgenda" type="date">
+    <button id="irHoy" class="hoyBtn">Hoy</button>
+  </div>
+
+  <div class="vistas">
+    <button class="vistaBtn activo" data-vista="dia">Día</button>
+    <button class="vistaBtn" data-vista="semana">Semana</button>
+    <button class="vistaBtn" data-vista="mes">Mes</button>
+  </div>
+
+  <div class="navegadorFecha">
+    <button id="anterior" class="navFecha">‹</button>
+    <div id="tituloPeriodo" class="tituloPeriodo"></div>
+    <button id="siguiente" class="navFecha">›</button>
   </div>
 
   <div id="filtrosAgenda" class="filtros"></div>
 
-  <div class="tarjeta">
-    <h2 id="tituloDia"></h2>
-    <div id="listaAgenda"></div>
-  </div>
+  <div id="vistaDia"></div>
+  <div id="vistaSemana" style="display:none"></div>
+  <div id="vistaMes" style="display:none"></div>
+
 </section>
 
 <section id="tareas" class="pantalla">
@@ -390,6 +506,7 @@ nav{
           <option>Otro</option>
         </select>
       </div>
+
       <div class="campo">
         <label>Prioridad</label>
         <select id="prioridad">
@@ -488,8 +605,7 @@ nav{
 
 <script type="module">
 
-import { initializeApp } from
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
 
 import {
   getAuth,
@@ -498,8 +614,7 @@ import {
   onAuthStateChanged,
   setPersistence,
   browserLocalPersistence
-} from
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-auth.js";
 
 import {
   getFirestore,
@@ -511,8 +626,7 @@ import {
   doc,
   serverTimestamp,
   onSnapshot
-} from
-"https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
 const firebaseConfig={
   apiKey:"AIzaSyAUFrFko2y5TYmC2XSXYfnJXwQ-Gv0GgZw",
@@ -537,6 +651,8 @@ let filtroTareas="Todos";
 let estadoTareas="pendientes";
 let checklistTemporal=[];
 let pantallaActual="inicio";
+let vistaAgenda="dia";
+let fechaAgenda=new Date();
 let unsubscribeEventos=null;
 let unsubscribeTareas=null;
 
@@ -549,6 +665,11 @@ function fechaLocal(d=new Date()){
   return `${y}-${m}-${dia}`;
 }
 
+function desdeFechaLocal(s){
+  const [y,m,d]=s.split("-").map(Number);
+  return new Date(y,m-1,d);
+}
+
 function escapar(t=""){
   const d=document.createElement("div");
   d.textContent=String(t);
@@ -557,18 +678,34 @@ function escapar(t=""){
 
 function fechaBonita(fecha){
   if(!fecha)return "";
-  const [y,m,d]=fecha.split("-").map(Number);
   return new Intl.DateTimeFormat("es-ES",{
     weekday:"long",day:"numeric",month:"long"
-  }).format(new Date(y,m-1,d));
+  }).format(desdeFechaLocal(fecha));
+}
+
+function mismoDia(a,b){
+  return fechaLocal(a)===fechaLocal(b);
+}
+
+function lunesDeSemana(fecha){
+  const d=new Date(fecha);
+  const dia=d.getDay();
+  const diferencia=dia===0?-6:1-dia;
+  d.setDate(d.getDate()+diferencia);
+  d.setHours(12,0,0,0);
+  return d;
+}
+
+function sumarDias(fecha,n){
+  const d=new Date(fecha);
+  d.setDate(d.getDate()+n);
+  return d;
 }
 
 $("fechaHoy").textContent=
   new Intl.DateTimeFormat("es-ES",{
     weekday:"long",day:"numeric",month:"long",year:"numeric"
   }).format(new Date());
-
-$("fechaAgenda").value=fechaLocal();
 
 $("entrar").onclick=async()=>{
   $("errorLogin").textContent="";
@@ -715,9 +852,22 @@ function colorPersonas(nombres=[]){
     .filter(Boolean);
 
   if(colores.length>1)
-    return `linear-gradient(${colores.join(",")})`;
+    return `linear-gradient(90deg,${colores.join(",")})`;
 
   return colores[0]||"#43A047";
+}
+
+function colorSimple(nombres=[]){
+  if(!nombres.length)return "#43A047";
+  return familia.find(x=>x.nombre===nombres[0])?.color||"#2563eb";
+}
+
+function eventosFiltrados(){
+  if(filtroAgenda==="Todos")return eventos;
+
+  return eventos.filter(
+    e=>(e.participantes||[]).includes(filtroAgenda)
+  );
 }
 
 function htmlEvento(e){
@@ -891,19 +1041,172 @@ function renderInicio(){
 }
 
 function renderAgenda(){
-  const fecha=$("fechaAgenda").value;
+  $("vistaDia").style.display=vistaAgenda==="dia"?"block":"none";
+  $("vistaSemana").style.display=vistaAgenda==="semana"?"block":"none";
+  $("vistaMes").style.display=vistaAgenda==="mes"?"block":"none";
 
-  $("tituloDia").textContent=fechaBonita(fecha);
+  document.querySelectorAll("[data-vista]").forEach(b=>{
+    b.classList.toggle("activo",b.dataset.vista===vistaAgenda);
+  });
 
-  let lista=eventos.filter(e=>e.fecha===fecha);
+  if(vistaAgenda==="dia")renderDia();
+  if(vistaAgenda==="semana")renderSemana();
+  if(vistaAgenda==="mes")renderMes();
+}
 
-  if(filtroAgenda!=="Todos"){
-    lista=lista.filter(
-      e=>(e.participantes||[]).includes(filtroAgenda)
-    );
-  }
+function renderDia(){
+  const fecha=fechaLocal(fechaAgenda);
 
-  insertarEventos($("listaAgenda"),lista);
+  $("tituloPeriodo").textContent=
+    new Intl.DateTimeFormat("es-ES",{
+      weekday:"long",day:"numeric",month:"long"
+    }).format(fechaAgenda);
+
+  const lista=eventosFiltrados().filter(e=>e.fecha===fecha);
+
+  $("vistaDia").innerHTML=`
+    <div class="tarjeta">
+      <h2>${escapar(fechaBonita(fecha))}</h2>
+      <div id="listaDia"></div>
+    </div>`;
+
+  insertarEventos($("listaDia"),lista);
+}
+
+function renderSemana(){
+  const lunes=lunesDeSemana(fechaAgenda);
+  const domingo=sumarDias(lunes,6);
+
+  const f1=new Intl.DateTimeFormat("es-ES",{
+    day:"numeric",month:"short"
+  }).format(lunes);
+
+  const f2=new Intl.DateTimeFormat("es-ES",{
+    day:"numeric",month:"short"
+  }).format(domingo);
+
+  $("tituloPeriodo").textContent=`${f1} – ${f2}`;
+
+  const filtrados=eventosFiltrados();
+
+  $("vistaSemana").innerHTML=
+    `<div class="semana">
+      ${Array.from({length:7},(_,i)=>{
+        const d=sumarDias(lunes,i);
+        const fecha=fechaLocal(d);
+        const lista=filtrados.filter(e=>e.fecha===fecha);
+
+        const nombre=new Intl.DateTimeFormat("es-ES",{
+          weekday:"long"
+        }).format(d);
+
+        return `
+        <div class="diaSemana clickeable ${mismoDia(d,new Date())?"hoy":""}"
+             data-fecha-semana="${fecha}">
+          <div class="cabDiaSemana">
+            <div class="nombreDia">${escapar(nombre)}</div>
+            <div class="numeroDiaSemana">${d.getDate()}</div>
+          </div>
+
+          ${lista.length
+            ?lista.map(e=>`
+              <div class="miniEvento">
+                <span class="puntoEvento"
+                  style="background:${colorSimple(e.participantes||[])}"></span>
+                <strong>${escapar(e.horaInicio||"")}</strong>
+                <span>${escapar(e.actividad||"Sin título")}</span>
+              </div>`).join("")
+            :'<div class="sinEventosMini">Sin eventos</div>'}
+        </div>`;
+      }).join("")}
+    </div>`;
+
+  $("vistaSemana").querySelectorAll("[data-fecha-semana]").forEach(el=>{
+    el.onclick=()=>{
+      fechaAgenda=desdeFechaLocal(el.dataset.fechaSemana);
+      vistaAgenda="dia";
+      renderAgenda();
+    };
+  });
+}
+
+function renderMes(){
+  const año=fechaAgenda.getFullYear();
+  const mes=fechaAgenda.getMonth();
+
+  $("tituloPeriodo").textContent=
+    new Intl.DateTimeFormat("es-ES",{
+      month:"long",year:"numeric"
+    }).format(fechaAgenda);
+
+  const primero=new Date(año,mes,1,12);
+  let desplazamiento=primero.getDay()-1;
+  if(desplazamiento<0)desplazamiento=6;
+
+  const inicio=sumarDias(primero,-desplazamiento);
+  const filtrados=eventosFiltrados();
+
+  const celdas=Array.from({length:42},(_,i)=>{
+    const d=sumarDias(inicio,i);
+    const fecha=fechaLocal(d);
+    const lista=filtrados.filter(e=>e.fecha===fecha);
+
+    const puntos=lista.slice(0,4).map(e=>
+      `<span class="puntoMes"
+       style="background:${colorSimple(e.participantes||[])}"></span>`
+    ).join("");
+
+    return `
+    <div class="celdaDia
+      ${d.getMonth()!==mes?"otroMes":""}
+      ${mismoDia(d,new Date())?"hoy":""}
+      ${mismoDia(d,fechaAgenda)?"seleccionado":""}"
+      data-fecha-mes="${fecha}">
+
+      <div class="numMes">${d.getDate()}</div>
+
+      <div class="puntosMes">${puntos}</div>
+
+      ${lista.length>4
+        ?`<div class="masMes">+${lista.length-4}</div>`
+        :""}
+    </div>`;
+  }).join("");
+
+  const fechaSeleccionada=fechaLocal(fechaAgenda);
+  const eventosSeleccionados=
+    filtrados.filter(e=>e.fecha===fechaSeleccionada);
+
+  $("vistaMes").innerHTML=`
+    <div class="calendario">
+      <div class="cabCalendario">
+        <div>L</div><div>M</div><div>X</div><div>J</div>
+        <div>V</div><div>S</div><div>D</div>
+      </div>
+
+      <div class="rejillaMes">${celdas}</div>
+    </div>
+
+    <div class="tarjeta detalleMes">
+      <h2>${escapar(fechaBonita(fechaSeleccionada))}</h2>
+      <div id="eventosDiaMes"></div>
+    </div>`;
+
+  insertarEventos($("eventosDiaMes"),eventosSeleccionados);
+
+  $("vistaMes").querySelectorAll("[data-fecha-mes]").forEach(el=>{
+    el.onclick=()=>{
+      const nueva=desdeFechaLocal(el.dataset.fechaMes);
+
+      if(nueva.getMonth()!==fechaAgenda.getMonth()){
+        fechaAgenda=nueva;
+      }else{
+        fechaAgenda=nueva;
+      }
+
+      renderMes();
+    };
+  });
 }
 
 function renderTareas(){
@@ -926,7 +1229,49 @@ function renderTareas(){
   insertarTareas($("listaTareas"),lista);
 }
 
-$("fechaAgenda").onchange=renderAgenda;
+document.querySelectorAll("[data-vista]").forEach(b=>{
+  b.onclick=()=>{
+    vistaAgenda=b.dataset.vista;
+    renderAgenda();
+  };
+});
+
+$("anterior").onclick=()=>{
+  if(vistaAgenda==="dia"){
+    fechaAgenda=sumarDias(fechaAgenda,-1);
+  }else if(vistaAgenda==="semana"){
+    fechaAgenda=sumarDias(fechaAgenda,-7);
+  }else{
+    fechaAgenda=new Date(
+      fechaAgenda.getFullYear(),
+      fechaAgenda.getMonth()-1,
+      1,12
+    );
+  }
+
+  renderAgenda();
+};
+
+$("siguiente").onclick=()=>{
+  if(vistaAgenda==="dia"){
+    fechaAgenda=sumarDias(fechaAgenda,1);
+  }else if(vistaAgenda==="semana"){
+    fechaAgenda=sumarDias(fechaAgenda,7);
+  }else{
+    fechaAgenda=new Date(
+      fechaAgenda.getFullYear(),
+      fechaAgenda.getMonth()+1,
+      1,12
+    );
+  }
+
+  renderAgenda();
+};
+
+$("irHoy").onclick=()=>{
+  fechaAgenda=new Date();
+  renderAgenda();
+};
 
 document.querySelectorAll(".navbtn[data-pantalla]").forEach(b=>{
   b.onclick=()=>{
@@ -940,6 +1285,8 @@ document.querySelectorAll(".navbtn[data-pantalla]").forEach(b=>{
 
     $(pantallaActual).classList.add("activa");
     b.classList.add("activo");
+
+    if(pantallaActual==="agenda")renderAgenda();
   };
 });
 
@@ -964,7 +1311,7 @@ $("fab").onclick=()=>{
 };
 
 function abrirEvento(){
-  $("fechaEvento").value=$("fechaAgenda").value||fechaLocal();
+  $("fechaEvento").value=fechaLocal(fechaAgenda);
   $("actividad").value="";
   $("horaInicio").value="";
   $("horaFin").value="";
