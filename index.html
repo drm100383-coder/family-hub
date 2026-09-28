@@ -973,8 +973,12 @@ min-width:0
 
 .masGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .masOpcion{border:0;border-radius:16px;background:white;padding:18px;text-align:left;box-shadow:0 4px 16px rgba(15,23,42,.05)}
-.masIcono{font-size:24px;margin-bottom:8px}.masTitulo{font-weight:900}.masTexto{font-size:11px;color:#667085;margin-top:4px}
-.pendientesAlerta{color:#b42318!important}.pendientesAlertaDato{box-shadow:0 0 0 2px #fecaca,0 4px 16px rgba(15,23,42,.05)!important}
+.masIcono{font-size:24px;margin-bottom:8px}
+.masTitulo{font-weight:900}
+.masTexto{font-size:11px;color:#667085;margin-top:4px}
+
+.pendientesAlerta{color:#b42318!important}
+.pendientesAlertaDato{box-shadow:0 0 0 2px #fecaca,0 4px 16px rgba(15,23,42,.05)!important}
 .guardar:disabled{opacity:.55;cursor:default}
 
 .tarjetaSemanaVacia{
@@ -1036,6 +1040,34 @@ main{padding:15px;padding-bottom:55px}
 .accionesFicha{grid-template-columns:1fr 1fr}
 .duplicarFicha{grid-column:1/-1}
 }
+  /* ===== COMPRAS ===== */
+.comprasCab{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.comprasContador{background:#ecfdf3;color:#15803d;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:900;white-space:nowrap}
+.compraNueva{display:grid;grid-template-columns:minmax(0,1fr) 88px 48px;gap:8px;align-items:center;margin-bottom:10px}
+.compraNueva input,.compraOpciones select,.compraOpciones input{width:100%;border:1px solid #d0d5dd;border-radius:11px;padding:11px;background:white;color:#172033}
+.compraAdd{height:44px;border:0;border-radius:12px;background:#16a34a;color:white;font-size:24px;font-weight:500}
+.compraOpciones{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.compraGrupo{margin-top:16px}
+.compraGrupoTitulo{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:12px;font-weight:900;color:#475467;margin-bottom:5px}
+.compraItem{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #eaecf0;min-width:0}
+.compraItem:last-child{border-bottom:0}
+.compraCheck{width:24px;height:24px;min-width:24px;border-radius:50%;border:2px solid #98a2b3;background:white;padding:0}
+.compraCheck.hecho{background:#16a34a;border-color:#16a34a;color:white}
+.compraTexto{flex:1;min-width:0}
+.compraNombre{font-weight:850;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.compraMeta{font-size:11px;color:#667085;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.compraCantidad{font-size:11px;font-weight:900;background:#f2f4f7;border-radius:999px;padding:4px 7px;white-space:nowrap}
+.compraBorrar{border:0;background:transparent;color:#b42318;font-size:18px;padding:5px}
+.vaciarComprados{border:0;background:#fef2f2;color:#b42318;border-radius:9px;padding:6px 9px;font-size:10px;font-weight:900}
+.habituales{display:flex;gap:7px;overflow:auto;padding:3px 0 8px}
+.habitual{border:1px solid #d0d5dd;background:white;border-radius:999px;padding:8px 11px;font-size:11px;font-weight:800;white-space:nowrap}
+.historialCompra{font-size:10px;color:#98a2b3;margin-top:3px}
+.masBadge{display:inline-flex;min-width:20px;height:20px;padding:0 6px;border-radius:999px;align-items:center;justify-content:center;background:#16a34a;color:white;font-size:10px;font-weight:900;margin-left:5px}
+
+@media(max-width:430px){
+.compraNueva{grid-template-columns:minmax(0,1fr) 74px 44px}
+.compraOpciones{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 
@@ -1056,14 +1088,18 @@ main{padding:15px;padding-bottom:55px}
 
 <header>
 <div class="cabecera">
+
 <div class="marca">
 <div class="logo">D&amp;N</div>
+
 <div>
 <div class="titulo">Family Hub</div>
 <div id="usuario" class="sub"></div>
 </div>
 </div>
+
 <button id="salir" class="salir">Salir</button>
+
 </div>
 </header>
 
@@ -1077,6 +1113,7 @@ main{padding:15px;padding-bottom:55px}
 </div>
 
 <div class="resumen">
+
 <div class="dato">
 <span id="nHoy" class="numero">0</span>
 <span class="etiqueta">Cosas hoy</span>
@@ -1091,6 +1128,7 @@ main{padding:15px;padding-bottom:55px}
 <span id="nProximo" class="numero">0</span>
 <span id="etiquetaProximo" class="etiqueta proximoDato">Próximo</span>
 </div>
+
 </div>
 
 <div id="tarjetaHoy" class="tarjeta">
@@ -1138,6 +1176,7 @@ main{padding:15px;padding-bottom:55px}
 
 <div id="contadorPeriodo" class="contadorPeriodo"></div>
 <div id="filtrosAgenda" class="filtros"></div>
+
 <div id="vistaDia"></div>
 <div id="vistaSemana" style="display:none"></div>
 <div id="vistaMes" style="display:none"></div>
@@ -1164,41 +1203,215 @@ main{padding:15px;padding-bottom:55px}
 
 </section>
 
-<section id="mas" class="pantalla">
-<div class="cabPantalla"><h1>Más</h1></div>
-<div class="masGrid">
-<button class="masOpcion" id="masFamilia"><div class="masIcono">👥</div><div class="masTitulo">Familia</div><div class="masTexto">Miembros y colores de Family Hub</div></button>
-<button class="masOpcion" id="masAjustes"><div class="masIcono">⚙️</div><div class="masTitulo">Ajustes</div><div class="masTexto">Preferencias de la aplicación</div></button>
+<section id="compras" class="pantalla">
+
+<div class="comprasCab">
+
+<div class="cabPantalla" style="margin:0">
+<h1>Compras</h1>
 </div>
+
+<div id="contadorCompras" class="comprasContador">
+0 pendientes
+</div>
+
+</div>
+
+<div class="tarjeta">
+
+<div class="compraNueva">
+
+<input
+id="productoCompra"
+type="text"
+placeholder="Añadir producto…"
+autocomplete="off">
+
+<input
+id="cantidadCompra"
+type="text"
+placeholder="Cantidad">
+
+<button
+id="anadirCompra"
+class="compraAdd"
+aria-label="Añadir producto">
++
+</button>
+
+</div>
+
+<div class="compraOpciones">
+
+<select id="categoriaCompra">
+<option>Alimentación</option>
+<option>Limpieza</option>
+<option>Higiene</option>
+<option>Farmacia</option>
+<option>Casa</option>
+<option>Otros</option>
+</select>
+
+<select id="compradorCompra">
+<option value="">Sin asignar</option>
+</select>
+
+</div>
+
+<div id="habitualesWrap" style="display:none">
+
+<div class="compraGrupoTitulo">
+<span>Habituales</span>
+<span>Un toque para añadir</span>
+</div>
+
+<div id="habitualesCompras" class="habituales"></div>
+
+</div>
+
+<div id="listaCompras"></div>
+
+</div>
+
+</section>
+
+<section id="mas" class="pantalla">
+
+<div class="cabPantalla">
+<h1>Más</h1>
+</div>
+
+<div class="masGrid">
+
+<button class="masOpcion" id="masCompras">
+
+<div class="masIcono">🛒</div>
+
+<div class="masTitulo">
+Compras
+<span
+id="badgeCompras"
+class="masBadge"
+style="display:none">
+0
+</span>
+</div>
+
+<div class="masTexto">
+Lista compartida de la compra
+</div>
+
+</button>
+
+<button class="masOpcion" id="masFamilia">
+
+<div class="masIcono">👥</div>
+
+<div class="masTitulo">
+Familia
+</div>
+
+<div class="masTexto">
+Miembros y colores de Family Hub
+</div>
+
+</button>
+
+<button class="masOpcion" id="masAjustes">
+
+<div class="masIcono">⚙️</div>
+
+<div class="masTitulo">
+Ajustes
+</div>
+
+<div class="masTexto">
+Preferencias de la aplicación
+</div>
+
+</button>
+
+</div>
+
 </section>
 
 </main>
 
 <nav>
-<button class="navbtn activo" data-pantalla="inicio">Inicio</button>
-<button class="navbtn" data-pantalla="agenda">Agenda</button>
-<button id="fab" class="fab" aria-label="Añadir">+</button>
-<button class="navbtn" data-pantalla="tareas">Tareas</button>
-<button class="navbtn" data-pantalla="mas">Más</button>
+
+<button
+class="navbtn activo"
+data-pantalla="inicio">
+Inicio
+</button>
+
+<button
+class="navbtn"
+data-pantalla="agenda">
+Agenda
+</button>
+
+<button
+id="fab"
+class="fab"
+aria-label="Añadir">
++
+</button>
+
+<button
+class="navbtn"
+data-pantalla="tareas">
+Tareas
+</button>
+
+<button
+class="navbtn"
+data-pantalla="mas">
+Más
+</button>
+
 </nav>
 
 </div>
 
 <div id="modalRapido" class="modal-fondo">
+
 <div class="modal">
+
 <h2>¿Qué quieres añadir?</h2>
+
 <div class="accionesRapidas">
-<button id="rapidoEvento" class="accionRapida accionEvento">Nuevo evento</button>
-<button id="rapidoTarea" class="accionRapida accionTarea">Nueva tarea</button>
+
+<button
+id="rapidoEvento"
+class="accionRapida accionEvento">
+Nuevo evento
+</button>
+
+<button
+id="rapidoTarea"
+class="accionRapida accionTarea">
+Nueva tarea
+</button>
+
 </div>
-<button id="cerrarRapido" class="cerrarFicha">Cancelar</button>
+
+<button
+id="cerrarRapido"
+class="cerrarFicha">
+Cancelar
+</button>
+
 </div>
 </div>
 
 <div id="modalEvento" class="modal-fondo">
+
 <div class="modal">
 
-<h2 id="tituloModalEvento">Nuevo evento</h2>
+<h2 id="tituloModalEvento">
+Nuevo evento
+</h2>
 
 <div class="campo">
 <label>Actividad</label>
@@ -1206,29 +1419,38 @@ main{padding:15px;padding-bottom:55px}
 </div>
 
 <div class="dos">
+
 <div class="campo">
 <label>Fecha de inicio</label>
 <input id="fechaEvento" type="date">
 </div>
+
 <div class="campo">
 <label>Fecha de fin</label>
 <input id="fechaFinEvento" type="date">
 </div>
+
 </div>
 
 <div class="campo">
-<label><input id="todoDia" type="checkbox"> Todo el día</label>
+<label>
+<input id="todoDia" type="checkbox">
+Todo el día
+</label>
 </div>
 
 <div id="horas" class="dos">
+
 <div class="campo">
 <label>Hora inicio</label>
 <input id="horaInicio" type="time">
 </div>
+
 <div class="campo">
 <label>Hora fin</label>
 <input id="horaFin" type="time">
 </div>
+
 </div>
 
 <div class="campo">
@@ -1242,8 +1464,11 @@ main{padding:15px;padding-bottom:55px}
 </div>
 
 <div class="dos">
+
 <div class="campo">
+
 <label>Categoría</label>
+
 <select id="categoria">
 <option>Familia</option>
 <option>Colegio</option>
@@ -1254,44 +1479,66 @@ main{padding:15px;padding-bottom:55px}
 <option>Aniversario</option>
 <option>Otro</option>
 </select>
+
 </div>
 
 <div class="campo">
+
 <label>Prioridad</label>
+
 <select id="prioridad">
 <option>Normal</option>
 <option>Alta</option>
 <option>Baja</option>
 </select>
+
 </div>
+
 </div>
 
 <div class="campo">
+
 <label>Repetición</label>
+
 <select id="repeticion">
 <option value="">No repetir</option>
 <option>Semanal</option>
 <option>Mensual</option>
 <option>Anual</option>
 </select>
+
 </div>
 
 <div id="opcionesRepeticion" style="display:none">
+
 <div class="dos">
+
 <div class="campo">
 <label>Repetir cada</label>
-<input id="intervaloRepeticion" type="number" min="1" max="99" value="1">
+<input
+id="intervaloRepeticion"
+type="number"
+min="1"
+max="99"
+value="1">
 </div>
+
 <div class="campo">
 <label>Unidad</label>
-<input id="unidadRepeticion" disabled>
+<input
+id="unidadRepeticion"
+disabled>
 </div>
+
 </div>
 
 <div class="campo">
 <label>Repetir hasta</label>
-<input id="finRepeticion" type="date">
+<input
+id="finRepeticion"
+type="date">
 </div>
+
 </div>
 
 <div class="campo">
@@ -1300,44 +1547,106 @@ main{padding:15px;padding-bottom:55px}
 </div>
 
 <div class="acciones">
-<button id="cancelarEvento" class="cancelar">Cancelar</button>
-<button id="guardarEvento" class="guardar">Guardar</button>
+
+<button
+id="cancelarEvento"
+class="cancelar">
+Cancelar
+</button>
+
+<button
+id="guardarEvento"
+class="guardar">
+Guardar
+</button>
+
 </div>
 
 </div>
 </div>
 
 <div id="modalFicha" class="modal-fondo">
+
 <div class="modal">
+
 <div id="fichaEvento"></div>
 
 <div class="accionesFicha">
-<button id="editarEvento" class="editarFicha">Editar</button>
-<button id="eliminarEvento" class="eliminarFicha">Eliminar</button>
-<button id="duplicarEvento" class="duplicarFicha">Duplicar</button>
+
+<button
+id="editarEvento"
+class="editarFicha">
+Editar
+</button>
+
+<button
+id="eliminarEvento"
+class="eliminarFicha">
+Eliminar
+</button>
+
+<button
+id="duplicarEvento"
+class="duplicarFicha">
+Duplicar
+</button>
+
 </div>
 
-<button id="cerrarFicha" class="cerrarFicha">Cerrar</button>
+<button
+id="cerrarFicha"
+class="cerrarFicha">
+Cerrar
+</button>
+
 </div>
 </div>
 
 <div id="modalSerie" class="modal-fondo">
+
 <div class="modal">
-<h2 id="tituloSerie">Evento recurrente</h2>
-<p id="textoSerie" style="color:#667085"></p>
+
+<h2 id="tituloSerie">
+Evento recurrente
+</h2>
+
+<p
+id="textoSerie"
+style="color:#667085">
+</p>
 
 <div class="opcionesSerie">
-<button id="soloAparicion" class="opcionSerie">Solo esta aparición</button>
-<button id="todaSerie" class="opcionSerie">Toda la serie</button>
-<button id="cancelarSerie" class="opcionSerie cancel">Cancelar</button>
+
+<button
+id="soloAparicion"
+class="opcionSerie">
+Solo esta aparición
+</button>
+
+<button
+id="todaSerie"
+class="opcionSerie">
+Toda la serie
+</button>
+
+<button
+id="cancelarSerie"
+class="opcionSerie cancel">
+Cancelar
+</button>
+
 </div>
+
 </div>
 </div>
 
 <div id="modalTarea" class="modal-fondo">
+
 <div class="modal">
 
-<h2 id="tituloModalTarea">Nueva tarea</h2>
+<h2 id="tituloModalTarea">
+Nueva tarea
+</h2>
 
 <div class="campo">
 <label>Título</label>
@@ -1355,17 +1664,23 @@ main{padding:15px;padding-bottom:55px}
 </div>
 
 <div class="dos">
+
 <div class="campo">
+
 <label>Prioridad</label>
+
 <select id="prioridadTarea">
 <option>Normal</option>
 <option>Alta</option>
 <option>Baja</option>
 </select>
+
 </div>
 
 <div class="campo">
+
 <label>Categoría</label>
+
 <select id="categoriaTarea">
 <option>Familia</option>
 <option>Casa</option>
@@ -1375,40 +1690,69 @@ main{padding:15px;padding-bottom:55px}
 <option>Salud</option>
 <option>Otro</option>
 </select>
+
 </div>
+
 </div>
 
 <div class="campo">
+
 <label>Repetición</label>
+
 <select id="repeticionTarea">
 <option value="">No repetir</option>
 <option>Semanal</option>
 <option>Mensual</option>
 <option>Anual</option>
 </select>
+
 </div>
 
-<div id="opcionesRepeticionTarea" style="display:none">
+<div
+id="opcionesRepeticionTarea"
+style="display:none">
+
 <div class="dos">
+
 <div class="campo">
 <label>Repetir cada</label>
-<input id="intervaloTarea" type="number" min="1" value="1">
+<input
+id="intervaloTarea"
+type="number"
+min="1"
+value="1">
 </div>
 
 <div class="campo">
 <label>Hasta</label>
-<input id="finRepeticionTarea" type="date">
+<input
+id="finRepeticionTarea"
+type="date">
 </div>
+
 </div>
 </div>
 
 <div class="campo">
+
 <label>Checklist</label>
+
 <div class="nuevoCheck">
-<input id="textoCheck" type="text">
-<button id="anadirCheck" type="button">+</button>
+
+<input
+id="textoCheck"
+type="text">
+
+<button
+id="anadirCheck"
+type="button">
++
+</button>
+
 </div>
+
 <div id="editorChecklist"></div>
+
 </div>
 
 <div class="campo">
@@ -1417,23 +1761,52 @@ main{padding:15px;padding-bottom:55px}
 </div>
 
 <div class="acciones">
-<button id="cancelarTarea" class="cancelar">Cancelar</button>
-<button id="guardarTarea" class="guardar">Guardar</button>
+
+<button
+id="cancelarTarea"
+class="cancelar">
+Cancelar
+</button>
+
+<button
+id="guardarTarea"
+class="guardar">
+Guardar
+</button>
+
 </div>
 
 </div>
 </div>
 
 <div id="modalFichaTarea" class="modal-fondo">
+
 <div class="modal">
+
 <div id="fichaTarea"></div>
 
 <div class="acciones">
-<button id="editarTarea" class="editarFicha">Editar</button>
-<button id="eliminarTareaFicha" class="eliminarFicha">Eliminar</button>
+
+<button
+id="editarTarea"
+class="editarFicha">
+Editar
+</button>
+
+<button
+id="eliminarTareaFicha"
+class="eliminarFicha">
+Eliminar
+</button>
+
 </div>
 
-<button id="cerrarFichaTarea" class="cerrarFicha">Cerrar</button>
+<button
+id="cerrarFichaTarea"
+class="cerrarFicha">
+Cerrar
+</button>
+
 </div>
 </div>
 
@@ -1474,17 +1847,27 @@ messagingSenderId:"517316541547",
 appId:"1:517316541547:web:03db1291d5d1f41f68c52e"
 };
 
-const appFirebase=initializeApp(firebaseConfig);
-const auth=getAuth(appFirebase);
-const db=getFirestore(appFirebase);
+const appFirebase=
+initializeApp(firebaseConfig);
 
-await setPersistence(auth,browserLocalPersistence);
+const auth=
+getAuth(appFirebase);
 
-const $=id=>document.getElementById(id);
+const db=
+getFirestore(appFirebase);
+
+await setPersistence(
+auth,
+browserLocalPersistence
+);
+
+const $=id=>
+document.getElementById(id);
 
 let familia=[];
 let eventos=[];
 let tareas=[];
+let compras=[];
 let checklistTemporal=[];
 
 let filtroAgenda="Todos";
@@ -1504,6 +1887,7 @@ let tareaEditando=null;
 let accionSerie=null;
 let unsubscribeEventos=null;
 let unsubscribeTareas=null;
+let unsubscribeCompras=null;
 
 function fechaLocal(d=new Date()){
 return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`
@@ -1524,122 +1908,218 @@ return d
 function lunesDeSemana(f){
 const d=new Date(f);
 const x=d.getDay();
-d.setDate(d.getDate()+(x===0?-6:1-x));
+
+d.setDate(
+d.getDate()+
+(x===0?-6:1-x)
+);
+
 d.setHours(12,0,0,0);
+
 return d
 }
 
 function mismoDia(a,b){
-return fechaLocal(a)===fechaLocal(b)
+return fechaLocal(a)===
+fechaLocal(b)
 }
 
 function escapar(t=""){
-const d=document.createElement("div");
-d.textContent=String(t);
+const d=
+document.createElement("div");
+
+d.textContent=
+String(t);
+
 return d.innerHTML
 }
 
 function cap(t=""){
-return t.charAt(0).toUpperCase()+t.slice(1)
+return t.charAt(0).toUpperCase()+
+t.slice(1)
 }
 
 function fechaBonita(f){
 if(!f)return"";
-const d=desdeFechaLocal(f);
-const dia=new Intl.DateTimeFormat("es-ES",{weekday:"long"}).format(d);
-const mes=new Intl.DateTimeFormat("es-ES",{month:"long"}).format(d);
+
+const d=
+desdeFechaLocal(f);
+
+const dia=
+new Intl.DateTimeFormat(
+"es-ES",
+{weekday:"long"}
+).format(d);
+
+const mes=
+new Intl.DateTimeFormat(
+"es-ES",
+{month:"long"}
+).format(d);
+
 return `${cap(dia)}, ${d.getDate()} de ${mes}`
 }
 
 function tituloMes(f){
-return `${cap(new Intl.DateTimeFormat("es-ES",{month:"long"}).format(f))} de ${f.getFullYear()}`
+return `${cap(
+new Intl.DateTimeFormat(
+"es-ES",
+{month:"long"}
+).format(f)
+)} de ${f.getFullYear()}`
 }
 
 function tituloSemana(l,d){
-if(l.getMonth()===d.getMonth()&&l.getFullYear()===d.getFullYear()){
+
+if(
+l.getMonth()===d.getMonth() &&
+l.getFullYear()===d.getFullYear()
+){
+
 return `${l.getDate()} – ${d.getDate()} ${new Intl.DateTimeFormat("es-ES",{month:"long"}).format(l)}`
+
 }
+
 return `${new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"}).format(l).replace(".","")} – ${new Intl.DateTimeFormat("es-ES",{day:"numeric",month:"short"}).format(d).replace(".","")}`
 }
 
 function diasEntre(a,b){
-return Math.round((desdeFechaLocal(b)-desdeFechaLocal(a))/86400000)
+return Math.round(
+(
+desdeFechaLocal(b)-
+desdeFechaLocal(a)
+)/86400000
+)
 }
 
 function ultimoDiaMes(y,m){
-return new Date(y,m+1,0,12).getDate()
+return new Date(
+y,
+m+1,
+0,
+12
+).getDate()
 }
 
 function mesesEntre(a,b){
-return (b.getFullYear()-a.getFullYear())*12+b.getMonth()-a.getMonth()
+return (
+b.getFullYear()-
+a.getFullYear()
+)*12+
+b.getMonth()-
+a.getMonth()
 }
 
 function coloresPersonas(n=[]){
-return n.map(v=>familia.find(x=>x.nombre===v)?.color).filter(Boolean)
+return n
+.map(
+v=>
+familia.find(
+x=>x.nombre===v
+)?.color
+)
+.filter(Boolean)
 }
 
 function franjasPersonas(n=[]){
-const c=coloresPersonas(n);
 
-if(!c.length)return "#43A047";
-if(c.length===1)return c[0];
+const c=
+coloresPersonas(n);
 
-const paso=100/c.length;
+if(!c.length)
+return "#43A047";
+
+if(c.length===1)
+return c[0];
+
+const paso=
+100/c.length;
+
 let partes=[];
 
 c.forEach((x,i)=>{
+
 partes.push(
 `${x} ${i*paso}%`,
 `${x} ${(i+1)*paso}%`
-)
+);
+
 });
 
 return `linear-gradient(to bottom,${partes.join(",")})`
 }
 
 function colorSimple(n=[]){
-return coloresPersonas(n)[0]||"#43A047"
+return coloresPersonas(n)[0]||
+"#43A047"
 }
 
 function textoHora(e){
+
 return e.todoDia
 ?"Todo el día"
 :e.horaInicio&&e.horaFin
 ?`${e.horaInicio}–${e.horaFin}`
 :(e.horaInicio||"")
+
 }
 
 function duracionEvento(e){
-return e.fechaFin&&e.fechaFin>=e.fecha
-?diasEntre(e.fecha,e.fechaFin)
+
+return e.fechaFin&&
+e.fechaFin>=e.fecha
+?diasEntre(
+e.fecha,
+e.fechaFin
+)
 :0
+
 }
 
 function fechaMensualValida(i,o,n){
-const dif=mesesEntre(i,o);
-if(dif<0||dif%n)return false;
+
+const dif=
+mesesEntre(i,o);
+
+if(
+dif<0||
+dif%n
+)
+return false;
 
 return o.getDate()===
 Math.min(
 i.getDate(),
-ultimoDiaMes(o.getFullYear(),o.getMonth())
+ultimoDiaMes(
+o.getFullYear(),
+o.getMonth()
 )
+)
+
 }
 
 function fechaAnualValida(i,o,n){
-const dif=o.getFullYear()-i.getFullYear();
+
+const dif=
+o.getFullYear()-
+i.getFullYear();
 
 if(
 dif<0||
 dif%n||
 o.getMonth()!==i.getMonth()
-)return false;
+)
+return false;
 
 return o.getDate()===
 Math.min(
 i.getDate(),
-ultimoDiaMes(o.getFullYear(),o.getMonth())
+ultimoDiaMes(
+o.getFullYear(),
+o.getMonth()
 )
+)
+
 }
 
 function inicioRecurrenteEnFecha(e,f){
@@ -1649,25 +2129,54 @@ if(
 f<e.fecha||
 (e.finRepeticion&&f>e.finRepeticion)||
 (e.excepciones||[]).includes(f)
-)return false;
+)
+return false;
 
-if(f===e.fecha)return true;
-if(!e.repeticion)return false;
+if(f===e.fecha)
+return true;
 
-const i=desdeFechaLocal(e.fecha);
-const o=desdeFechaLocal(f);
-const n=Math.max(1,+e.intervaloRepeticion||1);
+if(!e.repeticion)
+return false;
+
+const i=
+desdeFechaLocal(e.fecha);
+
+const o=
+desdeFechaLocal(f);
+
+const n=
+Math.max(
+1,
++e.intervaloRepeticion||1
+);
 
 if(e.repeticion==="Semanal"){
-return diasEntre(e.fecha,f)%(7*n)===0
+
+return diasEntre(
+e.fecha,
+f
+)%(7*n)===0
+
 }
 
 if(e.repeticion==="Mensual"){
-return fechaMensualValida(i,o,n)
+
+return fechaMensualValida(
+i,
+o,
+n
+)
+
 }
 
 if(e.repeticion==="Anual"){
-return fechaAnualValida(i,o,n)
+
+return fechaAnualValida(
+i,
+o,
+n
+)
+
 }
 
 return false
@@ -1675,23 +2184,42 @@ return false
 
 function inicioAparicionQueContiene(e,f){
 
-const d=duracionEvento(e);
-const o=desdeFechaLocal(f);
+const d=
+duracionEvento(e);
 
-for(let i=0;i<=d;i++){
+const o=
+desdeFechaLocal(f);
 
-const p=fechaLocal(sumarDias(o,-i));
+for(
+let i=0;
+i<=d;
+i++
+){
 
-if(inicioRecurrenteEnFecha(e,p)){
+const p=
+fechaLocal(
+sumarDias(
+o,
+-i
+)
+);
+
+if(
+inicioRecurrenteEnFecha(
+e,
+p
+)
+){
+
 return p
+
 }
 
 }
 
 return null
 }
-
-function eventosFiltrados(){
+  function eventosFiltrados(){
 return filtroAgenda==="Todos"
 ?eventos
 :eventos.filter(
@@ -1710,18 +2238,32 @@ fechaVista:f
 }
 
 function eventosEnFecha(f){
-return eventosEnFechaBase(f,eventosFiltrados())
+return eventosEnFechaBase(
+f,
+eventosFiltrados()
+)
 }
 
 function eventosEnFechaTodos(f){
-return eventosEnFechaBase(f,eventos)
+return eventosEnFechaBase(
+f,
+eventos
+)
 }
 
 function aparicionesEntre(i,f){
 let r=[];
 
-for(let d=new Date(i);d<=f;d=sumarDias(d,1)){
-r.push(...eventosEnFecha(fechaLocal(d)))
+for(
+let d=new Date(i);
+d<=f;
+d=sumarDias(d,1)
+){
+r.push(
+...eventosEnFecha(
+fechaLocal(d)
+)
+)
 }
 
 return r
@@ -1730,8 +2272,16 @@ return r
 function aparicionesEntreTodos(i,f){
 let r=[];
 
-for(let d=new Date(i);d<=f;d=sumarDias(d,1)){
-r.push(...eventosEnFechaTodos(fechaLocal(d)))
+for(
+let d=new Date(i);
+d<=f;
+d=sumarDias(d,1)
+){
+r.push(
+...eventosEnFechaTodos(
+fechaLocal(d)
+)
+)
 }
 
 return r
@@ -1743,16 +2293,28 @@ const inicio=
 e.fechaAparicion||
 inicioAparicionQueContiene(e,f);
 
-if(!inicio||duracionEvento(e)<1)return"";
+if(
+!inicio||
+duracionEvento(e)<1
+)
+return"";
 
-const pos=diasEntre(inicio,f)+1;
-const total=duracionEvento(e)+1;
+const pos=
+diasEntre(
+inicio,
+f
+)+1;
+
+const total=
+duracionEvento(e)+1;
 
 return `Día ${pos}/${total}`
 }
 
 $("fechaHoy").textContent=
-fechaBonita(fechaLocal());
+fechaBonita(
+fechaLocal()
+);
 
 $("entrar").onclick=async()=>{
 
@@ -1774,48 +2336,68 @@ $("errorLogin").textContent=
 };
 
 $("password").onkeydown=e=>{
+
 if(e.key==="Enter"){
 $("entrar").click()
 }
+
 };
 
-$("salir").onclick=()=>signOut(auth);
+$("salir").onclick=
+()=>signOut(auth);
 
-onAuthStateChanged(auth,async u=>{
+onAuthStateChanged(
+auth,
+async u=>{
 
 if(!u){
 
 $("app").style.display="none";
 $("login").style.display="flex";
-return
 
+return
 }
 
 $("login").style.display="none";
 $("app").style.display="block";
-$("usuario").textContent=u.email;
+
+$("usuario").textContent=
+u.email;
 
 await cargarFamilia();
+
 escucharEventos();
 escucharTareas();
+escucharCompras();
 
-});
+}
+);
 
 async function cargarFamilia(){
 
-const s=await getDocs(collection(db,"familia"));
+const s=
+await getDocs(
+collection(
+db,
+"familia"
+)
+);
 
-familia=s.docs
+familia=
+s.docs
 .map(d=>({
 id:d.id,
 ...d.data()
 }))
 .sort(
-(a,b)=>(a.orden||99)-(b.orden||99)
+(a,b)=>
+(a.orden||99)-
+(b.orden||99)
 );
 
 crearPersonas();
 crearFiltros();
+crearCompradores();
 
 }
 
@@ -1828,12 +2410,14 @@ familia
 .filter(p=>p.activo)
 .forEach(p=>{
 
-$("participantes").insertAdjacentHTML(
+$("participantes")
+.insertAdjacentHTML(
 "beforeend",
 `<label class="check"><input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}</label>`
 );
 
-$("responsables").insertAdjacentHTML(
+$("responsables")
+.insertAdjacentHTML(
 "beforeend",
 `<label class="check"><input type="checkbox" value="${escapar(p.nombre)}"> ${escapar(p.nombre)}</label>`
 );
@@ -1842,7 +2426,34 @@ $("responsables").insertAdjacentHTML(
 
 }
 
-function crearFiltroPersonas(id,sel,fn){
+function crearCompradores(){
+
+$("compradorCompra").innerHTML=
+'<option value="">Sin asignar</option>';
+
+familia
+.filter(
+p=>
+p.activo &&
+p.id!=="familia"
+)
+.forEach(p=>{
+
+$("compradorCompra")
+.insertAdjacentHTML(
+"beforeend",
+`<option value="${escapar(p.nombre)}">${escapar(p.nombre)}</option>`
+);
+
+});
+
+}
+
+function crearFiltroPersonas(
+id,
+sel,
+fn
+){
 
 $(id).innerHTML="";
 
@@ -1854,14 +2465,19 @@ $(id).innerHTML="";
 ]
 .forEach(n=>{
 
-const b=document.createElement("button");
+const b=
+document.createElement("button");
 
 b.className=
-"filtro"+(n===sel?" activo":"");
+"filtro"+
+(n===sel
+?" activo"
+:"");
 
 b.textContent=n;
 
-b.onclick=()=>fn(n);
+b.onclick=
+()=>fn(n);
 
 $(id).appendChild(b);
 
@@ -1875,9 +2491,12 @@ crearFiltroPersonas(
 "filtrosAgenda",
 filtroAgenda,
 n=>{
+
 filtroAgenda=n;
+
 crearFiltros();
-renderAgenda()
+renderAgenda();
+
 }
 );
 
@@ -1885,9 +2504,12 @@ crearFiltroPersonas(
 "filtrosTareas",
 filtroTareas,
 n=>{
+
 filtroTareas=n;
+
 crearFiltros();
-renderTareas()
+renderTareas();
+
 }
 );
 
@@ -1901,10 +2523,14 @@ unsubscribeEventos()
 
 unsubscribeEventos=
 onSnapshot(
-collection(db,"eventos"),
+collection(
+db,
+"eventos"
+),
 s=>{
 
-eventos=s.docs.map(
+eventos=
+s.docs.map(
 d=>({
 id:d.id,
 ...d.data()
@@ -1926,10 +2552,14 @@ unsubscribeTareas()
 
 unsubscribeTareas=
 onSnapshot(
-collection(db,"tareas"),
+collection(
+db,
+"tareas"
+),
 s=>{
 
-tareas=s.docs.map(
+tareas=
+s.docs.map(
 d=>({
 id:d.id,
 ...d.data()
@@ -1943,12 +2573,49 @@ renderTodo();
 
 }
 
+function escucharCompras(){
+
+if(unsubscribeCompras){
+unsubscribeCompras()
+}
+
+unsubscribeCompras=
+onSnapshot(
+collection(
+db,
+"compras"
+),
+s=>{
+
+compras=
+s.docs.map(
+d=>({
+id:d.id,
+...d.data()
+})
+);
+
+renderCompras();
+renderContadorCompras();
+
+}
+);
+
+}
+
 function distintivosEvento(
 e,
-f=e.fechaVista||e.fechaAparicion||e.fecha
+f=
+e.fechaVista||
+e.fechaAparicion||
+e.fecha
 ){
 
-const multi=posicionMultiDia(e,f);
+const multi=
+posicionMultiDia(
+e,
+f
+);
 
 const especial=
 e.categoria==="Cumpleaños"
@@ -1958,10 +2625,19 @@ e.categoria==="Cumpleaños"
 :"";
 
 return `
-${multi?`<span class="badgeDia">${multi}</span>`:""}
-${e.prioridad==="Alta"?'<span class="prioridadBang">!</span>':""}
+${multi
+?`<span class="badgeDia">${multi}</span>`
+:""}
+
+${e.prioridad==="Alta"
+?'<span class="prioridadBang">!</span>'
+:""}
+
 ${especial}
-${e.repeticion==="Anual"&&e.categoria!=="Cumpleaños"&&e.categoria!=="Aniversario"
+
+${e.repeticion==="Anual" &&
+e.categoria!=="Cumpleaños" &&
+e.categoria!=="Aniversario"
 ?'<span class="anualBadge">ANUAL</span>'
 :""}
 `;
@@ -1991,11 +2667,16 @@ ${distintivosEvento(e)}
 
 <div class="evento-meta">
 ${escapar(textoHora(e))}
-${e.lugar?" · "+escapar(e.lugar):""}
+${e.lugar
+?" · "+escapar(e.lugar)
+:""}
 </div>
 
 <div class="evento-personas">
-${escapar((e.participantes||[]).join(" · "))}
+${escapar(
+(e.participantes||[])
+.join(" · ")
+)}
 </div>
 
 </div>
@@ -2012,7 +2693,6 @@ el.innerHTML=
 '<div class="vacio">No hay eventos.</div>';
 
 return
-
 }
 
 el.innerHTML=
@@ -2023,7 +2703,8 @@ el.querySelectorAll(
 )
 .forEach(x=>{
 
-x.onclick=()=>abrirFichaEvento(
+x.onclick=
+()=>abrirFichaEvento(
 x.dataset.verEvento,
 x.dataset.aparicion
 )
@@ -2032,14 +2713,22 @@ x.dataset.aparicion
 
 }
 
-function abrirFichaEvento(id,a=null){
+function abrirFichaEvento(
+id,
+a=null
+){
 
-const e=eventos.find(x=>x.id===id);
+const e=
+eventos.find(
+x=>x.id===id
+);
 
 if(!e)return;
 
 eventoSeleccionado=e;
-aparicionSeleccionada=a||e.fecha;
+
+aparicionSeleccionada=
+a||e.fecha;
 
 $("fichaEvento").innerHTML=`
 
@@ -2048,67 +2737,132 @@ ${escapar(e.actividad)}
 </div>
 
 <div class="fichaFila">
-<div class="fichaIcono">📅</div>
-<div class="fichaTexto">
-<div class="fichaLabel">Fecha</div>
-<div class="fichaValor">
-${fechaBonita(aparicionSeleccionada)}
+
+<div class="fichaIcono">
+📅
 </div>
+
+<div class="fichaTexto">
+
+<div class="fichaLabel">
+Fecha
+</div>
+
+<div class="fichaValor">
+${fechaBonita(
+aparicionSeleccionada
+)}
+</div>
+
 </div>
 </div>
 
 <div class="fichaFila">
-<div class="fichaIcono">🕐</div>
-<div class="fichaTexto">
-<div class="fichaLabel">Hora</div>
-<div class="fichaValor">
-${escapar(textoHora(e))}
+
+<div class="fichaIcono">
+🕐
 </div>
+
+<div class="fichaTexto">
+
+<div class="fichaLabel">
+Hora
+</div>
+
+<div class="fichaValor">
+${escapar(
+textoHora(e)
+)}
+</div>
+
 </div>
 </div>
 
 <div class="fichaFila">
-<div class="fichaIcono">👥</div>
-<div class="fichaTexto">
-<div class="fichaLabel">Participantes</div>
-<div class="fichaValor">
-${escapar((e.participantes||[]).join(" · "))}
+
+<div class="fichaIcono">
+👥
 </div>
+
+<div class="fichaTexto">
+
+<div class="fichaLabel">
+Participantes
+</div>
+
+<div class="fichaValor">
+${escapar(
+(e.participantes||[])
+.join(" · ")
+)}
+</div>
+
 </div>
 </div>
 
-${e.lugar?`
+${e.lugar
+?`
+
 <div class="fichaFila">
-<div class="fichaIcono">📍</div>
+
+<div class="fichaIcono">
+📍
+</div>
+
 <div class="fichaTexto">
-<div class="fichaLabel">Lugar</div>
+
+<div class="fichaLabel">
+Lugar
+</div>
+
 <div class="fichaValor">
 ${escapar(e.lugar)}
 </div>
-</div>
-</div>
-`:""}
 
-${e.notas?`
+</div>
+</div>
+
+`
+:""}
+
+${e.notas
+?`
+
 <div class="fichaFila">
-<div class="fichaIcono">📝</div>
+
+<div class="fichaIcono">
+📝
+</div>
+
 <div class="fichaTexto">
-<div class="fichaLabel">Notas</div>
+
+<div class="fichaLabel">
+Notas
+</div>
+
 <div class="fichaValor">
 ${escapar(e.notas)}
 </div>
+
 </div>
 </div>
-`:""}
+
+`
+:""}
 
 `;
 
-$("modalFicha").classList.add("visible");
+$("modalFicha")
+.classList.add("visible");
 
 }
 
-$("cerrarFicha").onclick=()=>{
-$("modalFicha").classList.remove("visible")
+$("cerrarFicha").onclick=
+()=>{
+
+$("modalFicha")
+.classList.remove("visible")
+
 };
 
 function pedirAccionSerie(
@@ -2117,7 +2871,10 @@ fnSolo,
 fnToda
 ){
 
-accionSerie={fnSolo,fnToda};
+accionSerie={
+fnSolo,
+fnToda
+};
 
 $("tituloSerie").textContent=
 tipo==="editar"
@@ -2135,29 +2892,752 @@ $("soloAparicion").textContent=
 $("todaSerie").textContent=
 "Toda la serie";
 
-$("modalSerie").classList.add("visible");
+$("modalSerie")
+.classList.add("visible");
 
 }
-  $("cancelarSerie").onclick=()=>{
-$("modalSerie").classList.remove("visible");
-accionSerie=null
-};
 
-$("soloAparicion").onclick=()=>{
-const a=accionSerie;
-$("modalSerie").classList.remove("visible");
+$("cancelarSerie").onclick=
+()=>{
+
+$("modalSerie")
+.classList.remove("visible");
+
 accionSerie=null;
-a?.fnSolo()
+
 };
 
-$("todaSerie").onclick=()=>{
-const a=accionSerie;
-$("modalSerie").classList.remove("visible");
+$("soloAparicion").onclick=
+()=>{
+
+const a=
+accionSerie;
+
+$("modalSerie")
+.classList.remove("visible");
+
 accionSerie=null;
-a?.fnToda()
+
+a?.fnSolo();
+
 };
 
-async function editarSoloAparicion(){
+$("todaSerie").onclick=
+()=>{
+
+const a=
+accionSerie;
+
+$("modalSerie")
+.classList.remove("visible");
+
+accionSerie=null;
+
+a?.fnToda();
+
+};
+
+/* ===== MÓDULO DE COMPRAS ===== */
+
+function comprasPendientes(){
+
+return compras.filter(
+x=>!x.comprado
+)
+
+}
+
+function comprasHechas(){
+
+return compras.filter(
+x=>x.comprado
+)
+
+}
+
+function fechaCompraMillis(x){
+
+if(
+x.compradoEn?.toMillis
+){
+return x.compradoEn.toMillis()
+}
+
+if(
+x.creada?.toMillis
+){
+return x.creada.toMillis()
+}
+
+return 0
+}
+
+function ordenarComprasPendientes(lista){
+
+return [...lista]
+.sort((a,b)=>{
+
+const ca=
+(a.categoria||"Otros");
+
+const cb=
+(b.categoria||"Otros");
+
+return ca.localeCompare(
+cb,
+"es"
+)||
+(a.producto||"")
+.localeCompare(
+b.producto||"",
+"es"
+)
+
+})
+
+}
+
+function ordenarComprasHechas(lista){
+
+return [...lista]
+.sort(
+(a,b)=>
+fechaCompraMillis(b)-
+fechaCompraMillis(a)
+)
+
+}
+
+function textoHistorialCompra(x){
+
+if(!x.comprado){
+return ""
+}
+
+let quien=
+x.compradoPor||"";
+
+let fecha="";
+
+if(
+x.compradoEn?.toDate
+){
+
+fecha=
+new Intl.DateTimeFormat(
+"es-ES",
+{
+day:"numeric",
+month:"short",
+hour:"2-digit",
+minute:"2-digit"
+}
+)
+.format(
+x.compradoEn.toDate()
+)
+.replace(".","");
+
+}
+
+if(
+quien &&
+fecha
+){
+return `${quien} · ${fecha}`
+}
+
+return quien||fecha||"Comprado"
+
+}
+
+function htmlCompra(x){
+
+return `
+<div
+class="compraItem"
+data-compra="${x.id}"
+>
+
+<button
+class="compraCheck ${x.comprado?"hecho":""}"
+data-check-compra="${x.id}"
+aria-label="${x.comprado?"Volver a pendientes":"Marcar comprado"}">
+${x.comprado?"✓":""}
+</button>
+
+<div class="compraTexto">
+
+<div
+class="compraNombre"
+style="${x.comprado?"text-decoration:line-through;color:#98a2b3":""}">
+${escapar(x.producto||"Producto")}
+</div>
+
+<div class="compraMeta">
+${escapar(x.categoria||"Otros")}
+${x.comprador
+?" · "+escapar(x.comprador)
+:""}
+</div>
+
+${x.comprado
+?`
+<div class="historialCompra">
+${escapar(
+textoHistorialCompra(x)
+)}
+</div>
+`
+:""}
+
+</div>
+
+${x.cantidad
+?`
+<span class="compraCantidad">
+${escapar(x.cantidad)}
+</span>
+`
+:""}
+
+<button
+class="compraBorrar"
+data-borrar-compra="${x.id}"
+aria-label="Eliminar">
+×
+</button>
+
+</div>
+`
+
+}
+
+function renderContadorCompras(){
+
+const n=
+comprasPendientes().length;
+
+$("contadorCompras").textContent=
+`${n} ${n===1?"pendiente":"pendientes"}`;
+
+$("badgeCompras").textContent=n;
+
+$("badgeCompras").style.display=
+n
+?"inline-flex"
+:"none";
+
+}
+
+function productosHabituales(){
+
+const mapa=
+new Map();
+
+compras.forEach(x=>{
+
+const nombre=
+(x.producto||"")
+.trim();
+
+if(!nombre)return;
+
+const clave=
+nombre.toLocaleLowerCase("es");
+
+if(!mapa.has(clave)){
+
+mapa.set(
+clave,
+{
+producto:nombre,
+cantidad:x.cantidad||"",
+categoria:x.categoria||"Alimentación",
+comprador:x.comprador||"",
+veces:0,
+ultima:0
+}
+);
+
+}
+
+const r=
+mapa.get(clave);
+
+if(x.comprado){
+r.veces++;
+}
+
+r.ultima=
+Math.max(
+r.ultima,
+fechaCompraMillis(x)
+);
+
+});
+
+const pendientes=
+new Set(
+comprasPendientes()
+.map(
+x=>
+(x.producto||"")
+.trim()
+.toLocaleLowerCase("es")
+)
+);
+
+return [...mapa.values()]
+.filter(
+x=>
+x.veces>0 &&
+!pendientes.has(
+x.producto.toLocaleLowerCase("es")
+)
+)
+.sort(
+(a,b)=>
+b.veces-a.veces||
+b.ultima-a.ultima
+)
+.slice(0,10)
+
+}
+
+function renderHabituales(){
+
+const h=
+productosHabituales();
+
+$("habitualesWrap").style.display=
+h.length
+?"block"
+:"none";
+
+$("habitualesCompras").innerHTML=
+h.map((x,i)=>`
+
+<button
+class="habitual"
+data-habitual="${i}">
++ ${escapar(x.producto)}
+</button>
+
+`).join("");
+
+$("habitualesCompras")
+.querySelectorAll(
+"[data-habitual]"
+)
+.forEach(b=>{
+
+b.onclick=async()=>{
+
+const x=
+h[+b.dataset.habitual];
+
+await crearCompra({
+producto:x.producto,
+cantidad:x.cantidad,
+categoria:x.categoria,
+comprador:x.comprador
+});
+
+}
+
+});
+
+}
+
+function renderCompras(){
+
+if(
+!$("listaCompras")
+){
+return
+}
+
+const pendientes=
+ordenarComprasPendientes(
+comprasPendientes()
+);
+
+const hechas=
+ordenarComprasHechas(
+comprasHechas()
+);
+
+let html="";
+
+if(pendientes.length){
+
+const grupos={};
+
+pendientes.forEach(x=>{
+
+const c=
+x.categoria||"Otros";
+
+if(!grupos[c]){
+grupos[c]=[];
+}
+
+grupos[c].push(x);
+
+});
+
+Object.entries(grupos)
+.forEach(([categoria,items])=>{
+
+html+=`
+
+<div class="compraGrupo">
+
+<div class="compraGrupoTitulo">
+
+<span>
+${escapar(categoria)}
+</span>
+
+<span>
+${items.length}
+</span>
+
+</div>
+
+${items
+.map(htmlCompra)
+.join("")}
+
+</div>
+
+`;
+
+});
+
+}else{
+
+html+=`
+<div class="vacio">
+La lista está vacía.
+</div>
+`;
+
+}
+
+if(hechas.length){
+
+html+=`
+
+<div class="compraGrupo">
+
+<div class="compraGrupoTitulo">
+
+<span>
+Comprado · ${hechas.length}
+</span>
+
+<button
+id="vaciarComprados"
+class="vaciarComprados">
+Vaciar comprados
+</button>
+
+</div>
+
+${hechas
+.slice(0,20)
+.map(htmlCompra)
+.join("")}
+
+</div>
+
+`;
+
+}
+
+$("listaCompras").innerHTML=
+html;
+
+$("listaCompras")
+.querySelectorAll(
+"[data-check-compra]"
+)
+.forEach(b=>{
+
+b.onclick=
+()=>cambiarEstadoCompra(
+b.dataset.checkCompra
+);
+
+});
+
+$("listaCompras")
+.querySelectorAll(
+"[data-borrar-compra]"
+)
+.forEach(b=>{
+
+b.onclick=
+()=>borrarCompra(
+b.dataset.borrarCompra
+);
+
+});
+
+const vaciar=
+$("vaciarComprados");
+
+if(vaciar){
+
+vaciar.onclick=
+vaciarComprasHechas;
+
+}
+
+renderHabituales();
+
+}
+
+async function crearCompra(datos){
+
+const producto=
+(datos.producto||"")
+.trim();
+
+if(!producto){
+return
+}
+
+const duplicada=
+comprasPendientes()
+.find(
+x=>
+(x.producto||"")
+.trim()
+.toLocaleLowerCase("es")===
+producto.toLocaleLowerCase("es")
+);
+
+if(duplicada){
+
+if(
+datos.cantidad &&
+!duplicada.cantidad
+){
+
+await updateDoc(
+doc(
+db,
+"compras",
+duplicada.id
+),
+{
+cantidad:datos.cantidad
+}
+);
+
+}
+
+return
+}
+
+await addDoc(
+collection(
+db,
+"compras"
+),
+{
+producto,
+cantidad:
+(datos.cantidad||"").trim(),
+
+categoria:
+datos.categoria||
+"Alimentación",
+
+comprador:
+datos.comprador||"",
+
+comprado:false,
+
+creada:
+serverTimestamp(),
+
+creadaPor:
+auth.currentUser?.email||"",
+
+compradoEn:null,
+compradoPor:""
+}
+);
+
+}
+
+async function anadirCompraActual(){
+
+const producto=
+$("productoCompra")
+.value
+.trim();
+
+if(!producto){
+return
+}
+
+const cantidad=
+$("cantidadCompra")
+.value
+.trim();
+
+const categoria=
+$("categoriaCompra")
+.value;
+
+const comprador=
+$("compradorCompra")
+.value;
+
+$("anadirCompra").disabled=true;
+
+try{
+
+await crearCompra({
+producto,
+cantidad,
+categoria,
+comprador
+});
+
+$("productoCompra").value="";
+$("cantidadCompra").value="";
+
+$("productoCompra").focus();
+
+}catch(e){
+
+console.error(e);
+
+alert(
+"No se ha podido añadir el producto."
+);
+
+}finally{
+
+$("anadirCompra").disabled=false;
+
+}
+
+}
+
+$("anadirCompra").onclick=
+anadirCompraActual;
+
+$("productoCompra").onkeydown=
+e=>{
+
+if(e.key==="Enter"){
+
+e.preventDefault();
+anadirCompraActual();
+
+}
+
+};
+
+$("cantidadCompra").onkeydown=
+e=>{
+
+if(e.key==="Enter"){
+
+e.preventDefault();
+anadirCompraActual();
+
+}
+
+};
+
+async function cambiarEstadoCompra(id){
+
+const x=
+compras.find(
+c=>c.id===id
+);
+
+if(!x)return;
+
+const nuevo=
+!x.comprado;
+
+await updateDoc(
+doc(
+db,
+"compras",
+id
+),
+{
+comprado:nuevo,
+
+compradoEn:
+nuevo
+?serverTimestamp()
+:null,
+
+compradoPor:
+nuevo
+?(auth.currentUser?.email||"")
+:""
+}
+);
+
+}
+
+async function borrarCompra(id){
+
+await deleteDoc(
+doc(
+db,
+"compras",
+id
+)
+);
+
+}
+
+async function vaciarComprasHechas(){
+
+const hechas=
+comprasHechas();
+
+if(!hechas.length){
+return
+}
+
+if(
+!confirm(
+`¿Eliminar ${hechas.length} ${hechas.length===1?"producto comprado":"productos comprados"}?`
+)
+){
+return
+}
+
+await Promise.all(
+hechas.map(
+x=>
+deleteDoc(
+doc(
+db,
+"compras",
+x.id
+)
+)
+)
+);
+
+}
+  async function editarSoloAparicion(){
+
 const e=eventoSeleccionado;
 const a=aparicionSeleccionada;
 
@@ -2186,12 +3666,15 @@ excepciones:e.excepciones||[]
 
 $("modalFicha").classList.remove("visible");
 abrirEvento(null,copia);
+
 }
 
 $("editarEvento").onclick=()=>{
+
 if(!eventoSeleccionado)return;
 
 if(eventoSeleccionado.repeticion){
+
 pedirAccionSerie(
 "editar",
 editarSoloAparicion,
@@ -2200,16 +3683,22 @@ $("modalFicha").classList.remove("visible");
 abrirEvento(eventoSeleccionado)
 }
 );
+
 }else{
+
 $("modalFicha").classList.remove("visible");
 abrirEvento(eventoSeleccionado)
+
 }
+
 };
 
 $("eliminarEvento").onclick=()=>{
+
 if(!eventoSeleccionado)return;
 
 const borrarSolo=async()=>{
+
 await updateDoc(
 doc(db,"eventos",eventoSeleccionado.id),
 {
@@ -2221,14 +3710,19 @@ aparicionSeleccionada
 ]
 }
 );
+
 $("modalFicha").classList.remove("visible")
+
 };
 
 const borrarTodo=async()=>{
+
 await deleteDoc(
 doc(db,"eventos",eventoSeleccionado.id)
 );
+
 $("modalFicha").classList.remove("visible")
+
 };
 
 eventoSeleccionado.repeticion
@@ -2238,9 +3732,11 @@ borrarSolo,
 borrarTodo
 )
 :borrarTodo()
+
 };
 
 $("duplicarEvento").onclick=()=>{
+
 const c={...eventoSeleccionado};
 
 delete c.id;
@@ -2260,10 +3756,13 @@ c.repeticion="";
 c.excepciones=[];
 
 $("modalFicha").classList.remove("visible");
+
 abrirEvento(null,c)
+
 };
 
 function actualizarUnidad(){
+
 const r=$("repeticion").value;
 
 $("opcionesRepeticion").style.display=
@@ -2277,14 +3776,13 @@ r==="Semanal"
 :r==="Anual"
 ?"año(s)"
 :""
+
 }
 
 function abrirEvento(e=null,p=null,f=null){
-eventoEditando=e;
 
-if(e||!p){
-origenAparicionEditada=null;
-}
+eventoEditando=e;
+if(e||!p)origenAparicionEditada=null;
 
 const x=e||p||{};
 const base=f||x.fecha||fechaLocal(fechaAgenda);
@@ -2316,41 +3814,53 @@ $("todoDia").checked
 document
 .querySelectorAll("#participantes input")
 .forEach(c=>{
+
 c.checked=
 (x.participantes||[])
 .includes(c.value)
+
 });
 
 $("modalEvento").classList.add("visible");
+
 }
 
 $("repeticion").onchange=
 actualizarUnidad;
 
 $("categoria").onchange=()=>{
+
 if(
 ["Cumpleaños","Aniversario"]
 .includes($("categoria").value)
 ){
+
 $("repeticion").value="Anual";
 $("intervaloRepeticion").value=1;
 actualizarUnidad();
+
 }
+
 };
 
 $("todoDia").onchange=()=>{
+
 $("horas").style.display=
 $("todoDia").checked
 ?"none"
 :"grid"
+
 };
 
 $("cancelarEvento").onclick=()=>{
+
 origenAparicionEditada=null;
 $("modalEvento").classList.remove("visible")
+
 };
 
 $("guardarEvento").onclick=async()=>{
+
 const actividad=
 $("actividad").value.trim();
 
@@ -2361,15 +3871,19 @@ const fechaFin=
 $("fechaFinEvento").value||fecha;
 
 if(!actividad||!fecha){
+
 return alert(
 "Indica actividad y fecha."
 )
+
 }
 
 if(fechaFin<fecha){
+
 return alert(
 "La fecha final no puede ser anterior."
 )
+
 }
 
 if(
@@ -2378,13 +3892,16 @@ if(
 &&
 !$("repeticion").value
 ){
+
 $("repeticion").value="Anual";
+
 }
 
 const botonGuardarEvento=$("guardarEvento");
 botonGuardarEvento.disabled=true;
 
 const datos={
+
 actividad,
 fecha,
 fechaFin,
@@ -2436,9 +3953,8 @@ $("notas").value.trim(),
 
 excepciones:
 eventoEditando?.excepciones||[]
-};
 
-try{
+};
 
 if(eventoEditando){
 
@@ -2466,11 +3982,7 @@ auth.currentUser?.email||""
 if(origenAparicionEditada){
 
 await updateDoc(
-doc(
-db,
-"eventos",
-origenAparicionEditada.id
-),
+doc(db,"eventos",origenAparicionEditada.id),
 {
 excepciones:[
 ...new Set([
@@ -2488,20 +4000,12 @@ origenAparicionEditada.fecha
 $("modalEvento").classList.remove("visible");
 eventoEditando=null;
 origenAparicionEditada=null;
-
-}catch(e){
-
-console.error(e);
-alert("No se ha podido guardar el evento.");
-
-}finally{
-
 botonGuardarEvento.disabled=false;
 
-}
 };
 
 function estadoT(t){
+
 if(t.completada||!t.fechaLimite)return"";
 
 return t.fechaLimite<fechaLocal()
@@ -2509,32 +4013,58 @@ return t.fechaLimite<fechaLocal()
 :t.fechaLimite===fechaLocal()
 ?"hoy"
 :""
+
 }
 
 function prioridadN(p){
-return p==="Alta"?0:p==="Normal"?1:2
+
+return p==="Alta"
+?0
+:p==="Normal"
+?1
+:2
+
 }
 
 function ordenarTareas(l){
+
 return [...l].sort((a,b)=>{
 
 const g=t=>
-t.completada?4:
-estadoT(t)==="vencida"?0:
-estadoT(t)==="hoy"?1:
-t.fechaLimite?2:3;
+t.completada
+?4
+:estadoT(t)==="vencida"
+?0
+:estadoT(t)==="hoy"
+?1
+:t.fechaLimite
+?2
+:3;
 
 return g(a)-g(b)
 ||prioridadN(a.prioridad)-prioridadN(b.prioridad)
-||(a.fechaLimite||"9999").localeCompare(b.fechaLimite||"9999")
+||(a.fechaLimite||"9999").localeCompare(
+b.fechaLimite||"9999"
+)
+
 })
+
 }
 
 function htmlTarea(t){
+
 const c=t.checklist||[];
-const h=c.filter(x=>x.hecho).length;
-const p=c.length?Math.round(h/c.length*100):0;
-const e=estadoT(t);
+
+const h=
+c.filter(x=>x.hecho).length;
+
+const p=
+c.length
+?Math.round(h/c.length*100)
+:0;
+
+const e=
+estadoT(t);
 
 return `
 <div class="tarea ${t.completada?"completada":""} ${e==="vencida"?"vencida":""} ${e==="hoy"?"hoyTarea":""}">
@@ -2555,10 +4085,21 @@ class="tarea-contenido"
 data-ver-tarea="${t.id}">
 
 <div class="tarea-titulo">
+
 ${escapar(t.titulo)}
-${t.repeticion?" ↻":""}
-${t.categoria==="Compras"?'<span class="compraBadge">🛒 COMPRA</span>':""}
-${!t.fechaLimite?'<span class="sinFechaBadge">SIN FECHA</span>':""}
+
+${t.repeticion
+?" ↻"
+:""}
+
+${t.categoria==="Compras"
+?'<span class="compraBadge">🛒 COMPRA</span>'
+:""}
+
+${!t.fechaLimite
+?'<span class="sinFechaBadge">SIN FECHA</span>'
+:""}
+
 </div>
 
 <div class="tarea-meta">
@@ -2578,10 +4119,14 @@ ${t.fechaLimite
 </div>
 
 <div class="tarea-personas">
-${escapar((t.responsables||[]).join(" · "))}
+${escapar(
+(t.responsables||[])
+.join(" · ")
+)}
 </div>
 
-${c.length?`
+${c.length
+?`
 <div class="progreso">
 <span style="width:${p}%"></span>
 </div>
@@ -2589,45 +4134,65 @@ ${c.length?`
 <div class="tarea-meta">
 ${h}/${c.length} completados
 </div>
-`:""}
+`
+:""}
 
 </div>
 </div>
 `
+
 }
 
 function insertarTareas(el,l){
+
 if(!l.length){
+
 el.innerHTML=
 '<div class="vacio">No hay tareas.</div>';
+
 return
+
 }
 
 el.innerHTML=
-ordenarTareas(l).map(htmlTarea).join("");
+ordenarTareas(l)
+.map(htmlTarea)
+.join("");
 
-el.querySelectorAll("[data-completar]")
+el.querySelectorAll(
+"[data-completar]"
+)
 .forEach(b=>{
 
 b.onclick=async e=>{
+
 e.stopPropagation();
 
-const t=tareas.find(
+const t=
+tareas.find(
 x=>x.id===b.dataset.completar
 );
 
 if(t){
 await completarTarea(t)
 }
+
 }
 
 });
 
-el.querySelectorAll("[data-ver-tarea]")
+el.querySelectorAll(
+"[data-ver-tarea]"
+)
 .forEach(x=>{
-x.onclick=()=>
-abrirFichaTarea(x.dataset.verTarea)
+
+x.onclick=
+()=>abrirFichaTarea(
+x.dataset.verTarea
+)
+
 });
+
 }
 
 async function completarTarea(t){
@@ -2636,31 +4201,39 @@ if(!t.repeticion){
 
 return updateDoc(
 doc(db,"tareas",t.id),
-{completada:!t.completada}
+{
+completada:
+!t.completada
+}
 )
 
 }
 
-if(!t.fechaLimite){
+const d=
+desdeFechaLocal(
+t.fechaLimite
+);
 
-return alert(
-"Esta tarea recurrente necesita una fecha límite."
-)
-
-}
-
-const d=desdeFechaLocal(t.fechaLimite);
-const n=Math.max(1,+t.intervaloRepeticion||1);
+const n=
+Math.max(
+1,
++t.intervaloRepeticion||1
+);
 
 let s;
 
 if(t.repeticion==="Semanal"){
 
-s=sumarDias(d,7*n);
+s=
+sumarDias(
+d,
+7*n
+);
 
 }else if(t.repeticion==="Mensual"){
 
-s=new Date(
+s=
+new Date(
 d.getFullYear(),
 d.getMonth()+n,
 1,
@@ -2679,7 +4252,8 @@ s.getMonth()
 
 }else{
 
-s=new Date(
+s=
+new Date(
 d.getFullYear()+n,
 d.getMonth(),
 Math.min(
@@ -2694,7 +4268,8 @@ d.getMonth()
 
 }
 
-const f=fechaLocal(s);
+const f=
+fechaLocal(s);
 
 if(
 t.finRepeticion &&
@@ -2703,7 +4278,9 @@ f>t.finRepeticion
 
 return updateDoc(
 doc(db,"tareas",t.id),
-{completada:true}
+{
+completada:true
+}
 )
 
 }
@@ -2713,14 +4290,23 @@ doc(db,"tareas",t.id),
 {
 fechaLimite:f,
 completada:false,
-checklist:(t.checklist||[])
-.map(x=>({...x,hecho:false}))
+checklist:
+(t.checklist||[])
+.map(x=>({
+...x,
+hecho:false
+}))
 }
 );
+
 }
 
 function abrirFichaTarea(id){
-const t=tareas.find(x=>x.id===id);
+
+const t=
+tareas.find(
+x=>x.id===id
+);
 
 if(!t)return;
 
@@ -2730,57 +4316,60 @@ $("fichaTarea").innerHTML=`
 
 <div class="fichaEventoTitulo">
 ${escapar(t.titulo)}
-${t.categoria==="Compras"?'<span class="compraBadge">🛒 COMPRA</span>':""}
 </div>
 
 <div class="fichaFila">
-<div class="fichaIcono">📅</div>
+
+<div class="fichaIcono">
+📅
+</div>
+
 <div class="fichaTexto">
-<div class="fichaLabel">Fecha límite</div>
+
+<div class="fichaLabel">
+Fecha límite
+</div>
+
 <div class="fichaValor">
 ${t.fechaLimite
 ?fechaBonita(t.fechaLimite)
 :"Sin fecha"}
 </div>
+
 </div>
 </div>
 
 <div class="fichaFila">
-<div class="fichaIcono">👥</div>
+
+<div class="fichaIcono">
+👥
+</div>
+
 <div class="fichaTexto">
-<div class="fichaLabel">Responsables</div>
+
+<div class="fichaLabel">
+Responsables
+</div>
+
 <div class="fichaValor">
-${escapar((t.responsables||[]).join(" · "))}
+${escapar(
+(t.responsables||[])
+.join(" · ")
+)}
+</div>
+
 </div>
 </div>
-</div>
+
+${(t.checklist||[]).length
+?`
 
 <div class="fichaFila">
-<div class="fichaIcono">🏷️</div>
-<div class="fichaTexto">
-<div class="fichaLabel">Categoría</div>
-<div class="fichaValor">
-${escapar(t.categoria||"Familia")}
-</div>
-</div>
+
+<div class="fichaIcono">
+☑️
 </div>
 
-${t.repeticion?`
-<div class="fichaFila">
-<div class="fichaIcono">↻</div>
-<div class="fichaTexto">
-<div class="fichaLabel">Repetición</div>
-<div class="fichaValor">
-${escapar(t.repeticion)}
-</div>
-</div>
-</div>
-`:""}
-
-${(t.checklist||[]).length?`
-
-<div class="fichaFila">
-<div class="fichaIcono">☑️</div>
 <div class="fichaTexto">
 
 <div class="fichaLabel">
@@ -2805,27 +4394,40 @@ ${escapar(x.texto)}
 
 </label>
 
-`).join("")}
+`)
+.join("")}
 
 </div>
 </div>
 </div>
 
-`:""}
+`
+:""}
 
-${t.notas?`
+${t.notas
+?`
 
 <div class="fichaFila">
-<div class="fichaIcono">📝</div>
+
+<div class="fichaIcono">
+📝
+</div>
+
 <div class="fichaTexto">
-<div class="fichaLabel">Notas</div>
+
+<div class="fichaLabel">
+Notas
+</div>
+
 <div class="fichaValor">
 ${escapar(t.notas)}
 </div>
+
 </div>
 </div>
 
-`:""}
+`
+:""}
 
 `;
 
@@ -2833,7 +4435,9 @@ $("modalFichaTarea")
 .classList.add("visible");
 
 $("fichaTarea")
-.querySelectorAll("[data-check-ficha]")
+.querySelectorAll(
+"[data-check-ficha]"
+)
 .forEach(c=>{
 
 c.onchange=async()=>{
@@ -2844,35 +4448,49 @@ const nuevo=
 
 nuevo[
 +c.dataset.checkFicha
-].hecho=c.checked;
+].hecho=
+c.checked;
 
 await updateDoc(
 doc(db,"tareas",t.id),
-{checklist:nuevo}
+{
+checklist:nuevo
+}
 );
 
 t.checklist=nuevo;
 
-abrirFichaTarea(t.id);
+abrirFichaTarea(
+t.id
+);
+
 }
 
 });
+
 }
 
 $("cerrarFichaTarea").onclick=()=>{
+
 $("modalFichaTarea")
 .classList.remove("visible")
+
 };
 
 $("editarTarea").onclick=()=>{
+
 $("modalFichaTarea")
 .classList.remove("visible");
 
-abrirTarea(tareaSeleccionada)
+abrirTarea(
+tareaSeleccionada
+);
+
 };
 
 $("eliminarTareaFicha").onclick=async()=>{
-if(tareaSeleccionada){
+
+if(!tareaSeleccionada)return;
 
 await deleteDoc(
 doc(
@@ -2883,15 +4501,107 @@ tareaSeleccionada.id
 );
 
 $("modalFichaTarea")
-.classList.remove("visible")
+.classList.remove("visible");
+
+};
+
+function actualizarRepeticionTarea(){
+
+$("opcionesRepeticionTarea").style.display=
+$("repeticionTarea").value
+?"block"
+:"none"
+
 }
+
+$("repeticionTarea").onchange=
+actualizarRepeticionTarea;
+
+function renderEditorChecklist(){
+
+$("editorChecklist").innerHTML=
+checklistTemporal
+.map((x,i)=>`
+
+<div class="itemEditor">
+
+<span>
+${escapar(x.texto)}
+</span>
+
+<button
+type="button"
+data-borrar-check="${i}">
+×
+</button>
+
+</div>
+
+`)
+.join("");
+
+$("editorChecklist")
+.querySelectorAll(
+"[data-borrar-check]"
+)
+.forEach(b=>{
+
+b.onclick=()=>{
+
+checklistTemporal.splice(
++b.dataset.borrarCheck,
+1
+);
+
+renderEditorChecklist();
+
+}
+
+});
+
+}
+
+$("anadirCheck").onclick=()=>{
+
+const t=
+$("textoCheck").value.trim();
+
+if(!t)return;
+
+checklistTemporal.push({
+texto:t,
+hecho:false
+});
+
+$("textoCheck").value="";
+
+renderEditorChecklist();
+
+};
+
+$("textoCheck").onkeydown=e=>{
+
+if(e.key==="Enter"){
+
+e.preventDefault();
+$("anadirCheck").click();
+
+}
+
 };
 
 function abrirTarea(t=null){
+
 tareaEditando=t;
 
+checklistTemporal=
+(t?.checklist||[])
+.map(x=>({...x}));
+
 $("tituloModalTarea").textContent=
-t?"Editar tarea":"Nueva tarea";
+t
+?"Editar tarea"
+:"Nueva tarea";
 
 $("tituloTarea").value=
 t?.titulo||"";
@@ -2905,9 +4615,6 @@ t?.prioridad||"Normal";
 $("categoriaTarea").value=
 t?.categoria||"Familia";
 
-$("notasTarea").value=
-t?.notas||"";
-
 $("repeticionTarea").value=
 t?.repeticion||"";
 
@@ -2917,110 +4624,56 @@ t?.intervaloRepeticion||1;
 $("finRepeticionTarea").value=
 t?.finRepeticion||"";
 
-$("opcionesRepeticionTarea").style.display=
-$("repeticionTarea").value
-?"block"
-:"none";
-
-checklistTemporal=
-(t?.checklist||[])
-.map(x=>({...x}));
+$("notasTarea").value=
+t?.notas||"";
 
 document
-.querySelectorAll("#responsables input")
+.querySelectorAll(
+"#responsables input"
+)
 .forEach(c=>{
+
 c.checked=
 (t?.responsables||[])
 .includes(c.value)
+
 });
 
-renderChecklistEditor();
+renderEditorChecklist();
+actualizarRepeticionTarea();
 
 $("modalTarea")
 .classList.add("visible");
+
 }
-
-$("repeticionTarea").onchange=()=>{
-$("opcionesRepeticionTarea").style.display=
-$("repeticionTarea").value
-?"block"
-:"none"
-};
-
-function renderChecklistEditor(){
-$("editorChecklist").innerHTML=
-checklistTemporal
-.map((x,i)=>`
-
-<div class="itemEditor">
-<span>${escapar(x.texto)}</span>
-<button data-quitar="${i}">×</button>
-</div>
-
-`)
-.join("");
-
-$("editorChecklist")
-.querySelectorAll("[data-quitar]")
-.forEach(b=>{
-
-b.onclick=()=>{
-checklistTemporal.splice(
-+b.dataset.quitar,
-1
-);
-
-renderChecklistEditor();
-}
-
-});
-}
-
-$("anadirCheck").onclick=()=>{
-const x=
-$("textoCheck").value.trim();
-
-if(x){
-
-checklistTemporal.push({
-texto:x,
-hecho:false
-});
-
-$("textoCheck").value="";
-
-renderChecklistEditor();
-}
-};
 
 $("cancelarTarea").onclick=()=>{
+
 $("modalTarea")
-.classList.remove("visible")
+.classList.remove("visible");
+
 };
 
 $("guardarTarea").onclick=async()=>{
+
 const titulo=
 $("tituloTarea").value.trim();
 
 if(!titulo){
+
 return alert(
-"Escribe un título."
+"Indica el título de la tarea."
 )
+
 }
 
-if(
-$("repeticionTarea").value &&
-!$("fechaLimite").value
-){
-return alert(
-"Una tarea recurrente necesita fecha límite."
-)
-}
+const botonGuardarTarea=
+$("guardarTarea");
 
-const botonGuardarTarea=$("guardarTarea");
 botonGuardarTarea.disabled=true;
 
 const datos={
+
 titulo,
 
 responsables:[
@@ -3038,6 +4691,15 @@ $("prioridadTarea").value,
 categoria:
 $("categoriaTarea").value,
 
+completada:
+tareaEditando?.completada||false,
+
+checklist:
+checklistTemporal,
+
+notas:
+$("notasTarea").value.trim(),
+
 repeticion:
 $("repeticionTarea").value,
 
@@ -3050,13 +4712,8 @@ Math.max(
 finRepeticion:
 $("repeticionTarea").value
 ?$("finRepeticionTarea").value
-:"",
+:""
 
-checklist:
-checklistTemporal,
-
-notas:
-$("notasTarea").value.trim()
 };
 
 try{
@@ -3075,11 +4732,17 @@ datos
 }else{
 
 await addDoc(
-collection(db,"tareas"),
+collection(
+db,
+"tareas"
+),
 {
 ...datos,
-completada:false,
-creada:serverTimestamp()
+creada:
+serverTimestamp(),
+
+creadoPor:
+auth.currentUser?.email||""
 }
 );
 
@@ -3090,148 +4753,75 @@ $("modalTarea")
 
 tareaEditando=null;
 
-}catch(e){
-
-console.error(e);
-alert("No se ha podido guardar la tarea.");
-
 }finally{
 
 botonGuardarTarea.disabled=false;
 
 }
+
 };
+  function renderInicio(){
 
-function renderTodo(){
-renderInicio();
-renderAgenda();
-renderTareas();
-}
-
-function renderInicio(){
 const hoy=fechaLocal();
+const ev=eventosEnFechaTodos(hoy);
+const ta=tareas.filter(t=>!t.completada);
+const taHoy=ta.filter(t=>t.fechaLimite===hoy);
+const vencidas=ta.filter(t=>t.fechaLimite&&t.fechaLimite<hoy);
 
-const ev=
-eventosEnFechaTodos(hoy);
+$("nHoy").textContent=ev.length+taHoy.length;
+$("nTareas").textContent=ta.length;
 
-const pend=
-tareas.filter(t=>!t.completada);
-
-const hoyT=
-pend.filter(
-t=>t.fechaLimite===hoy
-);
-
-const venc=
-pend.filter(
-t=>
-t.fechaLimite &&
-t.fechaLimite<hoy
-);
-
-$("nHoy").textContent=
-ev.length+hoyT.length;
-
-$("nTareas").textContent=
-pend.length;
-
-$("nTareas")
-.classList.toggle(
-"pendientesAlerta",
-venc.length>0
-);
-
-$("nTareas")
-.closest(".dato")
-.classList.toggle(
-"pendientesAlertaDato",
-venc.length>0
-);
-
-const tHoy=
-$("tarjetaHoy");
-
-tHoy.classList.toggle(
-"inicioVacia",
-!ev.length
-);
+const datoPendientes=$("nTareas").closest(".dato");
+datoPendientes.classList.toggle("pendientesAlertaDato",vencidas.length>0);
+$("nTareas").classList.toggle("pendientesAlerta",vencidas.length>0);
 
 insertarEventos(
 $("eventosHoy"),
 ev
 );
 
+if(!ev.length){
+$("tarjetaHoy").classList.add("inicioVacia");
+}else{
+$("tarjetaHoy").classList.remove("inicioVacia");
+}
+
+const tareasMostrar=
+ordenarTareas(ta)
+.slice(0,4);
+
+insertarTareas(
+$("tareasInicio"),
+tareasMostrar
+);
+
+if(!tareasMostrar.length){
+$("tarjetaTareasInicio").classList.add("inicioVacia");
+}else{
+$("tarjetaTareasInicio").classList.remove("inicioVacia");
+}
+
+renderSemanaInicio();
+renderProximamente();
+
+}
+
+function renderSemanaInicio(){
+
+const hoy=new Date();
+hoy.setHours(12,0,0,0);
+
+const fin=sumarDias(hoy,6);
+
 let html="";
+let total=0;
 
-if(venc.length){
-
-html+=`
-<div class="subtituloInicio rojo">
-Vencidas · ${venc.length}
-</div>
-<div id="iniVenc"></div>
-`;
-
-}
-
-if(hoyT.length){
-
-html+=`
-<div class="subtituloInicio azul">
-Para hoy · ${hoyT.length}
-</div>
-<div id="iniHoyT"></div>
-`;
-
-}
-
-if(
-!venc.length &&
-!hoyT.length
+for(
+let d=new Date(hoy);
+d<=fin;
+d=sumarDias(d,1)
 ){
 
-html=
-'<div class="vacio">Sin tareas urgentes.</div>';
-
-}
-
-$("tareasInicio").innerHTML=html;
-
-const tTar=
-$("tarjetaTareasInicio");
-
-tTar.classList.toggle(
-"inicioVacia",
-!venc.length&&!hoyT.length
-);
-
-if(venc.length){
-insertarTareas(
-$("iniVenc"),
-venc
-);
-}
-
-if(hoyT.length){
-insertarTareas(
-$("iniHoyT"),
-hoyT
-);
-}
-
-renderEstaSemana();
-renderProximamente();
-}
-
-function renderEstaSemana(){
-let html="";
-
-let h=new Date();
-h.setHours(12,0,0,0);
-
-for(let i=0;i<7;i++){
-
-const d=sumarDias(h,i);
 const f=fechaLocal(d);
 
 const ev=
@@ -3244,17 +4834,13 @@ t=>
 t.fechaLimite===f
 );
 
-if(
-!ev.length &&
-!ta.length
-){
+if(!ev.length&&!ta.length){
 continue
 }
 
-const nom=
-i===0
-?"Hoy"
-:cap(
+total+=ev.length+ta.length;
+
+const nombre=
 new Intl.DateTimeFormat(
 "es-ES",
 {
@@ -3264,23 +4850,18 @@ month:"short"
 }
 )
 .format(d)
-.replace(".","")
-);
+.replace(".","");
 
 html+=`
-
 <div class="semanaInicioDia">
 
-<div class="semanaInicioTitulo ${i===0?"hoy":""}">
-
-${nom}
-
+<div class="semanaInicioTitulo ${mismoDia(d,hoy)?"hoy":""}">
+${cap(nombre)}
 <button
 class="irAgendaDia"
 data-ir-dia="${f}">
 Ver día
 </button>
-
 </div>
 
 ${ev.map(htmlEvento).join("")}
@@ -3288,61 +4869,85 @@ ${ev.map(htmlEvento).join("")}
 ${ta.map(htmlTarea).join("")}
 
 </div>
-
 `;
 
 }
 
-$("estaSemana").innerHTML=
-html||
-'<div class="vacio">Nada previsto.</div>';
+if(!total){
 
-$("tarjetaSemanaInicio").classList.toggle(
-"tarjetaSemanaVacia",
-!html
-);
+$("estaSemana").innerHTML=
+'<div class="vacio">No hay nada previsto.</div>';
+
+$("tarjetaSemanaInicio")
+.classList.add("tarjetaSemanaVacia");
+
+}else{
+
+$("estaSemana").innerHTML=html;
+
+$("tarjetaSemanaInicio")
+.classList.remove("tarjetaSemanaVacia");
+
+}
 
 $("estaSemana")
-.querySelectorAll("[data-ver-evento]")
+.querySelectorAll(
+"[data-ver-evento]"
+)
 .forEach(x=>{
-x.onclick=()=>abrirFichaEvento(
+
+x.onclick=
+()=>abrirFichaEvento(
 x.dataset.verEvento,
 x.dataset.aparicion
 )
+
 });
 
 $("estaSemana")
-.querySelectorAll("[data-ver-tarea]")
+.querySelectorAll(
+"[data-ver-tarea]"
+)
 .forEach(x=>{
-x.onclick=()=>
-abrirFichaTarea(
+
+x.onclick=
+()=>abrirFichaTarea(
 x.dataset.verTarea
 )
+
 });
 
 $("estaSemana")
-.querySelectorAll("[data-completar]")
+.querySelectorAll(
+"[data-completar]"
+)
 .forEach(b=>{
 
 b.onclick=async e=>{
+
 e.stopPropagation();
 
-const t=tareas.find(
+const t=
+tareas.find(
 x=>x.id===b.dataset.completar
 );
 
 if(t){
 await completarTarea(t)
 }
+
 }
 
 });
 
 $("estaSemana")
-.querySelectorAll("[data-ir-dia]")
+.querySelectorAll(
+"[data-ir-dia]"
+)
 .forEach(b=>{
 
 b.onclick=()=>{
+
 fechaAgenda=
 desdeFechaLocal(
 b.dataset.irDia
@@ -3351,31 +4956,48 @@ b.dataset.irDia
 vistaAgenda="dia";
 
 cambiarPantalla("agenda");
+
 }
 
 });
+
 }
 
-function renderProximamente(){
-const base=new Date();
-base.setHours(12,0,0,0);
+function siguienteElemento(){
 
-let todos=[];
+const hoy=fechaLocal();
 
-for(let i=1;i<=30;i++){
+let candidatos=[];
 
-const d=sumarDias(base,i);
-const f=fechaLocal(d);
+for(let i=0;i<=30;i++){
+
+const f=
+fechaLocal(
+sumarDias(
+desdeFechaLocal(hoy),
+i
+)
+);
 
 eventosEnFechaTodos(f)
-.forEach(e=>
-todos.push({
+.forEach(e=>{
+
+if(
+e.fechaVista!==f
+){
+return
+}
+
+candidatos.push({
 tipo:"evento",
 fecha:f,
-dias:i,
-e
-})
-);
+hora:e.todoDia
+?"00:00"
+:(e.horaInicio||"23:59"),
+obj:e
+});
+
+});
 
 tareas
 .filter(
@@ -3383,100 +5005,263 @@ t=>
 !t.completada &&
 t.fechaLimite===f
 )
-.forEach(t=>
-todos.push({
+.forEach(t=>{
+
+candidatos.push({
 tipo:"tarea",
 fecha:f,
-dias:i,
-t
-})
-);
-
-}
-
-todos.sort((a,b)=>{
-
-if(a.dias!==b.dias){
-return a.dias-b.dias;
-}
-
-const ha=
-a.tipo==="evento"
-?(a.e.todoDia
-?"00:00"
-:a.e.horaInicio||"23:59")
-:"23:58";
-
-const hb=
-b.tipo==="evento"
-?(b.e.todoDia
-?"00:00"
-:b.e.horaInicio||"23:59")
-:"23:58";
-
-return ha.localeCompare(hb);
+hora:"23:59",
+obj:t
 });
 
-const primero=todos[0];
+});
 
-$("nProximo").textContent=
-primero
-?primero.dias
-:"—";
+}
+
+candidatos.sort(
+(a,b)=>
+a.fecha.localeCompare(b.fecha)||
+a.hora.localeCompare(b.hora)
+);
+
+return candidatos[0]||null;
+
+}
+
+function renderProximamente(){
+
+const hoy=fechaLocal();
+const limite=
+fechaLocal(
+sumarDias(
+desdeFechaLocal(hoy),
+30
+)
+);
+
+let items=[];
+
+for(
+let d=sumarDias(
+desdeFechaLocal(hoy),
+1
+);
+d<=desdeFechaLocal(limite);
+d=sumarDias(d,1)
+){
+
+const f=fechaLocal(d);
+
+eventosEnFechaTodos(f)
+.forEach(e=>{
+
+if(e.fechaVista===f){
+
+items.push({
+tipo:"evento",
+fecha:f,
+obj:e
+});
+
+}
+
+});
+
+tareas
+.filter(
+t=>
+!t.completada &&
+t.fechaLimite===f
+)
+.forEach(t=>{
+
+items.push({
+tipo:"tarea",
+fecha:f,
+obj:t
+});
+
+});
+
+}
+
+items.sort((a,b)=>{
+
+const f=
+a.fecha.localeCompare(b.fecha);
+
+if(f)return f;
+
+if(
+a.tipo==="evento" &&
+b.tipo==="evento"
+){
+
+return (
+a.obj.horaInicio||"99:99"
+).localeCompare(
+b.obj.horaInicio||"99:99"
+)
+
+}
+
+return a.tipo==="evento"
+?-1
+:1;
+
+});
+
+items=items.slice(0,8);
+
+if(!items.length){
+
+$("proximamente").innerHTML=
+'<div class="vacio">Nada próximo.</div>';
+
+$("tarjetaProximamente")
+.classList.add("inicioVacia");
+
+}else{
+
+$("tarjetaProximamente")
+.classList.remove("inicioVacia");
+
+$("proximamente").innerHTML=
+items.map(x=>{
+
+const d=
+desdeFechaLocal(
+x.fecha
+);
+
+const fecha=
+new Intl.DateTimeFormat(
+"es-ES",
+{
+weekday:"short",
+day:"numeric",
+month:"short"
+}
+)
+.format(d)
+.replace(/\./g,"");
+
+if(x.tipo==="evento"){
+
+return `
+<div
+class="proximamenteItem"
+data-prox-evento="${x.obj.id}"
+data-prox-aparicion="${x.obj.fechaAparicion||x.fecha}"
+>
+
+<div class="proximamenteFecha">
+${cap(fecha)}
+</div>
+
+<div class="evento-titulo">
+${escapar(x.obj.actividad)}
+${distintivosEvento(x.obj,x.fecha)}
+</div>
+
+<div class="evento-meta">
+${escapar(textoHora(x.obj))}
+</div>
+
+</div>
+`;
+
+}
+
+return `
+<div
+class="proximamenteItem"
+data-prox-tarea="${x.obj.id}"
+>
+
+<div class="proximamenteFecha">
+${cap(fecha)}
+</div>
+
+<div class="tarea-titulo">
+${escapar(x.obj.titulo)}
+</div>
+
+<div class="tarea-meta">
+Tarea · ${escapar(x.obj.prioridad||"Normal")}
+</div>
+
+</div>
+`;
+
+}).join("");
+
+}
+
+$("proximamente")
+.querySelectorAll(
+"[data-prox-evento]"
+)
+.forEach(x=>{
+
+x.onclick=
+()=>abrirFichaEvento(
+x.dataset.proxEvento,
+x.dataset.proxAparicion
+)
+
+});
+
+$("proximamente")
+.querySelectorAll(
+"[data-prox-tarea]"
+)
+.forEach(x=>{
+
+x.onclick=
+()=>abrirFichaTarea(
+x.dataset.proxTarea
+)
+
+});
+
+const sig=siguienteElemento();
+
+if(sig){
+
+const dias=
+diasEntre(
+hoy,
+sig.fecha
+);
+
+$("nProximo").textContent=dias;
 
 $("etiquetaProximo").textContent=
-primero
-?(primero.dias===1
-?"Día · próximo"
-:"Días · próximo")
-:"Próximo";
-
-if(primero){
-
-const titulo=
-primero.tipo==="evento"
-?primero.e.actividad
-:primero.t.titulo;
-
-const icono=
-primero.tipo==="evento" &&
-primero.e.categoria==="Cumpleaños"
-?"🎂 "
-:primero.tipo==="evento" &&
-primero.e.categoria==="Aniversario"
-?"♥ "
-:primero.tipo==="tarea" &&
-primero.t.categoria==="Compras"
-?"🛒 "
-:"";
+"Días · próximo";
 
 $("siguienteInicio").style.display="flex";
 
-$("siguienteInicio").innerHTML=`
-<strong>Siguiente</strong>
-<span>
-${primero.dias===1
-?"Mañana"
-:`En ${primero.dias} días`}
- · ${icono}${escapar(titulo)}
-</span>
-`;
-
-$("siguienteInicio").style.cursor="pointer";
+$("siguienteInicio").innerHTML=
+`<strong>Siguiente</strong><span>${
+sig.tipo==="evento"
+?escapar(sig.obj.actividad)
+:escapar(sig.obj.titulo)
+} · ${dias===0?"hoy":dias===1?"mañana":`en ${dias} días`}</span>`;
 
 $("siguienteInicio").onclick=()=>{
 
-if(primero.tipo==="evento"){
+if(sig.tipo==="evento"){
 
 abrirFichaEvento(
-primero.e.id,
-primero.e.fechaAparicion||primero.fecha
+sig.obj.id,
+sig.obj.fechaAparicion||sig.fecha
 );
 
 }else{
 
 abrirFichaTarea(
-primero.t.id
+sig.obj.id
 );
 
 }
@@ -3485,167 +5270,52 @@ primero.t.id
 
 }else{
 
+$("nProximo").textContent="—";
+$("etiquetaProximo").textContent=
+"Días · próximo";
+
 $("siguienteInicio").style.display="none";
-$("siguienteInicio").innerHTML="";
 $("siguienteInicio").onclick=null;
 
 }
 
-const items=
-todos
-.filter(x=>x.dias>=7)
-.slice(0,5);
-
-$("proximamente").innerHTML=
-items.length
-?items.map(x=>
-
-x.tipo==="evento"
-
-?`
-<div class="proximamenteItem">
-<div class="proximamenteFecha">
-${fechaBonita(x.fecha)}
-</div>
-${htmlEvento(x.e)}
-</div>
-`
-
-:`
-<div class="proximamenteItem">
-<div class="proximamenteFecha">
-${fechaBonita(x.fecha)}
-</div>
-${htmlTarea(x.t)}
-</div>
-`
-
-).join("")
-
-:'<div class="vacio">Nada más previsto en los próximos 30 días.</div>';
-
-$("tarjetaProximamente").style.display=
-items.length
-?"block"
-:"none";
-
-$("proximamente")
-.querySelectorAll("[data-ver-evento]")
-.forEach(x=>{
-x.onclick=()=>abrirFichaEvento(
-x.dataset.verEvento,
-x.dataset.aparicion
-)
-});
-
-$("proximamente")
-.querySelectorAll("[data-ver-tarea]")
-.forEach(x=>{
-x.onclick=()=>
-abrirFichaTarea(
-x.dataset.verTarea
-)
-});
-
-$("proximamente")
-.querySelectorAll("[data-completar]")
-.forEach(b=>{
-
-b.onclick=async e=>{
-e.stopPropagation();
-
-const t=tareas.find(
-x=>x.id===b.dataset.completar
-);
-
-if(t){
-await completarTarea(t)
-}
-}
-
-});
-}
-
-function renderAgenda(){
-
-$("vistaDia").style.display=
-vistaAgenda==="dia"
-?"block"
-:"none";
-
-$("vistaSemana").style.display=
-vistaAgenda==="semana"
-?"block"
-:"none";
-
-$("vistaMes").style.display=
-vistaAgenda==="mes"
-?"block"
-:"none";
-
-document
-.querySelectorAll("[data-vista]")
-.forEach(b=>
-b.classList.toggle(
-"activo",
-b.dataset.vista===vistaAgenda
-)
-);
-
-vistaAgenda==="dia"
-?renderDia()
-:vistaAgenda==="semana"
-?renderSemana()
-:renderMes();
 }
 
 function renderDia(){
-const f=fechaLocal(fechaAgenda);
 
-const l=eventosEnFecha(f);
-
-$("tituloPeriodo").textContent=
-fechaBonita(f);
-
-$("contadorPeriodo").textContent=
-`${l.length} ${l.length===1?"evento":"eventos"}`;
-
-$("vistaDia").innerHTML=
-'<div class="tarjeta"><div id="listaDia"></div></div>';
+const f=
+fechaLocal(fechaAgenda);
 
 insertarEventos(
-$("listaDia"),
-l
+$("vistaDia"),
+eventosEnFecha(f)
 );
+
 }
 
 function renderSemana(){
+
 const l=
-lunesDeSemana(fechaAgenda);
+lunesDeSemana(
+fechaAgenda
+);
 
 const fin=
 sumarDias(l,6);
 
-const dias=
-Array.from(
-{length:7},
-(_,i)=>sumarDias(l,i)
-);
+let cab="";
+let detalle="";
 
-$("tituloPeriodo").textContent=
-tituloSemana(l,fin);
+for(let i=0;i<7;i++){
 
-const nSem=
-aparicionesEntre(l,fin).length;
+const d=
+sumarDias(l,i);
 
-$("contadorPeriodo").textContent=
-`${nSem} ${nSem===1?"evento":"eventos"} esta semana`;
+const f=
+fechaLocal(d);
 
-const franja=
-dias.map(d=>{
-
-const f=fechaLocal(d);
-const ev=eventosEnFecha(f);
+const ev=
+eventosEnFecha(f);
 
 const letra=
 new Intl.DateTimeFormat(
@@ -3653,13 +5323,14 @@ new Intl.DateTimeFormat(
 {weekday:"short"}
 )
 .format(d)
-.replace(".","")[0]
-.toUpperCase();
+.replace(".","")
+.slice(0,2);
 
-return `
+cab+=`
 <button
 class="diaCompacto ${mismoDia(d,new Date())?"hoy":""}"
-data-dia="${f}">
+data-semana-dia="${f}"
+>
 
 <span class="letraDia">
 ${letra}
@@ -3671,58 +5342,60 @@ ${d.getDate()}
 
 <span class="puntosSemana">
 
-${ev.slice(0,3)
-.map(e=>`
-<span
+${ev
+.slice(0,3)
+.map(
+e=>
+`<span
 class="puntoSemana"
 style="background:${colorSimple(e.participantes||[])}">
-</span>
-`)
+</span>`
+)
 .join("")}
 
 </span>
+
 </button>
-`
+`;
 
-}).join("");
-
-const resumen=
-dias.map(d=>{
-
-const f=fechaLocal(d);
-const ev=eventosEnFecha(f);
-
-const nom=
-cap(
+const titulo=
 new Intl.DateTimeFormat(
 "es-ES",
-{weekday:"long"}
+{
+weekday:"long",
+day:"numeric",
+month:"short"
+}
 )
 .format(d)
-);
+.replace(".","");
 
-const mes=
-new Intl.DateTimeFormat(
-"es-ES",
-{month:"long"}
-)
-.format(d);
+detalle+=`
 
-return `
-
-<div class="bloqueDiaSemana ${ev.length?"":"sinEventos"} ${mismoDia(d,new Date())?"esHoy":""}">
+<div
+class="bloqueDiaSemana ${!ev.length?"sinEventos":""} ${mismoDia(d,new Date())?"esHoy":""}"
+>
 
 <div
 class="cabResumenDia"
-data-dia="${f}">
+data-semana-dia="${f}"
+>
 
-<span class="fechaResumenDia">
-${nom}, ${d.getDate()} de ${mes}
-</span>
+<div class="fechaResumenDia">
+${cap(titulo)}
+</div>
 
 ${ev.length
-?`<span class="contadorDia">${ev.length}</span>`
-:'<span class="sinEventosSemana">Sin eventos</span>'}
+?`
+<div class="contadorDia">
+${ev.length}
+</div>
+`
+:`
+<div class="sinEventosSemana">
+Sin eventos
+</div>
+`}
 
 </div>
 
@@ -3731,7 +5404,8 @@ ${ev.map(e=>`
 <div
 class="eventoSemanaLinea"
 data-ver-evento="${e.id}"
-data-aparicion="${e.fechaAparicion}">
+data-aparicion="${e.fechaAparicion||e.fecha}"
+>
 
 <div
 class="barraSemana"
@@ -3750,7 +5424,10 @@ ${distintivosEvento(e,f)}
 </div>
 
 <div class="personasSemana">
-${escapar((e.participantes||[]).join(" · "))}
+${escapar(
+(e.participantes||[])
+.join(" · ")
+)}
 </div>
 
 </div>
@@ -3759,102 +5436,119 @@ ${escapar((e.participantes||[]).join(" · "))}
 `).join("")}
 
 </div>
-`
+`;
 
-}).join("");
+}
 
 $("vistaSemana").innerHTML=`
 
 <div class="semanaCompacta">
 <div class="franjaSemana">
-${franja}
+${cab}
 </div>
 </div>
 
 <div class="resumenSemana">
-${resumen}
+${detalle}
 </div>
-
 `;
 
 $("vistaSemana")
-.querySelectorAll("[data-dia]")
+.querySelectorAll(
+"[data-semana-dia]"
+)
 .forEach(x=>{
 
 x.onclick=()=>{
+
 fechaAgenda=
 desdeFechaLocal(
-x.dataset.dia
+x.dataset.semanaDia
 );
 
 vistaAgenda="dia";
+
 renderAgenda();
+
 }
 
 });
 
 $("vistaSemana")
-.querySelectorAll("[data-ver-evento]")
+.querySelectorAll(
+"[data-ver-evento]"
+)
 .forEach(x=>{
 
 x.onclick=e=>{
+
 e.stopPropagation();
 
 abrirFichaEvento(
 x.dataset.verEvento,
 x.dataset.aparicion
 );
+
 }
 
 });
+
+$("tituloPeriodo").textContent=
+tituloSemana(
+l,
+fin
+);
+
 }
 
 function renderMes(){
+
 const y=
 fechaAgenda.getFullYear();
 
 const m=
 fechaAgenda.getMonth();
 
-const prim=
-new Date(y,m,1,12);
+const primero=
+new Date(
+y,
+m,
+1,
+12
+);
 
 const dias=
-new Date(y,m+1,0,12)
-.getDate();
+ultimoDiaMes(
+y,
+m
+);
 
-let huecos=
-prim.getDay()-1;
+let inicio=
+primero.getDay();
 
-if(huecos<0){
-huecos=6
+inicio=
+inicio===0
+?6
+:inicio-1;
+
+let html="";
+
+for(let i=0;i<inicio;i++){
+
+html+=
+'<div class="celdaVacia"></div>';
+
 }
-
-const total=
-Math.ceil(
-(huecos+dias)/7
-)*7;
-
-$("tituloPeriodo").textContent=
-tituloMes(fechaAgenda);
-
-const nMes=
-aparicionesEntre(
-prim,
-new Date(y,m,dias,12)
-).length;
-
-$("contadorPeriodo").textContent=
-`${nMes} ${nMes===1?"evento":"eventos"} este mes`;
-
-let c=
-'<div class="celdaVacia"></div>'
-.repeat(huecos);
 
 for(let n=1;n<=dias;n++){
 
 const d=
-new Date(y,m,n,12);
+new Date(
+y,
+m,
+n,
+12
+);
 
 const f=
 fechaLocal(d);
@@ -3862,11 +5556,12 @@ fechaLocal(d);
 const ev=
 eventosEnFecha(f);
 
-c+=`
+html+=`
 
 <div
-class="celdaDia ${mismoDia(d,new Date())?"hoy":""} ${mismoDia(d,fechaAgenda)?"seleccionado":""}"
-data-fecha="${f}">
+class="celdaDia ${mismoDia(d,new Date())?"hoy":""}"
+data-dia-mes="${f}"
+>
 
 <div class="numMes">
 ${n}
@@ -3874,18 +5569,20 @@ ${n}
 
 <div class="puntosMes">
 
-${ev.slice(0,3)
-.map(e=>`
-<span
+${ev
+.slice(0,4)
+.map(
+e=>
+`<span
 class="puntoMes"
 style="background:${colorSimple(e.participantes||[])}">
-</span>
-`)
+</span>`
+)
 .join("")}
 
 </div>
 
-${ev[0]
+${ev.length
 ?`
 <div class="textoEventoMes">
 ${escapar(ev[0].actividad)}
@@ -3902,18 +5599,9 @@ ${ev.length>1
 :""}
 
 </div>
-
 `;
+
 }
-
-c+=
-'<div class="celdaVacia"></div>'
-.repeat(
-total-huecos-dias
-);
-
-const f=
-fechaLocal(fechaAgenda);
 
 $("vistaMes").innerHTML=`
 
@@ -3930,243 +5618,458 @@ $("vistaMes").innerHTML=`
 </div>
 
 <div class="rejillaMes">
-${c}
+${html}
 </div>
 
 </div>
 
-<div class="tarjeta detalleMes">
+<div
+id="detalleMes"
+class="tarjeta detalleMes"
+style="display:none">
+</div>
+`;
 
+$("vistaMes")
+.querySelectorAll(
+"[data-dia-mes]"
+)
+.forEach(c=>{
+
+c.onclick=()=>{
+
+$("vistaMes")
+.querySelectorAll(
+".celdaDia"
+)
+.forEach(x=>
+x.classList.remove(
+"seleccionado"
+)
+);
+
+c.classList.add(
+"seleccionado"
+);
+
+const f=
+c.dataset.diaMes;
+
+const ev=
+eventosEnFecha(f);
+
+const det=
+$("detalleMes");
+
+det.style.display="block";
+
+det.innerHTML=`
 <h2>
 ${fechaBonita(f)}
 </h2>
-
-<div id="eventosDiaMes"></div>
-
-</div>
-
+<div id="eventosDetalleMes"></div>
 `;
 
 insertarEventos(
-$("eventosDiaMes"),
-eventosEnFecha(f)
+$("eventosDetalleMes"),
+ev
 );
 
-$("vistaMes")
-.querySelectorAll("[data-fecha]")
-.forEach(x=>{
-
-let ultimo=0;
-
-x.onclick=()=>{
-
-const ahora=Date.now();
-
-if(ahora-ultimo<350){
-
-abrirEvento(
-null,
-null,
-x.dataset.fecha
-);
-
-ultimo=0;
-
-return
-}
-
-ultimo=ahora;
-
-fechaAgenda=
-desdeFechaLocal(
-x.dataset.fecha
-);
-
-setTimeout(()=>{
-
-if(
-Date.now()-ultimo>=350
-){
-renderMes()
-}
-
-},360);
 }
 
 });
+
+$("tituloPeriodo").textContent=
+tituloMes(
+fechaAgenda
+);
+
 }
 
-function renderTareas(){
-let l=[...tareas];
+function renderAgenda(){
 
-if(filtroTareas!=="Todos"){
+document
+.querySelectorAll(
+".vistaBtn"
+)
+.forEach(b=>{
 
-l=l.filter(
+b.classList.toggle(
+"activo",
+b.dataset.vista===vistaAgenda
+)
+
+});
+
+$("vistaDia").style.display=
+vistaAgenda==="dia"
+?"block"
+:"none";
+
+$("vistaSemana").style.display=
+vistaAgenda==="semana"
+?"block"
+:"none";
+
+$("vistaMes").style.display=
+vistaAgenda==="mes"
+?"block"
+:"none";
+
+if(vistaAgenda==="dia"){
+
+$("tituloPeriodo").textContent=
+fechaBonita(
+fechaLocal(fechaAgenda)
+);
+
+renderDia();
+
+}
+
+if(vistaAgenda==="semana"){
+renderSemana()
+}
+
+if(vistaAgenda==="mes"){
+renderMes()
+}
+
+let n=0;
+
+if(vistaAgenda==="dia"){
+
+n=
+eventosEnFecha(
+fechaLocal(fechaAgenda)
+).length;
+
+}else if(vistaAgenda==="semana"){
+
+const l=
+lunesDeSemana(
+fechaAgenda
+);
+
+n=
+aparicionesEntre(
+l,
+sumarDias(l,6)
+)
+.filter(
+e=>e.fechaVista===e.fechaAparicion
+).length;
+
+}else{
+
+const y=
+fechaAgenda.getFullYear();
+
+const m=
+fechaAgenda.getMonth();
+
+n=
+aparicionesEntre(
+new Date(y,m,1,12),
+new Date(
+y,
+m,
+ultimoDiaMes(y,m),
+12
+)
+)
+.filter(
+e=>e.fechaVista===e.fechaAparicion
+).length;
+
+}
+
+$("contadorPeriodo").textContent=
+`${n} ${n===1?"evento":"eventos"}`;
+
+}
+
+function tareasFiltradas(){
+
+let l=
+filtroTareas==="Todos"
+?tareas
+:tareas.filter(
 t=>
 (t.responsables||[])
 .includes(filtroTareas)
 );
 
-}
+if(
+estadoTareas==="pendientes"
+){
 
-if(estadoTareas==="pendientes"){
-l=l.filter(
+l=
+l.filter(
 t=>!t.completada
 );
+
 }
 
-if(estadoTareas==="completadas"){
-l=l.filter(
+if(
+estadoTareas==="completadas"
+){
+
+l=
+l.filter(
 t=>t.completada
 );
+
 }
 
-if(estadoTareas==="pendientes"){
+return l;
 
-const compras=
+}
+
+function renderTareas(){
+
+const l=
+tareasFiltradas();
+
+const conFecha=
 l.filter(
-t=>t.categoria==="Compras"
+t=>t.fechaLimite
 );
 
-const resto=
+const sinFecha=
 l.filter(
-t=>t.categoria!=="Compras"
+t=>!t.fechaLimite
 );
 
-const con=
-resto.filter(t=>t.fechaLimite);
+let html="";
 
-const sin=
-resto.filter(t=>!t.fechaLimite);
+if(conFecha.length){
 
-$("listaTareas").innerHTML=`
-
+html+=`
 <div id="tareasConFecha"></div>
-
-${compras.length
-?`
-<div class="subtituloInicio">
-🛒 Compras · ${compras.length}
-</div>
-<div id="tareasCompras"></div>
-`
-:""}
-
-${sin.length
-?`
-<div class="bloqueSinFecha">
-<div class="subtituloInicio">
-Sin fecha · ${sin.length}
-</div>
-<div id="tareasSinFecha"></div>
-</div>
-`
-:""}
-
 `;
+
+}
+
+if(sinFecha.length){
+
+html+=`
+
+<div class="bloqueSinFecha">
+
+<div class="subtituloInicio">
+Sin fecha
+</div>
+
+<div id="tareasSinFecha"></div>
+
+</div>
+`;
+
+}
+
+if(!l.length){
+
+html=
+'<div class="vacio">No hay tareas.</div>';
+
+}
+
+$("listaTareas").innerHTML=
+html;
+
+if(
+$("tareasConFecha")
+){
 
 insertarTareas(
 $("tareasConFecha"),
-con
-);
-
-if(compras.length){
-
-insertarTareas(
-$("tareasCompras"),
-compras
+conFecha
 );
 
 }
 
-if(sin.length){
+if(
+$("tareasSinFecha")
+){
 
 insertarTareas(
 $("tareasSinFecha"),
-sin
+sinFecha
 );
 
 }
 
-}else{
-
-insertarTareas(
-$("listaTareas"),
-l
-);
-
 }
+
+function renderTodo(){
+
+renderInicio();
+renderAgenda();
+renderTareas();
+renderCompras();
+renderContadorCompras();
+
 }
 
 document
-.querySelectorAll("[data-vista]")
+.querySelectorAll(
+".vistaBtn"
+)
 .forEach(b=>{
 
 b.onclick=()=>{
+
 vistaAgenda=
 b.dataset.vista;
 
 renderAgenda();
+
+}
+
+});
+
+document
+.querySelectorAll(
+"[data-estado]"
+)
+.forEach(b=>{
+
+b.onclick=()=>{
+
+estadoTareas=
+b.dataset.estado;
+
+document
+.querySelectorAll(
+"[data-estado]"
+)
+.forEach(x=>{
+
+x.classList.toggle(
+"activo",
+x===b
+);
+
+});
+
+renderTareas();
+
 }
 
 });
 
 $("anterior").onclick=()=>{
+
+if(vistaAgenda==="dia"){
+
 fechaAgenda=
-vistaAgenda==="dia"
-?sumarDias(fechaAgenda,-1)
-:vistaAgenda==="semana"
-?sumarDias(fechaAgenda,-7)
-:new Date(
+sumarDias(
+fechaAgenda,
+-1
+);
+
+}else if(
+vistaAgenda==="semana"
+){
+
+fechaAgenda=
+sumarDias(
+fechaAgenda,
+-7
+);
+
+}else{
+
+fechaAgenda=
+new Date(
 fechaAgenda.getFullYear(),
 fechaAgenda.getMonth()-1,
 1,
 12
 );
 
+}
+
 renderAgenda();
+
 };
 
 $("siguiente").onclick=()=>{
+
+if(vistaAgenda==="dia"){
+
 fechaAgenda=
-vistaAgenda==="dia"
-?sumarDias(fechaAgenda,1)
-:vistaAgenda==="semana"
-?sumarDias(fechaAgenda,7)
-:new Date(
+sumarDias(
+fechaAgenda,
+1
+);
+
+}else if(
+vistaAgenda==="semana"
+){
+
+fechaAgenda=
+sumarDias(
+fechaAgenda,
+7
+);
+
+}else{
+
+fechaAgenda=
+new Date(
 fechaAgenda.getFullYear(),
 fechaAgenda.getMonth()+1,
 1,
 12
 );
 
+}
+
 renderAgenda();
+
 };
 
 $("irHoy").onclick=()=>{
-fechaAgenda=new Date();
+
+fechaAgenda=
+new Date();
+
 renderAgenda();
+
 };
 
 function cambiarPantalla(p){
+
 pantallaActual=p;
 
 document
-.querySelectorAll(".pantalla")
-.forEach(x=>
-x.classList.remove("activa")
-);
-
-document
-.querySelectorAll(".navbtn")
-.forEach(x=>
-x.classList.toggle(
-"activo",
-x.dataset.pantalla===p
+.querySelectorAll(
+".pantalla"
+)
+.forEach(
+x=>x.classList.remove(
+"activa"
 )
 );
 
-$(p).classList.add("activa");
+document
+.querySelectorAll(
+".navbtn"
+)
+.forEach(x=>{
+
+x.classList.toggle(
+"activo",
+x.dataset.pantalla===p
+);
+
+});
+
+$(p).classList.add(
+"activa"
+);
 
 if(p==="agenda"){
 renderAgenda()
@@ -4179,49 +6082,49 @@ renderTareas()
 if(p==="inicio"){
 renderInicio()
 }
+
+if(p==="compras"){
+renderCompras()
+}
+
 }
 
 document
-.querySelectorAll(".navbtn")
+.querySelectorAll(
+".navbtn"
+)
 .forEach(b=>{
 
-b.onclick=()=>
-cambiarPantalla(
+b.onclick=
+()=>cambiarPantalla(
 b.dataset.pantalla
-)
-
-});
-
-document
-.querySelectorAll("[data-estado]")
-.forEach(b=>{
-
-b.onclick=()=>{
-estadoTareas=
-b.dataset.estado;
-
-document
-.querySelectorAll("[data-estado]")
-.forEach(x=>
-x.classList.toggle(
-"activo",
-x===b
-)
 );
-
-renderTareas();
-}
 
 });
 
 $("fab").onclick=()=>{
-if(pantallaActual==="tareas"){
+
+if(
+pantallaActual==="compras"
+){
+
+$("productoCompra").focus();
+
+}else if(
+pantallaActual==="tareas"
+){
 
 abrirTarea();
 
-}else if(pantallaActual==="agenda"){
+}else if(
+pantallaActual==="agenda"
+){
 
-abrirEvento();
+abrirEvento(
+null,
+null,
+fechaLocal(fechaAgenda)
+);
 
 }else{
 
@@ -4229,43 +6132,32 @@ $("modalRapido")
 .classList.add("visible");
 
 }
+
+};
+
+$("cerrarRapido").onclick=()=>{
+
+$("modalRapido")
+.classList.remove("visible")
+
 };
 
 $("rapidoEvento").onclick=()=>{
+
 $("modalRapido")
 .classList.remove("visible");
 
 abrirEvento();
+
 };
 
 $("rapidoTarea").onclick=()=>{
+
 $("modalRapido")
 .classList.remove("visible");
 
 abrirTarea();
-};
 
-$("cerrarRapido").onclick=()=>{
-$("modalRapido")
-.classList.remove("visible");
-};
-
-$("masFamilia").onclick=()=>{
-const nombres=
-familia
-.filter(p=>p.activo)
-.map(p=>p.nombre)
-.join(", ");
-
-alert(
-"Familia: "+nombres+". La edición de miembros la añadiremos cuando realmente la necesitéis."
-);
-};
-
-$("masAjustes").onclick=()=>{
-alert(
-"Ajustes preparados. Por ahora Family Hub usa las preferencias familiares actuales."
-);
 };
 
 [
@@ -4275,7 +6167,8 @@ alert(
 "modalSerie",
 "modalTarea",
 "modalFichaTarea"
-].forEach(id=>{
+]
+.forEach(id=>{
 
 $(id).addEventListener(
 "click",
@@ -4284,14 +6177,13 @@ e=>{
 if(e.target===$(id)){
 
 if(id==="modalEvento"){
-origenAparicionEditada=null;
+origenAparicionEditada=null
 }
 
-if(id==="modalSerie"){
-accionSerie=null;
-}
+$(id).classList.remove(
+"visible"
+);
 
-$(id).classList.remove("visible");
 }
 
 }
@@ -4303,18 +6195,68 @@ document.addEventListener(
 "keydown",
 e=>{
 
-if(e.key!=="Escape")return;
-
-document
-.querySelectorAll(".modal-fondo.visible")
-.forEach(m=>
-m.classList.remove("visible")
-);
-
-accionSerie=null;
-origenAparicionEditada=null;
+if(e.key!=="Escape"){
+return
 }
+
+[
+"modalRapido",
+"modalEvento",
+"modalFicha",
+"modalSerie",
+"modalTarea",
+"modalFichaTarea"
+]
+.forEach(id=>{
+
+if(
+$(id).classList.contains(
+"visible"
+)
+){
+
+if(id==="modalEvento"){
+origenAparicionEditada=null
+}
+
+$(id).classList.remove(
+"visible"
 );
+
+}
+
+});
+
+});
+
+$("masCompras").onclick=
+()=>cambiarPantalla(
+"compras"
+);
+
+$("masFamilia").onclick=()=>{
+
+const nombres=
+familia
+.filter(p=>p.activo)
+.map(p=>p.nombre)
+.join(", ");
+
+alert(
+"Familia: "+
+nombres+
+". La edición de miembros la añadiremos cuando realmente la necesitéis."
+);
+
+};
+
+$("masAjustes").onclick=()=>{
+
+alert(
+"Ajustes preparados. Por ahora Family Hub usa las preferencias familiares actuales."
+);
+
+};
 
 </script>
 </body>
