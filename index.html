@@ -14,13 +14,11 @@
   <meta name="apple-mobile-web-app-title" content="Family Hub">
 
   <meta name="theme-color" content="#2563eb">
-
   <link rel="manifest" href="./manifest.json">
 
   <title>Family Hub</title>
 
   <style>
-
     * {
       box-sizing: border-box;
     }
@@ -128,7 +126,6 @@
     .campo label {
       display: block;
       margin-bottom: 7px;
-
       font-size: 13px;
       font-weight: 800;
       color: #344054;
@@ -146,14 +143,6 @@
 
       font-size: 16px;
       outline: none;
-    }
-
-    .campo input:focus {
-      border-color: #2563eb;
-
-      box-shadow:
-        0 0 0 3px
-        rgba(37, 99, 235, 0.10);
     }
 
     .boton {
@@ -208,21 +197,18 @@
 
     .estado.cargando {
       display: block;
-
       background: #eff6ff;
       color: #1d4ed8;
     }
 
     .estado.correcto {
       display: block;
-
       background: #ecfdf3;
       color: #166534;
     }
 
     .estado.error {
       display: block;
-
       background: #fef2f2;
       color: #991b1b;
     }
@@ -234,29 +220,52 @@
 
     .usuario {
       margin-top: 12px;
-
       color: #667085;
-
       font-size: 13px;
       text-align: center;
     }
 
-    .detalle {
-      margin-top: 16px;
-      padding: 12px;
+    .familia {
+      margin-top: 20px;
+      display: none;
+    }
 
-      border-radius: 12px;
+    .familia.visible {
+      display: block;
+    }
 
-      background: #f8fafc;
-      color: #667085;
+    .miembro {
+      display: flex;
+      align-items: center;
+      gap: 12px;
 
-      font-size: 13px;
-      text-align: center;
-      line-height: 1.5;
+      padding: 11px 0;
+
+      border-bottom:
+        1px solid #eaecf0;
+    }
+
+    .miembro:last-child {
+      border-bottom: 0;
+    }
+
+    .color {
+      width: 22px;
+      height: 22px;
+
+      flex: 0 0 22px;
+
+      border-radius: 50%;
+
+      border:
+        1px solid rgba(0, 0, 0, 0.15);
+    }
+
+    .nombre {
+      font-weight: 700;
     }
 
     @media (max-width: 500px) {
-
       .contenedor {
         padding: 22px 18px 40px;
       }
@@ -273,10 +282,8 @@
         font-size: 18px;
       }
     }
-
   </style>
 </head>
-
 
 <body>
 
@@ -286,25 +293,19 @@
       D&amp;N
     </div>
 
-    <h1>
-      Family Hub
-    </h1>
+    <h1>Family Hub</h1>
 
     <p class="subtitulo">
       Agenda y organización familiar
     </p>
 
 
-    <!-- LOGIN -->
-
     <section
       id="pantallaLogin"
       class="tarjeta"
     >
 
-      <h2>
-        Acceso familiar
-      </h2>
+      <h2>Acceso familiar</h2>
 
       <p>
         Inicia sesión para acceder a Family Hub.
@@ -360,19 +361,16 @@
 
 
 
-    <!-- APP -->
-
     <section
       id="pantallaApp"
       class="tarjeta"
     >
 
-      <h2>
-        Family Hub conectado
-      </h2>
+      <h2>Familia</h2>
 
       <p>
-        Acceso familiar autorizado.
+        Vamos a crear la estructura familiar
+        inicial de Family Hub.
       </p>
 
 
@@ -383,10 +381,10 @@
 
 
       <button
-        id="botonPrueba"
+        id="botonFamilia"
         class="boton"
       >
-        Probar Firestore
+        Cargar familia
       </button>
 
 
@@ -404,11 +402,10 @@
       ></div>
 
 
-      <div class="detalle">
-        Esta prueba comprobará que Family Hub
-        puede guardar y leer información de
-        vuestra nueva base de datos privada.
-      </div>
+      <div
+        id="listaFamilia"
+        class="familia"
+      ></div>
 
     </section>
 
@@ -417,10 +414,6 @@
 
 
   <script type="module">
-
-    /* ==========================================
-       FIREBASE
-    =========================================== */
 
     import {
       initializeApp
@@ -443,8 +436,9 @@
       getFirestore,
       doc,
       setDoc,
-      getDoc,
-      serverTimestamp
+      collection,
+      getDocs,
+      writeBatch
     } from
       "https://www.gstatic.com/firebasejs/12.19.0/firebase-firestore.js";
 
@@ -473,9 +467,7 @@
 
 
     const app =
-      initializeApp(
-        firebaseConfig
-      );
+      initializeApp(firebaseConfig);
 
 
     const auth =
@@ -487,10 +479,6 @@
 
 
 
-    /* ==========================================
-       PERSISTENCIA DE SESIÓN
-    =========================================== */
-
     try {
 
       await setPersistence(
@@ -500,17 +488,10 @@
 
     } catch (error) {
 
-      console.error(
-        "Error de persistencia:",
-        error
-      );
+      console.error(error);
     }
 
 
-
-    /* ==========================================
-       ELEMENTOS
-    =========================================== */
 
     const pantallaLogin =
       document.getElementById(
@@ -548,9 +529,9 @@
       );
 
 
-    const botonPrueba =
+    const botonFamilia =
       document.getElementById(
-        "botonPrueba"
+        "botonFamilia"
       );
 
 
@@ -572,14 +553,83 @@
       );
 
 
+    const listaFamilia =
+      document.getElementById(
+        "listaFamilia"
+      );
 
-    /* ==========================================
-       ESTADO DE AUTENTICACIÓN
-    =========================================== */
+
+
+    /*
+     * Datos procedentes de la hoja
+     * Familia de AGENDA RIQUELME CARDENAL.
+     */
+
+    const familiaInicial = [
+
+      {
+        id: "daniel",
+        nombre: "Daniel",
+        activo: true,
+        color: "#E53935",
+        orden: 1
+      },
+
+      {
+        id: "nuria",
+        nombre: "Nuria",
+        activo: true,
+        color: "#00ACC1",
+        orden: 2
+      },
+
+      {
+        id: "julio",
+        nombre: "Julio",
+        activo: true,
+        color: "#FBC02D",
+        orden: 3
+      },
+
+      {
+        id: "ezequiel",
+        nombre: "Ezequiel",
+        activo: true,
+        color: "#1E88E5",
+        orden: 4
+      },
+
+      {
+        id: "isabel",
+        nombre: "Isabel",
+        activo: true,
+        color: "#EC407A",
+        orden: 5
+      },
+
+      {
+        id: "gabriel",
+        nombre: "Gabriel",
+        activo: true,
+        color: "#FFFFFF",
+        orden: 6
+      },
+
+      {
+        id: "familia",
+        nombre: "Familia",
+        activo: true,
+        color: "#43A047",
+        orden: 7
+      }
+
+    ];
+
+
 
     onAuthStateChanged(
       auth,
-      usuario => {
+      async usuario => {
 
         if (usuario) {
 
@@ -599,6 +649,9 @@
             "";
 
 
+          await leerFamilia();
+
+
         } else {
 
           pantallaApp.style.display =
@@ -609,21 +662,13 @@
             "block";
 
 
-          usuarioActivo.textContent =
-            "";
-
-
-          estado.className =
-            "estado";
+          listaFamilia.className =
+            "familia";
         }
       }
     );
 
 
-
-    /* ==========================================
-       LOGIN
-    =========================================== */
 
     botonLogin.addEventListener(
       "click",
@@ -654,28 +699,21 @@
 
       if (!email || !password) {
 
-        mostrarErrorLogin(
-          "Introduce el correo y la contraseña."
-        );
+        estadoLogin.className =
+          "estado error";
+
+
+        estadoLogin.textContent =
+          "Introduce el correo y la contraseña.";
 
         return;
       }
 
 
-      botonLogin.disabled =
-        true;
-
+      botonLogin.disabled = true;
 
       botonLogin.textContent =
         "Entrando...";
-
-
-      estadoLogin.className =
-        "estado cargando";
-
-
-      estadoLogin.textContent =
-        "Comprobando acceso...";
 
 
       try {
@@ -696,15 +734,17 @@
         console.error(error);
 
 
-        mostrarErrorLogin(
-          "Correo o contraseña incorrectos."
-        );
+        estadoLogin.className =
+          "estado error";
+
+
+        estadoLogin.textContent =
+          "Correo o contraseña incorrectos.";
+
 
       } finally {
 
-        botonLogin.disabled =
-          false;
-
+        botonLogin.disabled = false;
 
         botonLogin.textContent =
           "Entrar";
@@ -713,50 +753,26 @@
 
 
 
-    function mostrarErrorLogin(mensaje) {
-
-      estadoLogin.className =
-        "estado error";
-
-
-      estadoLogin.textContent =
-        mensaje;
-    }
-
-
-
-    /* ==========================================
-       CERRAR SESIÓN
-    =========================================== */
-
     botonSalir.addEventListener(
       "click",
       async () => {
 
         await signOut(auth);
-
       }
     );
 
 
 
-    /* ==========================================
-       PRUEBA REAL DE FIRESTORE
-    =========================================== */
-
-    botonPrueba.addEventListener(
+    botonFamilia.addEventListener(
       "click",
-      probarFirestore
+      cargarFamilia
     );
 
 
-    async function probarFirestore() {
 
-      const usuario =
-        auth.currentUser;
+    async function cargarFamilia() {
 
-
-      if (!usuario) {
+      if (!auth.currentUser) {
 
         estado.className =
           "estado error";
@@ -769,12 +785,12 @@
       }
 
 
-      botonPrueba.disabled =
+      botonFamilia.disabled =
         true;
 
 
-      botonPrueba.textContent =
-        "Probando...";
+      botonFamilia.textContent =
+        "Guardando...";
 
 
       estado.className =
@@ -782,50 +798,46 @@
 
 
       estado.textContent =
-        "Guardando y leyendo una prueba en Firestore...";
+        "Creando la familia en Firestore...";
 
 
       try {
 
         /*
-         * Creamos un único documento técnico.
-         * No contiene datos de la agenda.
+         * Batch: los siete documentos se guardan
+         * juntos. Si hubiera un fallo, no queda
+         * una migración a medias.
          */
 
-        const referencia =
-          doc(
-            db,
-            "sistema",
-            "prueba"
-          );
+        const batch =
+          writeBatch(db);
 
 
-        await setDoc(
-          referencia,
-          {
-            correcto: true,
-            usuario: usuario.email,
-            uid: usuario.uid,
-            actualizado: serverTimestamp()
+        familiaInicial.forEach(
+          persona => {
+
+            const referencia =
+              doc(
+                db,
+                "familia",
+                persona.id
+              );
+
+
+            batch.set(
+              referencia,
+              {
+                nombre: persona.nombre,
+                activo: persona.activo,
+                color: persona.color,
+                orden: persona.orden
+              }
+            );
           }
         );
 
 
-        const lectura =
-          await getDoc(
-            referencia
-          );
-
-
-        if (
-          !lectura.exists() ||
-          lectura.data().correcto !== true
-        ) {
-
-          throw new Error(
-            "No se pudo verificar la lectura."
-          );
-        }
+        await batch.commit();
 
 
         estado.className =
@@ -833,11 +845,10 @@
 
 
         estado.textContent =
-          "¡Conexión correcta! Family Hub ya puede guardar y leer datos de Firestore.";
+          "Familia guardada correctamente en Firestore.";
 
 
-        botonPrueba.textContent =
-          "Probar de nuevo";
+        await leerFamilia();
 
 
       } catch (error) {
@@ -850,19 +861,152 @@
 
 
         estado.textContent =
-          "No se ha podido conectar con Firestore: " +
+          "No se pudo guardar la familia: " +
           error.message;
-
-
-        botonPrueba.textContent =
-          "Probar de nuevo";
 
 
       } finally {
 
-        botonPrueba.disabled =
+        botonFamilia.disabled =
           false;
+
+
+        botonFamilia.textContent =
+          "Cargar familia";
       }
+    }
+
+
+
+    async function leerFamilia() {
+
+      try {
+
+        const consulta =
+          await getDocs(
+            collection(
+              db,
+              "familia"
+            )
+          );
+
+
+        const personas = [];
+
+
+        consulta.forEach(
+          documento => {
+
+            personas.push({
+              id: documento.id,
+              ...documento.data()
+            });
+          }
+        );
+
+
+        personas.sort(
+          (a, b) =>
+            (a.orden || 999) -
+            (b.orden || 999)
+        );
+
+
+        mostrarFamilia(
+          personas
+        );
+
+
+        if (personas.length === 7) {
+
+          botonFamilia.textContent =
+            "Familia cargada";
+
+        }
+
+      } catch (error) {
+
+        console.error(error);
+      }
+    }
+
+
+
+    function mostrarFamilia(personas) {
+
+      listaFamilia.innerHTML =
+        "";
+
+
+      if (!personas.length) {
+
+        listaFamilia.className =
+          "familia";
+
+        return;
+      }
+
+
+      personas.forEach(
+        persona => {
+
+          const fila =
+            document.createElement(
+              "div"
+            );
+
+
+          fila.className =
+            "miembro";
+
+
+          const color =
+            document.createElement(
+              "span"
+            );
+
+
+          color.className =
+            "color";
+
+
+          color.style.background =
+            persona.color;
+
+
+          const nombre =
+            document.createElement(
+              "span"
+            );
+
+
+          nombre.className =
+            "nombre";
+
+
+          nombre.textContent =
+            persona.nombre;
+
+
+          fila.appendChild(
+            color
+          );
+
+
+          fila.appendChild(
+            nombre
+          );
+
+
+          listaFamilia.appendChild(
+            fila
+          );
+        }
+      );
+
+
+      listaFamilia.className =
+        "familia visible";
     }
 
   </script>
