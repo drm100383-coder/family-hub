@@ -928,26 +928,21 @@ font-size:13px
 
 .fab{
 position:fixed;
-right:18px;
-bottom:calc(82px + env(safe-area-inset-bottom));
-width:54px;
-height:54px;
+left:50%;
+bottom:calc(18px + env(safe-area-inset-bottom));
+transform:translateX(-50%);
+width:48px;
+height:48px;
 border-radius:50%;
-border:0;
+border:4px solid white;
 background:#2563eb;
 color:white;
-font-size:30px;
+font-size:28px;
 font-weight:400;
 line-height:1;
 padding:0;
-box-shadow:0 8px 20px rgba(37,99,235,.3);
-z-index:30;
-transition:transform .2s ease,opacity .2s ease
-}
-
-.fab.oculto{
-transform:translateY(90px);
-opacity:0
+box-shadow:0 4px 14px rgba(37,99,235,.25);
+z-index:30
 }
 
 nav{
@@ -960,22 +955,120 @@ height:calc(68px + env(safe-area-inset-bottom));
 padding-bottom:env(safe-area-inset-bottom);
 background:white;
 border-top:1px solid #e5e7eb;
-display:flex
+display:grid;
+grid-template-columns:1fr 1fr 64px 1fr 1fr;
+align-items:center
 }
 
 .navbtn{
-flex:1;
 border:0;
 background:white;
 color:#667085;
 font-size:12px;
-font-weight:800
+font-weight:800;
+height:100%
 }
 
 .navbtn.activo{color:#2563eb}
 
+.navInicio{grid-column:1}
+.navAgenda{grid-column:2}
+.navTareas{grid-column:4}
+.navHueco{grid-column:3;pointer-events:none}
+
+.siguienteInicio{
+background:#f8fafc;
+border:1px solid #e8edf4;
+border-radius:14px;
+padding:11px 12px;
+margin:-2px 0 12px;
+display:flex;
+align-items:center;
+gap:10px
+}
+
+.siguienteInicioIcono{
+width:34px;
+height:34px;
+border-radius:11px;
+background:#eaf2ff;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:17px;
+flex:none
+}
+
+.siguienteInicioTexto{
+min-width:0;
+flex:1
+}
+
+.siguienteInicioLabel{
+font-size:9px;
+font-weight:900;
+color:#98a2b3;
+text-transform:uppercase
+}
+
+.siguienteInicioTitulo{
+font-size:13px;
+font-weight:900;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+margin-top:2px
+}
+
+.siguienteInicioMeta{
+font-size:10px;
+color:#667085;
+margin-top:2px
+}
+
+.tarjetaSemanaVacia{
+padding:13px 15px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px
+}
+
+.tarjetaSemanaVacia h2{
+font-size:16px;
+margin:0
+}
+
+.tarjetaSemanaVacia .vacio{
+padding:0;
+text-align:right;
+font-size:12px
+}
+
+.compraBadge{
+font-size:10px;
+background:#fff7d6;
+color:#8a6100;
+border-radius:999px;
+padding:3px 6px;
+margin-left:5px;
+font-weight:900
+}
+
+.sinFechaBloque{
+background:#fafbfc;
+border:1px dashed #d0d5dd;
+border-radius:14px;
+padding:0 10px 5px;
+margin-top:14px
+}
+
+.sinFechaBloque .subtituloInicio{
+margin-top:10px
+}
+
 @media(max-width:430px){
-main{padding:15px;padding-bottom:35px}
+main{padding:15px;padding-bottom:44px}
 .bienvenida h1,.cabPantalla h1{font-size:25px}
 .tarjeta{padding:16px}
 .celdaDia,.celdaVacia{min-height:70px}
@@ -1034,10 +1127,12 @@ main{padding:15px;padding-bottom:35px}
 </div>
 
 <div class="dato">
-<span id="nProximo" class="numero">0</span>
+<span id="nProximo" class="numero">—</span>
 <span id="etiquetaProximo" class="etiqueta proximoDato">Próximo</span>
 </div>
 </div>
+
+<div id="siguienteInicio"></div>
 
 <div id="tarjetaHoy" class="tarjeta">
 <h2>Hoy</h2>
@@ -1049,7 +1144,7 @@ main{padding:15px;padding-bottom:35px}
 <div id="tareasInicio"></div>
 </div>
 
-<div class="tarjeta">
+<div id="tarjetaSemanaInicio" class="tarjeta">
 <h2>Esta semana</h2>
 <div id="estaSemana"></div>
 </div>
@@ -1113,9 +1208,11 @@ main{padding:15px;padding-bottom:35px}
 <button id="fab" class="fab">+</button>
 
 <nav>
-<button class="navbtn activo" data-pantalla="inicio">Inicio</button>
-<button class="navbtn" data-pantalla="agenda">Agenda</button>
-<button class="navbtn" data-pantalla="tareas">Tareas</button>
+<button class="navbtn navInicio activo" data-pantalla="inicio">Inicio</button>
+<button class="navbtn navAgenda" data-pantalla="agenda">Agenda</button>
+<div class="navHueco"></div>
+<button class="navbtn navTareas" data-pantalla="tareas">Tareas</button>
+<div></div>
 </nav>
 
 </div>
@@ -2301,6 +2398,21 @@ $("modalEvento").classList.add("visible");
 $("repeticion").onchange=
 actualizarUnidad;
 
+$("categoria").onchange=()=>{
+
+if(
+["Cumpleaños","Aniversario"]
+.includes($("categoria").value)
+){
+
+$("repeticion").value="Anual";
+$("intervaloRepeticion").value=1;
+actualizarUnidad();
+
+}
+
+};
+
 $("todoDia").onchange=()=>{
 
 $("horas").style.display=
@@ -2441,6 +2553,7 @@ eventoEditando=null;
 };
   function estadoT(t){
 if(t.completada||!t.fechaLimite)return"";
+
 return t.fechaLimite<fechaLocal()
 ?"vencida"
 :t.fechaLimite===fechaLocal()
@@ -2453,7 +2566,9 @@ return p==="Alta"?0:p==="Normal"?1:2
 }
 
 function ordenarTareas(l){
+
 return [...l].sort((a,b)=>{
+
 const g=t=>
 t.completada?4:
 estadoT(t)==="vencida"?0:
@@ -2463,10 +2578,21 @@ t.fechaLimite?2:3;
 return g(a)-g(b)
 ||prioridadN(a.prioridad)-prioridadN(b.prioridad)
 ||(a.fechaLimite||"9999").localeCompare(b.fechaLimite||"9999")
+
 })
+
+}
+
+function distintivoTarea(t){
+
+return t.categoria==="Compras"
+?'<span class="compraBadge">🛒 COMPRA</span>'
+:""
+
 }
 
 function htmlTarea(t){
+
 const c=t.checklist||[];
 const h=c.filter(x=>x.hecho).length;
 const p=c.length?Math.round(h/c.length*100):0;
@@ -2492,6 +2618,7 @@ data-ver-tarea="${t.id}">
 
 <div class="tarea-titulo">
 ${escapar(t.titulo)}
+${distintivoTarea(t)}
 ${t.repeticion?" ↻":""}
 </div>
 
@@ -2519,6 +2646,7 @@ ${c.length?`
 <div class="progreso">
 <span style="width:${p}%"></span>
 </div>
+
 <div class="tarea-meta">
 ${h}/${c.length} completados
 </div>
@@ -2527,13 +2655,18 @@ ${h}/${c.length} completados
 </div>
 </div>
 `
+
 }
 
 function insertarTareas(el,l){
 
 if(!l.length){
-el.innerHTML='<div class="vacio">No hay tareas.</div>';
+
+el.innerHTML=
+'<div class="vacio">No hay tareas.</div>';
+
 return
+
 }
 
 el.innerHTML=
@@ -2575,6 +2708,14 @@ if(!t.repeticion){
 return updateDoc(
 doc(db,"tareas",t.id),
 {completada:!t.completada}
+)
+
+}
+
+if(!t.fechaLimite){
+
+return alert(
+"Esta tarea recurrente no tiene fecha límite. Edítala y añade una fecha."
 )
 
 }
@@ -2662,6 +2803,7 @@ $("fichaTarea").innerHTML=`
 
 <div class="fichaEventoTitulo">
 ${escapar(t.titulo)}
+${distintivoTarea(t)}
 </div>
 
 <div class="fichaFila">
@@ -2685,6 +2827,33 @@ ${escapar((t.responsables||[]).join(" · "))}
 </div>
 </div>
 </div>
+
+<div class="fichaFila">
+<div class="fichaIcono">🏷️</div>
+<div class="fichaTexto">
+<div class="fichaLabel">Categoría</div>
+<div class="fichaValor">
+${escapar(t.categoria||"Familia")}
+</div>
+</div>
+</div>
+
+${t.repeticion?`
+
+<div class="fichaFila">
+<div class="fichaIcono">↻</div>
+<div class="fichaTexto">
+<div class="fichaLabel">Repetición</div>
+<div class="fichaValor">
+${escapar(t.repeticion)}
+${(+t.intervaloRepeticion||1)>1
+?` · Cada ${+t.intervaloRepeticion}`
+:""}
+</div>
+</div>
+</div>
+
+`:""}
 
 ${(t.checklist||[]).length?`
 
@@ -2984,7 +3153,9 @@ Math.max(
 ),
 
 finRepeticion:
-$("finRepeticionTarea").value,
+$("repeticionTarea").value
+?$("finRepeticionTarea").value
+:"",
 
 checklist:
 checklistTemporal,
@@ -3033,6 +3204,187 @@ renderTareas();
 
 }
 
+function proximoElemento(){
+
+const hoy=fechaLocal();
+let candidatos=[];
+
+for(let i=0;i<=365;i++){
+
+const d=sumarDias(new Date(),i);
+const f=fechaLocal(d);
+
+eventosEnFechaTodos(f)
+.forEach(e=>{
+
+candidatos.push({
+tipo:"evento",
+fecha:f,
+dias:i,
+titulo:e.actividad||"Evento",
+hora:textoHora(e),
+dato:e
+})
+
+});
+
+tareas
+.filter(
+t=>
+!t.completada &&
+t.fechaLimite===f
+)
+.forEach(t=>{
+
+candidatos.push({
+tipo:"tarea",
+fecha:f,
+dias:i,
+titulo:t.titulo||"Tarea",
+hora:"",
+dato:t
+})
+
+});
+
+if(candidatos.length){
+break
+}
+
+}
+
+if(!candidatos.length){
+return null
+}
+
+candidatos.sort((a,b)=>{
+
+if(
+a.tipo==="evento" &&
+b.tipo==="evento"
+){
+
+const ha=
+a.dato.todoDia
+?"00:00"
+:(a.dato.horaInicio||"23:59");
+
+const hb=
+b.dato.todoDia
+?"00:00"
+:(b.dato.horaInicio||"23:59");
+
+return ha.localeCompare(hb)
+
+}
+
+return a.tipo==="evento"?-1:1
+
+});
+
+return candidatos[0]
+
+}
+
+function renderSiguienteInicio(){
+
+const p=proximoElemento();
+
+if(!p){
+
+$("siguienteInicio").innerHTML="";
+$("nProximo").textContent="—";
+$("etiquetaProximo").textContent="Próximo";
+return
+
+}
+
+$("nProximo").textContent=
+p.dias===0
+?"HOY"
+:p.dias;
+
+$("etiquetaProximo").textContent=
+p.dias===0
+?"Próximo"
+:p.dias===1
+?"Día"
+:"Días";
+
+const icono=
+p.tipo==="tarea"
+?(p.dato.categoria==="Compras"?"🛒":"✓")
+:p.dato.categoria==="Cumpleaños"
+?"🎂"
+:p.dato.categoria==="Aniversario"
+?"♥"
+:"📅";
+
+const cuando=
+p.dias===0
+?"Hoy"
+:p.dias===1
+?"Mañana"
+:`Dentro de ${p.dias} días`;
+
+$("siguienteInicio").innerHTML=`
+
+<div
+class="siguienteInicio"
+data-siguiente-tipo="${p.tipo}"
+data-siguiente-id="${p.dato.id}"
+data-siguiente-fecha="${p.fecha}">
+
+<div class="siguienteInicioIcono">
+${icono}
+</div>
+
+<div class="siguienteInicioTexto">
+
+<div class="siguienteInicioLabel">
+Siguiente
+</div>
+
+<div class="siguienteInicioTitulo">
+${escapar(p.titulo)}
+</div>
+
+<div class="siguienteInicioMeta">
+${cuando}
+${p.hora?" · "+escapar(p.hora):""}
+</div>
+
+</div>
+</div>
+`;
+
+const b=
+$("siguienteInicio")
+.querySelector("[data-siguiente-id]");
+
+if(b){
+
+b.onclick=()=>{
+
+if(p.tipo==="evento"){
+
+abrirFichaEvento(
+p.dato.id,
+p.dato.fechaAparicion||p.fecha
+);
+
+}else{
+
+abrirFichaTarea(p.dato.id)
+
+}
+
+}
+
+}
+
+}
+
 function renderInicio(){
 
 const hoy=fechaLocal();
@@ -3060,6 +3412,8 @@ ev.length+hoyT.length;
 
 $("nTareas").textContent=
 pend.length;
+
+renderSiguienteInicio();
 
 const tHoy=
 $("tarjetaHoy");
@@ -3144,9 +3498,9 @@ renderProximamente();
 function renderEstaSemana(){
 
 let html="";
+let cantidad=0;
 
-let h=new Date();
-
+const h=new Date();
 h.setHours(12,0,0,0);
 
 for(let i=0;i<7;i++){
@@ -3163,6 +3517,8 @@ t=>
 !t.completada &&
 t.fechaLimite===f
 );
+
+cantidad+=ev.length+ta.length;
 
 if(
 !ev.length &&
@@ -3213,9 +3569,17 @@ ${ta.map(htmlTarea).join("")}
 
 }
 
+const tarjeta=
+$("tarjetaSemanaInicio");
+
+tarjeta.classList.toggle(
+"tarjetaSemanaVacia",
+cantidad===0
+);
+
 $("estaSemana").innerHTML=
 html||
-'<div class="vacio">No hay nada previsto para los próximos 7 días.</div>';
+'<div class="vacio">Nada previsto.</div>';
 
 $("estaSemana")
 .querySelectorAll("[data-ver-evento]")
@@ -3283,7 +3647,6 @@ cambiarPantalla("agenda");
 function renderProximamente(){
 
 const base=new Date();
-
 base.setHours(12,0,0,0);
 
 let items=[];
@@ -3319,34 +3682,6 @@ t
 }
 
 items=items.slice(0,5);
-
-const proximos7=[];
-
-for(let i=1;i<=7;i++){
-
-const f=
-fechaLocal(
-sumarDias(base,i)
-);
-
-proximos7.push(
-...eventosEnFechaTodos(f),
-...tareas.filter(
-t=>
-!t.completada &&
-t.fechaLimite===f
-)
-);
-
-}
-
-$("nProximo").textContent=
-proximos7.length;
-
-$("etiquetaProximo").textContent=
-proximos7.length
-?"Próx. 7 días"
-:"Próximo";
 
 $("proximamente").innerHTML=
 items.length
@@ -3920,10 +4255,12 @@ $("listaTareas").innerHTML=`
 
 ${sin.length
 ?`
+<div class="sinFechaBloque">
 <div class="subtituloInicio">
 Sin fecha · ${sin.length}
 </div>
 <div id="tareasSinFecha"></div>
+</div>
 `
 :""}
 
@@ -4038,6 +4375,14 @@ if(p==="agenda"){
 renderAgenda()
 }
 
+if(p==="tareas"){
+renderTareas()
+}
+
+if(p==="inicio"){
+renderInicio()
+}
+
 }
 
 document
@@ -4119,44 +4464,49 @@ $("modalRapido")
 
 };
 
-let ultimoScroll=
-window.scrollY;
+[
+"modalRapido",
+"modalEvento",
+"modalFicha",
+"modalSerie",
+"modalTarea",
+"modalFichaTarea"
+].forEach(id=>{
 
-let temporizadorFab=null;
+$(id).addEventListener(
+"click",
+e=>{
 
-window.addEventListener(
-"scroll",
-()=>{
+if(e.target===$(id)){
 
-const y=window.scrollY;
+if(id==="modalSerie"){
+accionSerie=null
+}
 
-if(y>ultimoScroll+4){
-
-$("fab")
-.classList.add("oculto");
-
-}else if(y<ultimoScroll-4){
-
-$("fab")
-.classList.remove("oculto");
+$(id).classList.remove("visible");
 
 }
 
-ultimoScroll=y;
-
-clearTimeout(
-temporizadorFab
+}
 );
 
-temporizadorFab=
-setTimeout(
-()=>$("fab")
-.classList.remove("oculto"),
-450
+});
+
+document.addEventListener(
+"keydown",
+e=>{
+
+if(e.key!=="Escape")return;
+
+document
+.querySelectorAll(".modal-fondo.visible")
+.forEach(m=>
+m.classList.remove("visible")
 );
 
-},
-{passive:true}
+accionSerie=null;
+
+}
 );
 
 </script>
