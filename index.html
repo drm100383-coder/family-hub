@@ -2329,32 +2329,6 @@ padding:16px
   </div>
 
 
-  <!-- COMPRAS PENDIENTES -->
-
-  <div
-    id="tarjetaComprasInicio"
-    class="tarjeta"
-    style="display:none">
-
-    <div
-      id="resumenComprasInicio"
-      class="resumenComprasInicio">
-
-      <div>
-        <strong>🛒 Compras</strong>
-        <div
-          id="textoComprasInicio"
-          style="font-size:11px;color:#667085;margin-top:4px">
-        </div>
-      </div>
-
-      <span>Ver lista ›</span>
-
-    </div>
-
-  </div>
-
-
   <!-- ESTA SEMANA -->
 
   <div
@@ -2507,16 +2481,23 @@ padding:16px
 
   <!-- VISTAS AGENDA -->
 
-  <div id="vistaDia"></div>
+  <div id="vistaDia"><div id="eventosDia"></div></div>
 
   <div
     id="vistaSemana"
     style="display:none">
+    <div id="semanaTop" class="semanaCompacta franjaSemana"></div>
+    <div id="eventosSemana" class="resumenSemana"></div>
   </div>
 
   <div
     id="vistaMes"
     style="display:none">
+    <div class="calendario">
+      <div class="cabCalendario"><div>L</div><div>M</div><div>X</div><div>J</div><div>V</div><div>S</div><div>D</div></div>
+      <div id="gridMes" class="rejillaMes"></div>
+    </div>
+    <div id="detalleMes" class="detalleMes"></div>
   </div>
 
 </section>
@@ -5857,14 +5838,11 @@ function renderComprasInicio(){
 }
 
 
-$("resumenComprasInicio")
-.onclick=()=>{
-
-  cambiarPantalla(
-    "compras"
-  );
-
-};
+if($("resumenComprasInicio")){
+  $("resumenComprasInicio").onclick=()=>{
+    cambiarPantalla("compras");
+  };
+}
 
 
 function renderAlertasInicio(){
@@ -11586,7 +11564,7 @@ function actualizarCabeceraAgenda(){
     vistaAgenda==="dia"
   ){
 
-    $("tituloAgenda")
+    $("tituloPeriodo")
     .textContent=
     fechaBonita(
       fechaLocal(fecha)
@@ -11609,7 +11587,7 @@ function actualizarCabeceraAgenda(){
     );
 
 
-    $("tituloAgenda")
+    $("tituloPeriodo")
     .textContent=
     tituloSemana(
       lunes,
@@ -11623,7 +11601,7 @@ function actualizarCabeceraAgenda(){
     vistaAgenda==="mes"
   ){
 
-    $("tituloAgenda")
+    $("tituloPeriodo")
     .textContent=
     tituloMes(fecha);
 
@@ -12234,7 +12212,7 @@ document
    AGENDA · ANTERIOR
    ================================================== */
 
-$("agendaAnterior")
+$("anterior")
 .onclick=()=>{
 
   if(
@@ -12287,7 +12265,7 @@ $("agendaAnterior")
    AGENDA · SIGUIENTE
    ================================================== */
 
-$("agendaSiguiente")
+$("siguiente")
 .onclick=()=>{
 
   if(
@@ -12340,7 +12318,7 @@ $("agendaSiguiente")
    AGENDA · HOY
    ================================================== */
 
-$("agendaHoy")
+$("irHoy")
 .onclick=()=>{
 
   fechaAgenda=
@@ -12614,7 +12592,7 @@ function renderHoyInicio(){
     !eventosHoy.length
   ){
 
-    $("hoyInicio")
+    $("eventosHoy")
     .innerHTML=
     `
     <div class="vacio">
@@ -12627,7 +12605,7 @@ function renderHoyInicio(){
   }
 
 
-  $("hoyInicio")
+  $("eventosHoy")
   .innerHTML=
   eventosHoy
   .map(
@@ -12636,7 +12614,7 @@ function renderHoyInicio(){
   .join("");
 
 
-  $("hoyInicio")
+  $("eventosHoy")
   .querySelectorAll(
     "[data-ver-evento]"
   )
@@ -12739,7 +12717,7 @@ function renderSemanaInicio(){
     !lista.length
   ){
 
-    $("semanaInicio")
+    $("estaSemana")
     .innerHTML=
     `
     <div class="vacio">
@@ -12752,7 +12730,7 @@ function renderSemanaInicio(){
   }
 
 
-  $("semanaInicio")
+  $("estaSemana")
   .innerHTML=
   lista
   .slice(
@@ -12765,7 +12743,7 @@ function renderSemanaInicio(){
   .join("");
 
 
-  $("semanaInicio")
+  $("estaSemana")
   .querySelectorAll(
     "[data-ver-evento]"
   )
@@ -13002,7 +12980,7 @@ function renderContadoresInicio(){
   cosasHoy;
 
 
-  $("nPendientes")
+  $("nTareas")
   .textContent=
   pendientes;
 
@@ -13062,8 +13040,6 @@ function renderInicio(){
   renderHoyInicio();
 
   renderTareasInicio();
-
-  renderComprasInicio();
 
   renderSemanaInicio();
 
@@ -14305,10 +14281,7 @@ function cambiarPantalla(p){
   Al cambiar de pantalla volvemos arriba.
   */
 
-  window.scrollTo({
-    top:0,
-    behavior:"instant"
-  });
+  irArriba();
 
 }
 
