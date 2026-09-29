@@ -10,6 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
+<!-- Tareas UX v4: alta única + resumen + agrupación + búsqueda + orden + filtros rápidos -->
 
 <style>
 *{box-sizing:border-box}
@@ -1827,6 +1828,357 @@ padding:8px 2px 0
 }
 
 
+
+/* ==================================================
+   TAREAS · PULIDO FINAL
+   ================================================== */
+
+.altaTareaOculta{display:none!important}
+
+.resumenTareas{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin:2px 0 14px
+}
+
+.resumenTareaDato{
+background:white;
+border:1px solid #e5e7eb;
+border-radius:14px;
+padding:10px 8px;
+text-align:center;
+box-shadow:0 4px 14px rgba(16,24,40,.04)
+}
+
+.resumenTareaDato strong{
+display:block;
+font-size:21px;
+line-height:1;
+color:#172033
+}
+
+.resumenTareaDato span{
+display:block;
+font-size:10px;
+font-weight:800;
+color:#667085;
+margin-top:5px;
+text-transform:uppercase;
+letter-spacing:.02em
+}
+
+.resumenTareaDato.alerta strong{color:#b42318}
+.resumenTareaDato.hoy strong{color:#2563eb}
+
+.grupoTareas{margin-bottom:14px}
+.grupoTareas:last-child{margin-bottom:0}
+
+.grupoTareasTitulo{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:8px;
+font-size:11px;
+font-weight:900;
+color:#667085;
+text-transform:uppercase;
+letter-spacing:.04em;
+margin:2px 0 5px;
+padding:0 2px
+}
+
+.grupoTareasTitulo span{
+min-width:22px;
+height:22px;
+padding:0 7px;
+border-radius:999px;
+background:#eef2f6;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+font-size:10px
+}
+
+.grupoTareas.vencidas .grupoTareasTitulo{color:#b42318}
+.grupoTareas.hoy .grupoTareasTitulo{color:#2563eb}
+
+.tarea{
+padding:11px 0;
+gap:9px
+}
+
+.tarea-titulo{
+white-space:normal;
+line-height:1.25
+}
+
+.tarea-meta{
+white-space:normal;
+line-height:1.25
+}
+
+.tarea-personas:empty{display:none}
+
+.prioridadAltaBadge{
+display:inline-flex;
+align-items:center;
+vertical-align:1px;
+margin-left:5px;
+padding:2px 6px;
+border-radius:999px;
+background:#fee4e2;
+color:#b42318;
+font-size:8px;
+font-weight:900
+}
+
+.fechaTareaBadge{
+display:inline-flex;
+align-items:center;
+padding:2px 7px;
+border-radius:999px;
+background:#f2f4f7;
+color:#475467;
+font-size:10px;
+font-weight:800
+}
+
+.fechaTareaBadge.vencida{
+background:#fee4e2;
+color:#b42318
+}
+
+.fechaTareaBadge.hoy{
+background:#e8f1ff;
+color:#175cd3
+}
+
+.estado-tareas,
+#filtrosTareas{
+scroll-snap-type:x proximity;
+-webkit-overflow-scrolling:touch
+}
+
+.estado-tareas > *,
+#filtrosTareas > *{
+scroll-snap-align:start;
+flex:0 0 auto
+}
+
+.vacioTareas{
+text-align:center;
+padding:28px 14px
+}
+
+.vacioTareas strong{
+display:block;
+font-size:16px;
+color:#344054;
+margin-bottom:5px
+}
+
+.vacioTareas span{
+display:block;
+font-size:12px;
+color:#98a2b3;
+margin-bottom:12px
+}
+
+.vacioTareas button{
+border:0;
+border-radius:12px;
+background:#2563eb;
+color:white;
+font-weight:900;
+padding:10px 15px
+}
+
+@media(max-width:480px){
+.resumenTareaDato{padding:9px 5px}
+.resumenTareaDato strong{font-size:19px}
+.resumenTareaDato span{font-size:9px}
+}
+
+
+
+/* ==================================================
+   TAREAS · SEGUNDA TANDA DE 10 MEJORAS
+   ================================================== */
+
+.herramientasTareas{
+display:flex;
+gap:8px;
+align-items:center;
+margin:0 0 12px
+}
+
+.buscarTareasWrap{
+position:relative;
+flex:1;
+min-width:0
+}
+
+.buscarTareas{
+width:100%;
+height:42px;
+border:1px solid #d0d5dd;
+border-radius:13px;
+background:white;
+padding:0 38px 0 13px;
+font-size:13px;
+outline:none
+}
+
+.buscarTareas:focus{
+border-color:#2563eb;
+box-shadow:0 0 0 3px rgba(37,99,235,.10)
+}
+
+.limpiarBuscarTareas{
+position:absolute;
+right:5px;
+top:5px;
+width:32px;
+height:32px;
+border:0;
+border-radius:9px;
+background:transparent;
+color:#98a2b3;
+font-size:18px;
+display:none
+}
+
+.ordenTareas{
+height:42px;
+max-width:142px;
+border:1px solid #d0d5dd;
+border-radius:13px;
+background:white;
+padding:0 9px;
+font-size:12px;
+font-weight:800;
+color:#475467
+}
+
+.accionesTareasRapidas{
+display:flex;
+gap:7px;
+overflow-x:auto;
+padding:0 0 10px;
+scrollbar-width:none
+}
+
+.accionesTareasRapidas::-webkit-scrollbar{display:none}
+
+.chipTareaRapida{
+flex:0 0 auto;
+border:1px solid #d0d5dd;
+background:white;
+color:#475467;
+border-radius:999px;
+padding:8px 11px;
+font-size:11px;
+font-weight:900
+}
+
+.chipTareaRapida.activo{
+background:#172033;
+border-color:#172033;
+color:white
+}
+
+.tarea{
+position:relative;
+transition:transform .12s ease,box-shadow .12s ease,opacity .12s ease
+}
+
+.tarea:active{transform:scale(.992)}
+
+.tarea.vencida{
+background:linear-gradient(90deg,rgba(254,228,226,.42),rgba(255,255,255,0) 48%)
+}
+
+.tarea.hoyTarea{
+background:linear-gradient(90deg,rgba(232,241,255,.55),rgba(255,255,255,0) 48%)
+}
+
+.tarea.completada{
+opacity:.62
+}
+
+.tarea.completada .tarea-titulo{
+text-decoration:line-through;
+text-decoration-thickness:1.5px
+}
+
+.tareaAccionRapida{
+margin-left:auto;
+align-self:center;
+border:0;
+background:#f2f4f7;
+color:#475467;
+border-radius:10px;
+min-width:34px;
+height:34px;
+font-size:17px;
+font-weight:900
+}
+
+.tareaAccionRapida:active{background:#e4e7ec}
+
+.progresoTextoTarea{
+display:flex;
+justify-content:space-between;
+gap:8px;
+font-size:9px;
+color:#667085;
+margin-top:4px
+}
+
+.contadorFiltroTarea{
+display:inline-flex;
+align-items:center;
+justify-content:center;
+min-width:18px;
+height:18px;
+padding:0 5px;
+margin-left:4px;
+border-radius:999px;
+background:rgba(102,112,133,.12);
+font-size:9px;
+font-weight:900
+}
+
+.filtro.activo .contadorFiltroTarea{
+background:rgba(255,255,255,.18);
+color:inherit
+}
+
+.fechaRelativaTarea{
+font-size:10px;
+font-weight:800
+}
+
+.fechaRelativaTarea.vencida{color:#b42318}
+.fechaRelativaTarea.hoy{color:#175cd3}
+.fechaRelativaTarea.proxima{color:#027a48}
+
+.resultadoBusquedaTareas{
+font-size:10px;
+color:#667085;
+font-weight:800;
+margin:-5px 0 9px;
+display:none
+}
+
+@media(max-width:480px){
+.herramientasTareas{gap:6px}
+.ordenTareas{max-width:116px}
+.buscarTareas{font-size:12px}
+}
+
+
 /* ==================================================
    NUEVO · PLANTILLAS DE EVENTOS
    ================================================== */
@@ -2639,35 +2991,45 @@ padding:16px
   </div>
 
 
-  <!-- CREACIÓN RÁPIDA -->
-
-  <div class="creacionRapida">
-
-    <div class="creacionRapidaFila">
-
-      <input
-        id="tareaRapida"
-        type="text"
-        placeholder="Nueva tarea…"
-        autocomplete="off"
-        enterkeyhint="done">
-
-      <button
-        id="guardarTareaRapida"
-        type="button">
-        +
-      </button>
-
-    </div>
-
-    <button
-      id="tareaAvanzada"
-      class="opcionesAvanzadasBtn"
-      type="button">
-      Más opciones
-    </button>
-
+  <!-- ALTA DE TAREAS: se centraliza en el botón + inferior -->
+  <div class="altaTareaOculta" aria-hidden="true">
+    <input id="tareaRapida" type="text" tabindex="-1">
+    <button id="guardarTareaRapida" type="button" tabindex="-1">+</button>
+    <button id="tareaAvanzada" type="button" tabindex="-1">Más opciones</button>
   </div>
+
+  <!-- RESUMEN DE TAREAS -->
+  <div id="resumenTareas" class="resumenTareas"></div>
+
+  <div class="herramientasTareas">
+    <div class="buscarTareasWrap">
+      <input
+        id="buscarTareas"
+        class="buscarTareas"
+        type="search"
+        placeholder="Buscar tareas…"
+        autocomplete="off">
+      <button
+        id="limpiarBuscarTareas"
+        class="limpiarBuscarTareas"
+        type="button"
+        aria-label="Limpiar búsqueda">×</button>
+    </div>
+    <select id="ordenTareas" class="ordenTareas" aria-label="Ordenar tareas">
+      <option value="fecha">Por fecha</option>
+      <option value="prioridad">Prioridad</option>
+      <option value="nombre">A–Z</option>
+    </select>
+  </div>
+
+  <div class="accionesTareasRapidas">
+    <button type="button" class="chipTareaRapida" data-filtro-rapido="hoy">Hoy</button>
+    <button type="button" class="chipTareaRapida" data-filtro-rapido="vencidas">Vencidas</button>
+    <button type="button" class="chipTareaRapida" data-filtro-rapido="alta">Prioridad alta</button>
+    <button type="button" class="chipTareaRapida" data-filtro-rapido="sinfecha">Sin fecha</button>
+  </div>
+
+  <div id="resultadoBusquedaTareas" class="resultadoBusquedaTareas"></div>
 
 
   <!-- FILTROS PERSONA -->
@@ -4247,6 +4609,11 @@ let origenAparicionEditada=null;
 
 let tareaSeleccionada=null;
 let tareaEditando=null;
+
+let busquedaTareas="";
+let ordenTareasActual="fecha";
+let filtroRapidoTareas="";
+
 
 let familiaEditando=null;
 
@@ -8293,336 +8660,288 @@ function ordenarTareas(l){
 
 function htmlTarea(t){
 
-  const checklist=
-  t.checklist||[];
-
-  const hechas=
-  checklist.filter(
-    x=>x.hecho
-  ).length;
-
-  const porcentaje=
-  checklist.length
-  ?Math.round(
-    hechas/checklist.length*100
-  )
+  const checklist=t.checklist||[];
+  const hechas=checklist.filter(x=>x.hecho).length;
+  const porcentaje=checklist.length
+  ?Math.round(hechas/checklist.length*100)
   :0;
 
-  const estado=
-  estadoT(t);
+  const estado=estadoT(t);
 
+  const fechaHtml=t.fechaLimite
+  ?`<span class="fechaTareaBadge ${estado}">
+      ${estado==="hoy"?"Hoy":escapar(fechaBonita(t.fechaLimite))}
+    </span>`
+  :'<span class="sinFechaBadge">SIN FECHA</span>';
 
   return `
   <div
     class="tarea ${
-      t.completada
-      ?"completada"
-      :""
+      t.completada?"completada":""
     } ${
-      estado==="vencida"
-      ?"vencida"
-      :""
+      estado==="vencida"?"vencida":""
     } ${
-      estado==="hoy"
-      ?"hoyTarea"
-      :""
+      estado==="hoy"?"hoyTarea":""
     }">
 
     <button
-      class="completarTarea ${
-        t.completada
-        ?"hecha"
-        :""
-      }"
+      class="completarTarea ${t.completada?"hecha":""}"
       data-completar="${t.id}"
-      aria-label="${
-        t.completada
-        ?"Marcar pendiente"
-        :"Completar tarea"
-      }">
-
-      ${
-        t.completada
-        ?"✓"
-        :""
-      }
-
+      aria-label="${t.completada?"Marcar pendiente":"Completar tarea"}">
+      ${t.completada?"✓":""}
     </button>
-
 
     <div
       class="barra"
-      style="background:${franjasPersonas(
-        t.responsables||[]
-      )}">
+      style="background:${franjasPersonas(t.responsables||[])}">
     </div>
-
 
     <div
       class="tarea-contenido"
       data-ver-tarea="${t.id}">
 
       <div class="tarea-titulo">
-
-        ${escapar(
-          t.titulo||
-          "Sin título"
-        )}
-
-        ${
-          t.repeticion
-          ?" ↻"
-          :""
-        }
-
-        ${
-          t.categoria==="Compras"
+        ${escapar(t.titulo||"Sin título")}
+        ${t.repeticion?" ↻":""}
+        ${t.prioridad==="Alta"
+          ?'<span class="prioridadAltaBadge">ALTA</span>'
+          :""}
+        ${t.categoria==="Compras"
           ?'<span class="compraBadge">🛒 COMPRA</span>'
-          :""
-        }
-
-        ${
-          !t.fechaLimite
-          ?'<span class="sinFechaBadge">SIN FECHA</span>'
-          :""
-        }
-
-        ${distintivoRecordatorio(
-          t.recordatorio,
-          "tarea"
-        )}
-
+          :""}
+        ${distintivoRecordatorio(t.recordatorio,"tarea")}
       </div>
-
 
       <div class="tarea-meta">
-
-        ${
-          t.fechaLimite
-          ?escapar(
-            fechaBonita(
-              t.fechaLimite
-            )
-          )
-          :"Sin fecha límite"
-        }
-
-        ${
-          estado==="vencida"
-          ?'<span class="estadoVencida"> · Vencida</span>'
-          :""
-        }
-
-        ${
-          estado==="hoy"
-          ?'<span class="estadoHoy"> · Hoy</span>'
-          :""
-        }
-
-        ${
-          t.prioridad==="Alta"
-          ?" · Prioridad alta"
-          :""
-        }
-
+        ${fechaHtml}
+        ${t.fechaLimite?fechaRelativaTarea(t.fechaLimite):""}
+        ${t.categoria
+          ?` <span>· ${escapar(t.categoria)}</span>`
+          :""}
       </div>
-
 
       <div class="tarea-personas">
-
-        ${escapar(
-          (t.responsables||[])
-          .join(" · ")
-        )}
-
+        ${escapar((t.responsables||[]).join(" · "))}
       </div>
 
-
-      ${
-        checklist.length
-        ?`
-
+      ${checklist.length?`
         <div class="progreso">
           <span style="width:${porcentaje}%"></span>
         </div>
-
-        <div
-          style="
-          font-size:10px;
-          color:#667085;
-          margin-top:4px">
-
-          ${hechas}/${checklist.length}
-          · ${porcentaje}%
-
+        <div style="font-size:10px;color:#667085;margin-top:4px">
+          ${hechas}/${checklist.length} · ${porcentaje}%
         </div>
-
-        `
-        :""
-      }
+      `:""}
 
     </div>
 
+    <button
+      class="tareaAccionRapida"
+      type="button"
+      data-editar-rapido="${t.id}"
+      aria-label="Editar tarea">›</button>
+
   </div>
   `
-
 }
-
 
 /* ==================================================
    LISTA DE TAREAS
    ================================================== */
 
-function tareasFiltradas(){
-
-  let lista=[
-    ...tareas
-  ];
-
-
-  if(
-    filtroTareas!=="Todos"
-  ){
-
-    lista=
-    lista.filter(
-      t=>
-      (t.responsables||[])
-      .includes(
-        filtroTareas
-      )
-    );
-
-  }
-
-
-  if(
-    estadoTareas==="pendientes"
-  ){
-
-    lista=
-    lista.filter(
-      t=>!t.completada
-    );
-
-  }
-
-
-  if(
-    estadoTareas==="completadas"
-  ){
-
-    lista=
-    lista.filter(
-      t=>!!t.completada
-    );
-
-  }
-
-
-  return ordenarTareas(
-    lista
-  );
-
+function textoBusquedaTarea(t){
+  return normalizarTexto([
+    t.titulo||"",
+    t.categoria||"",
+    t.notas||"",
+    ...(t.responsables||[]),
+    ...(t.checklist||[]).map(x=>x.texto||"")
+  ].join(" "));
 }
 
+function fechaRelativaTarea(fecha){
+  if(!fecha)return "";
+  const hoy=desdeFechaLocal(fechaLocal(new Date()));
+  const f=desdeFechaLocal(fecha);
+  const d=Math.round((f-hoy)/86400000);
+
+  if(d<0)return `<span class="fechaRelativaTarea vencida">${Math.abs(d)} d tarde</span>`;
+  if(d===0)return `<span class="fechaRelativaTarea hoy">hoy</span>`;
+  if(d===1)return `<span class="fechaRelativaTarea proxima">mañana</span>`;
+  if(d<=7)return `<span class="fechaRelativaTarea proxima">en ${d} días</span>`;
+  return "";
+}
+
+function tareasFiltradas(){
+
+  let l=[...tareas];
+
+  if(filtroTareas!=="Todos"){
+    l=l.filter(t=>
+      (t.responsables||[])
+      .includes(filtroTareas)
+    );
+  }
+
+  if(estadoTareas==="pendientes"){
+    l=l.filter(t=>!t.completada);
+  }
+
+  if(estadoTareas==="completadas"){
+    l=l.filter(t=>t.completada);
+  }
+
+  if(filtroRapidoTareas==="hoy"){
+    l=l.filter(t=>!t.completada && estadoT(t)==="hoy");
+  }else if(filtroRapidoTareas==="vencidas"){
+    l=l.filter(t=>!t.completada && estadoT(t)==="vencida");
+  }else if(filtroRapidoTareas==="alta"){
+    l=l.filter(t=>!t.completada && t.prioridad==="Alta");
+  }else if(filtroRapidoTareas==="sinfecha"){
+    l=l.filter(t=>!t.completada && !t.fechaLimite);
+  }
+
+  const q=normalizarTexto(busquedaTareas||"").trim();
+  if(q){
+    l=l.filter(t=>textoBusquedaTarea(t).includes(q));
+  }
+
+  if(ordenTareasActual==="nombre"){
+    l.sort((a,b)=>
+      (a.titulo||"").localeCompare(b.titulo||"","es",{sensitivity:"base"})
+    );
+  }else if(ordenTareasActual==="prioridad"){
+    l.sort((a,b)=>{
+      const p=prioridadN(b.prioridad)-prioridadN(a.prioridad);
+      if(p)return p;
+      return (a.fechaLimite||"9999-12-31").localeCompare(b.fechaLimite||"9999-12-31");
+    });
+  }else{
+    l=ordenarTareas(l);
+  }
+
+  return l;
+}
 
 function renderTareas(){
 
   if(!$("listaTareas"))
   return;
 
+  const lista=tareasFiltradas();
 
-  const lista=
-  tareasFiltradas();
+  if($("resultadoBusquedaTareas")){
+    const hayFiltro=Boolean(busquedaTareas||filtroRapidoTareas);
+    $("resultadoBusquedaTareas").style.display=hayFiltro?"block":"none";
+    $("resultadoBusquedaTareas").textContent=
+      `${lista.length} ${lista.length===1?"resultado":"resultados"}`;
+  }
 
+  const pendientes=tareas.filter(t=>!t.completada);
+  const vencidas=pendientes.filter(t=>estadoT(t)==="vencida");
+  const hoy=pendientes.filter(t=>estadoT(t)==="hoy");
+
+  if($("resumenTareas")){
+    $("resumenTareas").innerHTML=`
+      <div class="resumenTareaDato">
+        <strong>${pendientes.length}</strong>
+        <span>Pendientes</span>
+      </div>
+      <div class="resumenTareaDato hoy">
+        <strong>${hoy.length}</strong>
+        <span>Para hoy</span>
+      </div>
+      <div class="resumenTareaDato ${vencidas.length?"alerta":""}">
+        <strong>${vencidas.length}</strong>
+        <span>Vencidas</span>
+      </div>
+    `;
+  }
 
   if(!lista.length){
-
-    $("listaTareas")
-    .innerHTML=
-    `
-    <div class="vacio">
-      No hay tareas.
-    </div>
-    `;
-
-    return
-
-  }
-
-
-  const conFecha=
-  lista.filter(
-    t=>t.fechaLimite
-  );
-
-  const sinFecha=
-  lista.filter(
-    t=>!t.fechaLimite
-  );
-
-
-  let html="";
-
-
-  if(conFecha.length){
-
-    html+=
-    conFecha
-    .map(
-      htmlTarea
-    )
-    .join("");
-
-  }
-
-
-  if(sinFecha.length){
-
-    html+=`
-
-    <div class="bloqueSinFecha">
-
-      <div
-        style="
-        font-size:11px;
-        font-weight:900;
-        color:#667085;
-        margin:12px 0 4px">
-
-        Sin fecha
-
+    $("listaTareas").innerHTML=`
+      <div class="vacioTareas">
+        <strong>No hay tareas aquí</strong>
+        <span>Puedes crear una nueva con el botón + inferior.</span>
+        <button type="button" id="crearDesdeVacio">+ Nueva tarea</button>
       </div>
-
-      ${
-        sinFecha
-        .map(
-          htmlTarea
-        )
-        .join("")
-      }
-
-    </div>
-
     `;
-
+    $("crearDesdeVacio").onclick=()=>abrirTarea();
+    return;
   }
 
+  const grupos=[];
 
-  $("listaTareas")
-  .innerHTML=
-  html;
+  if(estadoTareas==="completadas"){
+    grupos.push({
+      clase:"completadas",
+      titulo:"Completadas",
+      items:lista
+    });
+  }else{
+    const gVencidas=lista.filter(t=>!t.completada && estadoT(t)==="vencida");
+    const gHoy=lista.filter(t=>!t.completada && estadoT(t)==="hoy");
+    const gProximas=lista.filter(t=>!t.completada && t.fechaLimite && !["vencida","hoy"].includes(estadoT(t)));
+    const gSinFecha=lista.filter(t=>!t.completada && !t.fechaLimite);
+    const gCompletadas=lista.filter(t=>t.completada);
 
+    if(gVencidas.length) grupos.push({clase:"vencidas",titulo:"Vencidas",items:gVencidas});
+    if(gHoy.length) grupos.push({clase:"hoy",titulo:"Hoy",items:gHoy});
+    if(gProximas.length) grupos.push({clase:"proximas",titulo:"Próximas",items:gProximas});
+    if(gSinFecha.length) grupos.push({clase:"sinFecha",titulo:"Sin fecha",items:gSinFecha});
+    if(gCompletadas.length) grupos.push({clase:"completadas",titulo:"Completadas",items:gCompletadas});
+  }
 
-  conectarTareas(
-    $("listaTareas")
-  );
+  $("listaTareas").innerHTML=grupos.map(g=>`
+    <div class="grupoTareas ${g.clase}">
+      <div class="grupoTareasTitulo">
+        ${g.titulo}
+        <span>${g.items.length}</span>
+      </div>
+      ${g.items.map(htmlTarea).join("")}
+    </div>
+  `).join("");
 
+  conectarTareas($("listaTareas"));
+
+  document.querySelectorAll("[data-estado]").forEach(b=>{
+    const e=b.dataset.estado;
+    const n=e==="pendientes"
+      ?tareas.filter(t=>!t.completada).length
+      :e==="completadas"
+        ?tareas.filter(t=>t.completada).length
+        :tareas.length;
+
+    let c=b.querySelector(".contadorFiltroTarea");
+    if(!c){
+      c=document.createElement("span");
+      c.className="contadorFiltroTarea";
+      b.appendChild(c);
+    }
+    c.textContent=n;
+  });
 }
 
-
 function conectarTareas(contenedor){
+
+  contenedor
+  .querySelectorAll(
+    "[data-completar]"
+  )
+  .forEach(b=>{
+
+    b.onclick=e=>{
+
+      e.stopPropagation();
+
+      cambiarCompletada(
+        b.dataset.completar
+      );
+
+    };
+
+  });
+
 
   contenedor
   .querySelectorAll(
@@ -8636,31 +8955,32 @@ function conectarTareas(contenedor){
         x.dataset.verTarea
       );
 
-    }
+    };
 
   });
 
 
   contenedor
   .querySelectorAll(
-    "[data-completar]"
+    "[data-editar-rapido]"
   )
-  .forEach(x=>{
+  .forEach(b=>{
 
-    x.onclick=e=>{
+    b.onclick=e=>{
 
       e.stopPropagation();
 
-      cambiarCompletada(
-        x.dataset.completar
+      const t=tareas.find(
+        x=>x.id===b.dataset.editarRapido
       );
 
-    }
+      if(t)abrirTarea(t);
+
+    };
 
   });
 
 }
-
 
 /* ==================================================
    FILTROS DE ESTADO
