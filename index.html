@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 FINAL FORMULARIO -->
+<!-- Family Hub 1.0 · TAREAS PULIDAS -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -3118,6 +3118,152 @@ padding:16px
   }
 }
 
+
+/* ==================================================
+   FAMILY HUB 1.0 · NUEVA TAREA CON DISEÑO DE EVENTO
+   ================================================== */
+#modalTarea .modal{
+  border-radius:26px!important;
+}
+
+#modalTarea .campo{
+  margin-bottom:18px!important;
+}
+
+#modalTarea .campo>label{
+  display:block!important;
+  margin-bottom:8px!important;
+  font-weight:800!important;
+}
+
+#modalTarea #tituloTarea{
+  min-height:62px!important;
+  border-radius:15px!important;
+}
+
+#modalTarea #responsables{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:12px!important;
+}
+
+#modalTarea #responsables .responsableCheck{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:9px!important;
+  min-width:0!important;
+  min-height:54px!important;
+  padding:8px 12px!important;
+  border:1px solid #d0d5dd!important;
+  border-radius:999px!important;
+  line-height:1!important;
+}
+
+#modalTarea #responsables .responsableCheck input[type="checkbox"]{
+  flex:0 0 auto!important;
+  margin:0!important;
+  align-self:center!important;
+}
+
+#modalTarea .responsablePunto{
+  width:10px!important;
+  height:10px!important;
+  min-width:10px!important;
+  border-radius:50%!important;
+  border:1px solid rgba(0,0,0,.10)!important;
+  flex:0 0 10px!important;
+}
+
+#modalTarea .responsableNombre{
+  display:flex!important;
+  align-items:center!important;
+  min-width:0!important;
+  min-height:22px!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:22px!important;
+  font-weight:800!important;
+}
+
+#modalTarea #fechaLimite{
+  height:46px!important;
+  min-height:46px!important;
+  border:1.5px solid #d0d5dd!important;
+  border-radius:12px!important;
+  background:#fff!important;
+  box-sizing:border-box!important;
+}
+
+#modalTarea .recordatorioBox{
+  margin-top:4px!important;
+  margin-bottom:20px!important;
+  border-radius:15px!important;
+}
+
+#modalTarea #notasTarea{
+  min-height:88px!important;
+  border-radius:15px!important;
+}
+
+#modalTarea .acciones{
+  gap:12px!important;
+  padding-top:6px!important;
+}
+
+@media(max-width:600px){
+  #modalTarea .modal{
+    padding-left:22px!important;
+    padding-right:22px!important;
+  }
+
+  #modalTarea .dos{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    gap:14px!important;
+    width:100%!important;
+  }
+
+  #modalTarea .dos>.campo{
+    min-width:0!important;
+    width:100%!important;
+  }
+
+  #modalTarea .dos input,
+  #modalTarea .dos select{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    box-sizing:border-box!important;
+  }
+
+  #modalTarea #fechaLimite{
+    -webkit-appearance:none!important;
+    appearance:none!important;
+    width:100%!important;
+    max-width:100%!important;
+    padding:0 8px!important;
+    font-size:13px!important;
+    line-height:46px!important;
+    text-align:center!important;
+  }
+
+  #modalTarea #fechaLimite::-webkit-date-and-time-value{
+    text-align:center!important;
+    margin:0!important;
+    min-height:46px!important;
+    line-height:46px!important;
+  }
+
+  #modalTarea #fechaLimite::-webkit-datetime-edit{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    height:46px!important;
+    padding:0!important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -6093,11 +6239,12 @@ function crearPersonas(){
     .insertAdjacentHTML(
       "beforeend",
       `
-      <label class="check">
+      <label class="check responsableCheck">
         <input
           type="checkbox"
           value="${escapar(p.nombre)}">
-        ${escapar(p.nombre)}
+        <span class="responsablePunto" style="background:${p.color||"#43A047"}"></span>
+        <span class="responsableNombre">${escapar(p.nombre==="Familia"?"Todos":p.nombre)}</span>
       </label>
       `
     );
