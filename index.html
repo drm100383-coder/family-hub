@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 FINAL iPHONE CORREGIDO -->
+<!-- Family Hub 1.0 FINAL PULIDO -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -2873,6 +2873,102 @@ padding:16px
     padding:12px!important;
     font-size:16px!important;
   }
+}
+
+
+/* ==================================================
+   FAMILY HUB 1.0 · PULIDO FINAL DEL FORMULARIO iPHONE
+   ================================================== */
+@media(max-width:600px){
+
+  /* Fechas y horas: exactamente el ancho útil del campo Actividad */
+  #modalEvento .fechasEvento,
+  #modalEvento #horas{
+    width:auto!important;
+    max-width:none!important;
+    margin-left:0!important;
+    margin-right:0!important;
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:0!important;
+  }
+
+  #modalEvento .fechasEvento>.campo,
+  #modalEvento #horas>.campo{
+    width:auto!important;
+    max-width:none!important;
+    min-width:0!important;
+    margin-left:0!important;
+    margin-right:0!important;
+  }
+
+  #modalEvento .fechasEvento input[type="date"],
+  #modalEvento #horas input[type="time"]{
+    width:100%!important;
+    max-width:100%!important;
+    height:60px!important;
+    min-height:60px!important;
+    box-sizing:border-box!important;
+    padding:0 14px!important;
+    margin:0!important;
+    font-size:16px!important;
+    line-height:60px!important;
+    text-align:center!important;
+  }
+
+  /* Safari/iOS: centra vertical y horizontalmente el valor nativo */
+  #modalEvento input[type="date"]::-webkit-date-and-time-value,
+  #modalEvento input[type="time"]::-webkit-date-and-time-value{
+    text-align:center!important;
+    margin:0!important;
+    min-height:60px!important;
+    line-height:60px!important;
+  }
+
+  #modalEvento input[type="date"]::-webkit-datetime-edit,
+  #modalEvento input[type="time"]::-webkit-datetime-edit{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    height:60px!important;
+    padding:0!important;
+  }
+}
+
+/* Participantes: checkbox + color + nombre perfectamente centrados */
+#modalEvento #participantes .participanteCheck{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-start!important;
+  gap:9px!important;
+  min-height:54px!important;
+  padding:8px 12px!important;
+  line-height:1!important;
+}
+
+#modalEvento #participantes .participanteCheck input[type="checkbox"]{
+  flex:0 0 auto!important;
+  margin:0!important;
+  align-self:center!important;
+}
+
+#modalEvento #participantes .participantePunto{
+  width:10px!important;
+  height:10px!important;
+  min-width:10px!important;
+  border-radius:50%!important;
+  border:1px solid rgba(0,0,0,.10)!important;
+  flex:0 0 10px!important;
+}
+
+#modalEvento #participantes .participanteNombre{
+  display:flex!important;
+  align-items:center!important;
+  min-height:22px!important;
+  margin:0!important;
+  padding:0!important;
+  line-height:22px!important;
+  font-weight:800!important;
 }
 
 </style>
@@ -5836,11 +5932,12 @@ function crearPersonas(){
     .insertAdjacentHTML(
       "beforeend",
       `
-      <label class="check">
+      <label class="check participanteCheck">
         <input
           type="checkbox"
           value="${escapar(p.nombre)}">
-        ${escapar(p.nombre)}
+        <span class="participantePunto" style="background:${p.color||"#43A047"}"></span>
+        <span class="participanteNombre">${escapar(p.nombre==="Familia"?"Todos":p.nombre)}</span>
       </label>
       `
     );
@@ -8049,48 +8146,6 @@ $("todoDia").onchange=()=>{
 };
 
 
-function etiquetarParticipanteFamiliaComoTodos(){
-
-  document
-  .querySelectorAll("#participantes label")
-  .forEach(label=>{
-
-    const input=label.querySelector("input");
-
-    if(input?.value==="Familia"){
-
-      const nodos=[...label.childNodes];
-
-      nodos.forEach(n=>{
-
-        if(
-          n.nodeType===Node.TEXT_NODE &&
-          n.textContent.includes("Familia")
-        ){
-          n.textContent=n.textContent.replace("Familia","Todos");
-        }
-
-      });
-
-    }
-
-  });
-
-}
-
-
-
-const observerParticipantes=new MutationObserver(()=>{
-
-  etiquetarParticipanteFamiliaComoTodos();
-
-});
-
-observerParticipantes.observe(
-  $("participantes"),
-  {childList:true,subtree:true}
-);
-
 /* ==================================================
    PLANTILLAS RÁPIDAS
    ================================================== */
@@ -8171,7 +8226,6 @@ document
 
     setTimeout(()=>{
 
-      etiquetarParticipanteFamiliaComoTodos();
       $("actividad").focus();
 
     },60);
