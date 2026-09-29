@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 FINAL AJUSTADO -->
+<!-- Family Hub 1.0 FINAL iPHONE -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -2833,6 +2833,52 @@ padding:16px
 }
 #plantillasRapidas .plantillaBtn{
   scroll-snap-align:start;
+}
+
+
+/* CORRECCIÓN DEFINITIVA iPHONE · FECHAS Y HORAS */
+#modalEvento .dos{
+  display:flex!important;
+  gap:14px!important;
+  width:100%!important;
+  align-items:flex-start;
+}
+#modalEvento .dos > .campo{
+  flex:1 1 0!important;
+  width:calc(50% - 7px)!important;
+  max-width:calc(50% - 7px)!important;
+  min-width:0!important;
+  overflow:hidden;
+}
+#modalEvento .dos > .campo input[type="date"],
+#modalEvento .dos > .campo input[type="time"]{
+  display:block!important;
+  width:100%!important;
+  max-width:100%!important;
+  min-width:0!important;
+  box-sizing:border-box!important;
+  padding:11px 8px!important;
+  font-size:16px!important;
+  margin:0!important;
+}
+#modalEvento .dos > .campo:first-child{
+  margin-left:0!important;
+}
+#modalEvento .dos > .campo:last-child{
+  margin-right:0!important;
+}
+@media(max-width:430px){
+  #modalEvento .modal{
+    padding-left:20px!important;
+    padding-right:20px!important;
+  }
+  #modalEvento .dos{
+    gap:12px!important;
+  }
+  #modalEvento .dos > .campo{
+    width:calc(50% - 6px)!important;
+    max-width:calc(50% - 6px)!important;
+  }
 }
 
 </style>
