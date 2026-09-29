@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 FINAL PULIDO -->
+<!-- Family Hub 1.0 FINAL COMPACTO -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -2969,6 +2969,77 @@ padding:16px
   padding:0!important;
   line-height:22px!important;
   font-weight:800!important;
+}
+
+
+/* ==================================================
+   FAMILY HUB 1.0 · FECHAS/HORAS COMPACTAS EN iPHONE
+   ================================================== */
+@media(max-width:600px){
+
+  #modalEvento .fechasEvento,
+  #modalEvento #horas{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+    column-gap:14px!important;
+    row-gap:0!important;
+    width:100%!important;
+    max-width:100%!important;
+    box-sizing:border-box!important;
+    padding:0!important;
+    margin:0!important;
+  }
+
+  #modalEvento .fechasEvento>.campo,
+  #modalEvento #horas>.campo{
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    overflow:hidden!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+  }
+
+  #modalEvento .fechasEvento input[type="date"],
+  #modalEvento #horas input[type="time"]{
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    min-width:0!important;
+    height:48px!important;
+    min-height:48px!important;
+    box-sizing:border-box!important;
+    margin:0!important;
+    padding:0 6px!important;
+    font-size:14px!important;
+    line-height:48px!important;
+    text-align:center!important;
+    border-radius:12px!important;
+  }
+
+  #modalEvento input[type="date"]::-webkit-date-and-time-value,
+  #modalEvento input[type="time"]::-webkit-date-and-time-value{
+    text-align:center!important;
+    margin:0!important;
+    min-height:48px!important;
+    line-height:48px!important;
+  }
+
+  #modalEvento input[type="date"]::-webkit-datetime-edit,
+  #modalEvento input[type="time"]::-webkit-datetime-edit{
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    height:48px!important;
+    min-width:0!important;
+    padding:0!important;
+  }
+
+  /* A little more inner breathing room from the modal's right edge */
+  #modalEvento .modal{
+    padding-left:22px!important;
+    padding-right:22px!important;
+  }
 }
 
 </style>
