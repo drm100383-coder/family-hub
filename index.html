@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub v40 -->
+<!-- Family Hub 1.0 FINAL -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -2795,6 +2795,23 @@ padding:16px
 .agendaCabAcciones{display:flex;align-items:center;gap:6px}.irFechaAgenda{display:flex;align-items:center;gap:5px;border:1px solid #d0d5dd;background:white;border-radius:10px;padding:3px 6px;font-size:9px;font-weight:900;color:#667085}.irFechaAgenda input{border:0;background:transparent;font-size:10px;max-width:112px}
 .inicioSimplificado #tarjetaHoy,.inicioSimplificado #tarjetaTareasInicio{display:none!important}@media(max-width:480px){.irFechaAgenda span{display:none}}
 
+
+/* ==================================================
+   FAMILY HUB 1.0 · INICIO FINAL
+   Cierre visual: menos repetición, Próximamente antes.
+   ================================================== */
+#tarjetaSemana,
+#pulsoSemana,
+#tarjetaMananaInicio{
+  display:none!important;
+}
+#tarjetaTimelineInicio.tarjetaVaciaCompacta{
+  display:none!important;
+}
+#tarjetaProximamente{
+  margin-top:14px;
+}
+
 </style>
 </head>
 <body>
@@ -3764,7 +3781,7 @@ padding:16px
         </div>
 
         <div class="ajusteDescripcion">
-          Daniel &amp; Nuria · Firebase · <span id="versionFamilyHub">v40</span>
+          Daniel &amp; Nuria · Firebase · <span id="versionFamilyHub">1.0</span>
         </div>
 
       </div>
@@ -13606,8 +13623,8 @@ function abrirElementoInicio(x){
 
 function renderTimelineInicio(){
   const lista=elementosDeFechaInicio(fechaLocal());
-  $("tarjetaTimelineInicio").classList.toggle("tarjetaVaciaCompacta",!lista.length&&ajustes.inicioCompacto);
-  if(!lista.length){$("timelineInicio").innerHTML='<div class="vacio">Día despejado.</div>';return}
+  $("tarjetaTimelineInicio").classList.toggle("tarjetaVaciaCompacta",!lista.length);
+  if(!lista.length){$("timelineInicio").innerHTML="";return}
   $("timelineInicio").innerHTML=lista.map((x,i)=>`
     <div class="timelineItem" data-timeline="${i}">
       <div class="timelineHora">${escapar(x.hora||"")}</div>
@@ -13657,7 +13674,18 @@ window.addEventListener("online",actualizarConexion);window.addEventListener("of
 function renderProgresoDia(){const lista=elementosDeFechaInicio(fechaLocal()),total=lista.length;if(!total){$("progresoDia").innerHTML="<strong>Día despejado.</strong> No tienes compromisos fechados para hoy.";return}const ahora=new Date();const pasados=lista.filter(x=>{if(x.tipo==="tarea"||x.objeto.todoDia||(!x.objeto.horaFin&&!x.objeto.horaInicio))return false;const [h,m]=(x.objeto.horaFin||x.objeto.horaInicio).split(":").map(Number),d=new Date();d.setHours(h,m||0,0,0);return d<ahora}).length;const pct=Math.round((pasados/total)*100);$("progresoDia").innerHTML=`<strong>${total} ${total===1?"cosa":"cosas"} hoy</strong> · ${pasados} ya pasadas<div class="progresoDiaBarra"><span style="width:${pct}%"></span></div>`}
 function renderPulsoSemana(){const hoy=desdeFechaLocal(fechaLocal()),fin=sumarDias(hoy,6),finS=fechaLocal(fin);const ev=aparicionesEntreTodos(hoy,fin).length;const ta=tareas.filter(t=>!t.completada&&t.fechaLimite&&t.fechaLimite>=fechaLocal()&&t.fechaLimite<=finS).length;const ven=tareasVencidas().length;$("pulsoSemana").innerHTML=`<div class="pulsoSemanaDato"><strong>${ev}</strong><span>EVENTOS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ta}</strong><span>TAREAS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ven}</strong><span>VENCIDAS</span></div>`}
 function aplicarInicioSimplificado(){$("inicio").classList.toggle("inicioSimplificado",ajustes.inicioSimplificado)}
+
+function ordenarInicioFinal(){
+  const personas=document.querySelector(".tarjetaPersonasInicio");
+  const proximamente=$("tarjetaProximamente");
+  if(personas&&proximamente&&personas.nextElementSibling!==proximamente){
+    personas.insertAdjacentElement("afterend",proximamente);
+  }
+}
+
 function renderInicio(){
+  ordenarInicioFinal();
+
 
   if(!$("inicio"))
   return;
