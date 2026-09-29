@@ -10,6 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
+<!-- Family Hub v40 -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -2785,6 +2786,15 @@ padding:16px
 .inicioCompacto .tarjetaVaciaCompacta{display:none!important}
 #tarjetaComprasInicio{display:none!important}
 
+/* FAMILY HUB · 40 MEJORAS ACUMULADAS */
+.bienvenidaMejorada{display:flex;align-items:center;justify-content:space-between;gap:12px}.estadoConexion{font-size:16px;color:#12b76a}.estadoConexion.offline{color:#f04438}
+.progresoDia{margin:0 0 12px;padding:10px 12px;background:linear-gradient(135deg,#f8faff,#fff);border:1px solid #e4e7ec;border-radius:15px;font-size:10px;color:#475467}.progresoDiaBarra{height:5px;background:#eaecf0;border-radius:999px;overflow:hidden;margin-top:7px}.progresoDiaBarra span{display:block;height:100%;background:#2563eb;border-radius:999px}
+.pulsoSemana{display:grid;grid-template-columns:repeat(3,1fr);gap:0;text-align:center}.pulsoSemanaDato{padding:5px 4px}.pulsoSemanaDato+.pulsoSemanaDato{border-left:1px solid #eaecf0}.pulsoSemanaDato strong{display:block;font-size:18px;color:#101828}.pulsoSemanaDato span{font-size:8px;color:#98a2b3;font-weight:800}
+.lomioAtajos{display:flex;gap:5px;overflow-x:auto;margin:0 0 10px;scrollbar-width:none}.lomioAtajos button{flex:0 0 auto;border:1px solid #d0d5dd;background:white;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:900;color:#475467}.lomioAtajos button.activo{background:#172033;border-color:#172033;color:white}
+.comprasFiltros{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px}.comprasFiltros input,.comprasFiltros select{min-width:0;height:38px;border:1px solid #d0d5dd;border-radius:11px;background:white;padding:0 9px;font-size:10px}.contadorFiltroCompras{font-size:9px;color:#667085;font-weight:800;margin:0 0 8px}
+.agendaCabAcciones{display:flex;align-items:center;gap:6px}.irFechaAgenda{display:flex;align-items:center;gap:5px;border:1px solid #d0d5dd;background:white;border-radius:10px;padding:3px 6px;font-size:9px;font-weight:900;color:#667085}.irFechaAgenda input{border:0;background:transparent;font-size:10px;max-width:112px}
+.inicioSimplificado #tarjetaHoy,.inicioSimplificado #tarjetaTareasInicio{display:none!important}@media(max-width:480px){.irFechaAgenda span{display:none}}
+
 </style>
 </head>
 <body>
@@ -2829,10 +2839,11 @@ padding:16px
 
 <section id="inicio" class="pantalla activa">
 
-  <div class="bienvenida">
-    <h1>Inicio</h1>
-    <p id="fechaHoy"></p>
+  <div class="bienvenida bienvenidaMejorada">
+    <div><h1 id="saludoInicio">Inicio</h1><p id="fechaHoy"></p></div>
+    <div id="estadoConexion" class="estadoConexion" title="Estado de conexión">●</div>
   </div>
+  <div id="progresoDia" class="progresoDia"></div>
 
 
   <!-- BUSCADOR GLOBAL -->
@@ -2980,6 +2991,9 @@ padding:16px
   </div>
 
 
+  <!-- PULSO DE LOS PRÓXIMOS 7 DÍAS -->
+  <div id="pulsoSemana" class="tarjeta pulsoSemana"></div>
+
   <!-- PRÓXIMAMENTE -->
 
   <div
@@ -3006,11 +3020,10 @@ padding:16px
 
     <h1>Agenda</h1>
 
-    <button
-      id="irHoy"
-      class="hoyBtn">
-      Hoy
-    </button>
+    <div class="agendaCabAcciones">
+      <button id="irHoy" class="hoyBtn">Hoy</button>
+      <label class="irFechaAgenda" title="Ir a una fecha"><span>Fecha</span><input id="irFechaAgenda" type="date"></label>
+    </div>
 
   </div>
 
@@ -3263,7 +3276,13 @@ padding:16px
 
 
   <div class="tarjeta">
-
+    <div class="comprasFiltros">
+      <input id="buscarCompras" type="search" placeholder="Buscar en la lista…" autocomplete="off">
+      <select id="filtroCategoriaCompras"><option value="">Todas las categorías</option><option>Alimentación</option><option>Limpieza</option><option>Higiene</option><option>Farmacia</option><option>Casa</option><option>Otros</option></select>
+      <select id="filtroCompradorCompras"><option value="">Todos</option></select>
+      <button id="limpiarFiltrosCompras" type="button" class="miniAccion">Limpiar</button>
+    </div>
+    <div id="contadorFiltroCompras" class="contadorFiltroCompras"></div>
 
     <!-- NUEVO PRODUCTO -->
 
@@ -3387,7 +3406,7 @@ padding:16px
       </div>
 
       <div class="masTexto">
-        Lista compartida de la compra
+        Lista compartida · <span id="resumenMasCompras">0 pendientes</span>
       </div>
 
     </button>
@@ -3408,7 +3427,7 @@ padding:16px
       </div>
 
       <div class="masTexto">
-        Agenda y tareas por persona
+        Agenda y tareas · <span id="resumenMasLoMio">vista personal</span>
       </div>
 
     </button>
@@ -3429,7 +3448,7 @@ padding:16px
       </div>
 
       <div class="masTexto">
-        Miembros y colores de Family Hub
+        <span id="resumenMasFamilia">Miembros y colores</span>
       </div>
 
     </button>
@@ -3480,14 +3499,14 @@ padding:16px
   </div>
 
 
-  <div
-    id="selectorLoMio"
-    class="loMioSelector">
+  <div id="selectorLoMio" class="loMioSelector"></div>
+  <div class="lomioAtajos">
+    <button type="button" data-lomio-vista="todo" class="activo">Todo</button>
+    <button type="button" data-lomio-vista="hoy">Hoy</button>
+    <button type="button" data-lomio-vista="semana">7 días</button>
+    <button type="button" data-lomio-vista="vencidas">Vencidas</button>
   </div>
-
-
-  <div
-    id="contenidoLoMio">
+  <div id="contenidoLoMio">
   </div>
 
 </section>
@@ -3686,6 +3705,10 @@ padding:16px
       </div>
       <label class="switch"><input id="ajusteInicioCompacto" type="checkbox"><span></span></label>
     </div>
+    <div class="ajusteFila">
+      <div class="ajusteTexto"><div class="ajusteTitulo">Inicio simplificado</div><div class="ajusteDescripcion">Oculta Hoy y Tareas porque ya aparecen integradas en “Tu día”</div></div>
+      <label class="switch"><input id="ajusteInicioSimplificado" type="checkbox"><span></span></label>
+    </div>
   </div>
 
   <!-- NOTIFICACIONES -->
@@ -3741,7 +3764,7 @@ padding:16px
         </div>
 
         <div class="ajusteDescripcion">
-          Daniel &amp; Nuria · Firebase
+          Daniel &amp; Nuria · Firebase · <span id="versionFamilyHub">v40</span>
         </div>
 
       </div>
@@ -4796,6 +4819,11 @@ let panelFiltrosTareasAbierto=false;
 
 let familiaEditando=null;
 
+let vistaLoMio="todo";
+let busquedaCompras="";
+let filtroCategoriaCompras="";
+let filtroCompradorCompras="";
+
 let personaLoMio=
 localStorage.getItem("familyHubPersonaLoMio")||
 "";
@@ -4890,7 +4918,10 @@ const ajustes={
 
   set inicioCompacto(v){
     localStorage.setItem("familyHubInicioCompacto",v?"1":"0")
-  }
+  }, 
+  get inicioSimplificado(){return localStorage.getItem("familyHubInicioSimplificado")!=="0"},
+  set inicioSimplificado(v){localStorage.setItem("familyHubInicioSimplificado",v?"1":"0")}
+
 
 };
 
@@ -6958,6 +6989,7 @@ function cargarAjustesInterfaz(){
 
   $("ajusteMostrarManana").checked=ajustes.mostrarManana;
   $("ajusteInicioCompacto").checked=ajustes.inicioCompacto;
+  $("ajusteInicioSimplificado").checked=ajustes.inicioSimplificado;
 
   actualizarEstadoNotificaciones();
 
@@ -11590,6 +11622,8 @@ function renderHistorialCompras(){
 }
 $("verHistorialCompras").onclick=()=>{historialComprasAbierto=!historialComprasAbierto;renderHistorialCompras()};
 
+function renderFiltroCompradoresCompras(){if(!$("filtroCompradorCompras"))return;$("filtroCompradorCompras").innerHTML='<option value="">Todos</option>'+familiaVisible().filter(p=>p.id!=="familia").map(p=>`<option value="${escapar(p.nombre)}">${escapar(p.nombre)}</option>`).join("");$("filtroCompradorCompras").value=filtroCompradorCompras}
+$("buscarCompras").oninput=()=>{busquedaCompras=$("buscarCompras").value;renderCompras()};$("filtroCategoriaCompras").onchange=()=>{filtroCategoriaCompras=$("filtroCategoriaCompras").value;renderCompras()};$("filtroCompradorCompras").onchange=()=>{filtroCompradorCompras=$("filtroCompradorCompras").value;renderCompras()};$("limpiarFiltrosCompras").onclick=()=>{busquedaCompras="";filtroCategoriaCompras="";filtroCompradorCompras="";$("buscarCompras").value="";$("filtroCategoriaCompras").value="";renderFiltroCompradoresCompras();renderCompras()};
 function renderCompras(){
 
   if(
@@ -11598,10 +11632,7 @@ function renderCompras(){
   return;
 
 
-  const pendientes=
-  ordenarComprasPendientes(
-    comprasPendientes()
-  );
+  let pendientes=ordenarComprasPendientes(comprasPendientes());const q=normalizarTexto(busquedaCompras||"").trim();if(q)pendientes=pendientes.filter(x=>normalizarTexto(`${x.producto||""} ${x.cantidad||""} ${x.categoria||""} ${x.comprador||""}`).includes(q));if(filtroCategoriaCompras)pendientes=pendientes.filter(x=>(x.categoria||"Otros")===filtroCategoriaCompras);if(filtroCompradorCompras)pendientes=pendientes.filter(x=>(x.comprador||"")===filtroCompradorCompras);$("contadorFiltroCompras").textContent=(q||filtroCategoriaCompras||filtroCompradorCompras)?`${pendientes.length} ${pendientes.length===1?"resultado":"resultados"}`:"";
 
 
   const hechas=
@@ -12655,6 +12686,8 @@ function renderDetalleMes(fecha){
    ================================================== */
 
 function renderAgenda(){
+if($("irFechaAgenda"))$("irFechaAgenda").value=fechaLocal(fechaAgenda);
+
 
   actualizarCabeceraAgenda();
 
@@ -12863,7 +12896,8 @@ $("irHoy")
 
   renderAgenda();
 
-};
+}; 
+$("irFechaAgenda").onchange=()=>{if(!$("irFechaAgenda").value)return;fechaAgenda=desdeFechaLocal($("irFechaAgenda").value);renderAgenda()};
 
 
 /* ==================================================
@@ -13617,6 +13651,12 @@ function aplicarInicioCompacto(){
   $("inicio").classList.toggle("inicioCompacto",ajustes.inicioCompacto);
 }
 
+function saludoSegunHora(){const h=new Date().getHours();return h<12?"Buenos días":h<20?"Buenas tardes":"Buenas noches"}
+function actualizarConexion(){$("estadoConexion").classList.toggle("offline",!navigator.onLine);$("estadoConexion").title=navigator.onLine?"Con conexión":"Sin conexión"}
+window.addEventListener("online",actualizarConexion);window.addEventListener("offline",actualizarConexion);
+function renderProgresoDia(){const lista=elementosDeFechaInicio(fechaLocal()),total=lista.length;if(!total){$("progresoDia").innerHTML="<strong>Día despejado.</strong> No tienes compromisos fechados para hoy.";return}const ahora=new Date();const pasados=lista.filter(x=>{if(x.tipo==="tarea"||x.objeto.todoDia||(!x.objeto.horaFin&&!x.objeto.horaInicio))return false;const [h,m]=(x.objeto.horaFin||x.objeto.horaInicio).split(":").map(Number),d=new Date();d.setHours(h,m||0,0,0);return d<ahora}).length;const pct=Math.round((pasados/total)*100);$("progresoDia").innerHTML=`<strong>${total} ${total===1?"cosa":"cosas"} hoy</strong> · ${pasados} ya pasadas<div class="progresoDiaBarra"><span style="width:${pct}%"></span></div>`}
+function renderPulsoSemana(){const hoy=desdeFechaLocal(fechaLocal()),fin=sumarDias(hoy,6),finS=fechaLocal(fin);const ev=aparicionesEntreTodos(hoy,fin).length;const ta=tareas.filter(t=>!t.completada&&t.fechaLimite&&t.fechaLimite>=fechaLocal()&&t.fechaLimite<=finS).length;const ven=tareasVencidas().length;$("pulsoSemana").innerHTML=`<div class="pulsoSemanaDato"><strong>${ev}</strong><span>EVENTOS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ta}</strong><span>TAREAS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ven}</strong><span>VENCIDAS</span></div>`}
+function aplicarInicioSimplificado(){$("inicio").classList.toggle("inicioSimplificado",ajustes.inicioSimplificado)}
 function renderInicio(){
 
   if(!$("inicio"))
@@ -13627,7 +13667,8 @@ function renderInicio(){
   .textContent=
   fechaBonita(
     fechaLocal()
-  );
+  ); 
+  $("saludoInicio").textContent=saludoSegunHora();actualizarConexion();renderProgresoDia();renderPulsoSemana();aplicarInicioSimplificado();
 
 
   renderContadoresInicio();
@@ -13674,7 +13715,7 @@ function renderTodo(){
 
   renderCompras();
 
-  renderContadorCompras();
+  renderContadorCompras();renderResumenMas();
 
 
   if(
@@ -13913,6 +13954,7 @@ function tareasLoMio(){
    LO MÍO · RENDER
    ================================================== */
 
+document.querySelectorAll("[data-lomio-vista]").forEach(b=>b.onclick=()=>{vistaLoMio=b.dataset.lomioVista;document.querySelectorAll("[data-lomio-vista]").forEach(x=>x.classList.toggle("activo",x.dataset.lomioVista===vistaLoMio));renderLoMio()});
 function renderLoMio(){
 
   if(!$("contenidoLoMio"))
@@ -13938,10 +13980,11 @@ function renderLoMio(){
   }
 
 
-  const evTodos=eventosLoMio();
-  const taTodos=tareasLoMio();
-  const ev=evTodos.slice(0,10);
-  const ta=taTodos.slice(0,10);
+  let evTodos=eventosLoMio(),taTodos=tareasLoMio();const hoy=fechaLocal(),fin7=fechaLocal(sumarDias(desdeFechaLocal(hoy),6));
+  if(vistaLoMio==="hoy"){evTodos=evTodos.filter(e=>(e.fechaVista||e.fechaAparicion||e.fecha)===hoy);taTodos=taTodos.filter(t=>t.fechaLimite===hoy)}
+  else if(vistaLoMio==="semana"){evTodos=evTodos.filter(e=>{const f=e.fechaVista||e.fechaAparicion||e.fecha;return f>=hoy&&f<=fin7});taTodos=taTodos.filter(t=>t.fechaLimite&&t.fechaLimite>=hoy&&t.fechaLimite<=fin7)}
+  else if(vistaLoMio==="vencidas"){evTodos=[];taTodos=taTodos.filter(t=>t.fechaLimite&&t.fechaLimite<hoy)}
+  const ev=evTodos.slice(0,10),ta=taTodos.slice(0,10);
 
 
   $("contenidoLoMio")
@@ -14563,6 +14606,7 @@ async()=>{
    AJUSTES · GUARDAR
    ================================================== */
 
+function renderResumenMas(){if($("resumenMasCompras")){const n=comprasPendientes().length;$("resumenMasCompras").textContent=`${n} ${n===1?"pendiente":"pendientes"}`}if($("resumenMasFamilia")){const n=familia.filter(p=>p.id!=="familia"&&p.activo).length;$("resumenMasFamilia").textContent=`${n} miembros activos`}if($("resumenMasLoMio"))$("resumenMasLoMio").textContent=personaLoMio?`vista de ${personaLoMio}`:"vista personal"}
 function guardarAjustes(){
 
   ajustes.vistaAgenda=
@@ -14585,6 +14629,7 @@ function guardarAjustes(){
 
   ajustes.mostrarManana=$("ajusteMostrarManana").checked;
   ajustes.inicioCompacto=$("ajusteInicioCompacto").checked;
+  ajustes.inicioSimplificado=$("ajusteInicioSimplificado").checked;
 
 
   localStorage.setItem(
@@ -14621,7 +14666,7 @@ function guardarAjustes(){
 
   crearFiltros();
 
-  crearCompradores();
+  crearCompradores();renderFiltroCompradoresCompras();
 
   renderSelectorLoMio();
 
@@ -14666,6 +14711,7 @@ guardarAjustes;
 
 $("ajusteMostrarManana").onchange=guardarAjustes;
 $("ajusteInicioCompacto").onchange=guardarAjustes;
+$("ajusteInicioSimplificado").onchange=guardarAjustes;
 
 
 /* ==================================================
