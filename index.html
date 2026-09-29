@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 FINAL -->
+<!-- Family Hub 1.0 FINAL AJUSTADO -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -2812,6 +2812,29 @@ padding:16px
   margin-top:14px;
 }
 
+
+/* FAMILY HUB 1.0 · AJUSTE FINAL DE EVENTOS */
+#modalEvento .dos{
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:12px;
+}
+#modalEvento .dos>.campo{
+  min-width:0;
+}
+#modalEvento .dos input,
+#modalEvento .dos select{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#plantillasRapidas{
+  scroll-snap-type:x proximity;
+}
+#plantillasRapidas .plantillaBtn{
+  scroll-snap-align:start;
+}
+
 </style>
 </head>
 <body>
@@ -3051,38 +3074,20 @@ padding:16px
     id="plantillasRapidas"
     class="plantillasRapidas">
 
-    <button
-      class="plantillaBtn"
-      data-plantilla="medico">
-      🩺 Médico
-    </button>
-
-    <button
-      class="plantillaBtn"
-      data-plantilla="colegio">
-      🎒 Colegio
-    </button>
-
-    <button
-      class="plantillaBtn"
-      data-plantilla="cumple">
-      🎂 Cumpleaños
-    </button>
-
-    <button
-      class="plantillaBtn"
-      data-plantilla="comida">
-      🍽️ Comida
-    </button>
-
-    <button
-      class="plantillaBtn"
-      data-plantilla="viaje">
-      ✈️ Viaje
-    </button>
+    <button class="plantillaBtn" data-plantilla="familia">👨‍👩‍👧 Familia</button>
+    <button class="plantillaBtn" data-plantilla="colegio">🎒 Colegio</button>
+    <button class="plantillaBtn" data-plantilla="trabajo">💼 Trabajo</button>
+    <button class="plantillaBtn" data-plantilla="salud">🩺 Salud</button>
+    <button class="plantillaBtn" data-plantilla="iglesia">⛪ Iglesia</button>
+    <button class="plantillaBtn" data-plantilla="deporte">⚽ Deporte</button>
+    <button class="plantillaBtn" data-plantilla="ocio">🎉 Ocio</button>
+    <button class="plantillaBtn" data-plantilla="comida">🍽️ Comida</button>
+    <button class="plantillaBtn" data-plantilla="viaje">✈️ Viaje</button>
+    <button class="plantillaBtn" data-plantilla="cumple">🎂 Cumpleaños</button>
+    <button class="plantillaBtn" data-plantilla="aniversario">♥ Aniversario</button>
+    <button class="plantillaBtn" data-plantilla="otro">📌 Otro</button>
 
   </div>
-
 
   <!-- VISTAS -->
 
@@ -4023,7 +4028,11 @@ padding:16px
           <option>Colegio</option>
           <option>Trabajo</option>
           <option>Salud</option>
+          <option>Iglesia</option>
+          <option>Deporte</option>
           <option>Ocio</option>
+          <option>Comida</option>
+          <option>Viaje</option>
           <option>Cumpleaños</option>
           <option>Aniversario</option>
           <option>Otro</option>
@@ -8000,56 +8009,66 @@ $("todoDia").onchange=()=>{
 };
 
 
+function etiquetarParticipanteFamiliaComoTodos(){
+
+  document
+  .querySelectorAll("#participantes label")
+  .forEach(label=>{
+
+    const input=label.querySelector("input");
+
+    if(input?.value==="Familia"){
+
+      const nodos=[...label.childNodes];
+
+      nodos.forEach(n=>{
+
+        if(
+          n.nodeType===Node.TEXT_NODE &&
+          n.textContent.includes("Familia")
+        ){
+          n.textContent=n.textContent.replace("Familia","Todos");
+        }
+
+      });
+
+    }
+
+  });
+
+}
+
+
+
+const observerParticipantes=new MutationObserver(()=>{
+
+  etiquetarParticipanteFamiliaComoTodos();
+
+});
+
+observerParticipantes.observe(
+  $("participantes"),
+  {childList:true,subtree:true}
+);
+
 /* ==================================================
    PLANTILLAS RÁPIDAS
    ================================================== */
 
 const plantillasEvento={
 
-  medico:{
-    actividad:"Médico",
-    categoria:"Salud",
-    todoDia:false,
-    horaInicio:"",
-    horaFin:"",
-    repeticion:""
-  },
-
-  colegio:{
-    actividad:"Colegio",
-    categoria:"Colegio",
-    todoDia:false,
-    horaInicio:"",
-    horaFin:"",
-    repeticion:""
-  },
-
-  cumple:{
-    actividad:"Cumpleaños de ",
-    categoria:"Cumpleaños",
-    todoDia:true,
-    horaInicio:"",
-    horaFin:"",
-    repeticion:"Anual"
-  },
-
-  comida:{
-    actividad:"Comida",
-    categoria:"Familia",
-    todoDia:false,
-    horaInicio:"14:00",
-    horaFin:"16:00",
-    repeticion:""
-  },
-
-  viaje:{
-    actividad:"Viaje",
-    categoria:"Ocio",
-    todoDia:true,
-    horaInicio:"",
-    horaFin:"",
-    repeticion:""
-  }
+  familia:{categoria:"Familia"},
+  colegio:{categoria:"Colegio"},
+  trabajo:{categoria:"Trabajo"},
+  salud:{categoria:"Salud"},
+  iglesia:{categoria:"Iglesia"},
+  deporte:{categoria:"Deporte"},
+  ocio:{categoria:"Ocio"},
+  comida:{categoria:"Comida"},
+  viaje:{categoria:"Viaje"},
+  cumple:{categoria:"Cumpleaños",todoDia:true,repeticion:"Anual"},
+  aniversario:{categoria:"Aniversario",todoDia:true,repeticion:"Anual"},
+  otro:{categoria:"Otro"}
 
 };
 
@@ -8073,7 +8092,7 @@ document
     abrirEvento(
       null,
       {
-        ...p,
+        actividad:"",
 
         fecha:
         fechaLocal(
@@ -8085,9 +8104,18 @@ document
           fechaAgenda
         ),
 
+        todoDia:p.todoDia||false,
+
+        horaInicio:"",
+        horaFin:"",
+
         participantes:[],
 
+        categoria:p.categoria,
+
         prioridad:"Normal",
+
+        repeticion:p.repeticion||"",
 
         intervaloRepeticion:1,
 
@@ -8101,25 +8129,12 @@ document
     );
 
 
-    if(
-      b.dataset.plantilla===
-      "cumple"
-    ){
+    setTimeout(()=>{
 
-      setTimeout(()=>{
+      etiquetarParticipanteFamiliaComoTodos();
+      $("actividad").focus();
 
-        $("actividad")
-        .focus();
-
-        $("actividad")
-        .setSelectionRange(
-          $("actividad").value.length,
-          $("actividad").value.length
-        );
-
-      },60);
-
-    }
+    },60);
 
   };
 
