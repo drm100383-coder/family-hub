@@ -2752,6 +2752,39 @@ padding:16px
   .diaMes{min-height:48px;border-radius:10px}
 }
 
+
+/* FAMILY HUB · 20 MEJORAS · FASE COMIDA */
+.tituloConAccion{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tituloConAccion h2{margin:0}
+.miniAccion{border:0;background:#eef4ff;color:#175cd3;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:900;white-space:nowrap}
+.timelineItem{display:grid;grid-template-columns:46px 5px 1fr;gap:9px;align-items:center;padding:9px 0;border-bottom:1px solid #f0f2f5;cursor:pointer}
+.timelineItem:last-child{border-bottom:0}
+.timelineHora{font-size:10px;font-weight:900;color:#667085;text-align:right}
+.timelineBarra{width:5px;height:34px;border-radius:999px}
+.timelineTexto strong{display:block;font-size:12px;color:#101828}
+.timelineTexto span{display:block;font-size:9px;color:#98a2b3;margin-top:2px}
+.personasInicio{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;padding-top:8px}
+.personasInicio::-webkit-scrollbar{display:none}
+.personaInicio{flex:0 0 auto;border:1px solid #d0d5dd;background:white;border-radius:999px;padding:7px 10px;display:flex;align-items:center;gap:6px;color:#344054;font-size:10px;font-weight:900}
+.personaInicioPunto{width:9px;height:9px;border-radius:50%;border:1px solid #d0d5dd}
+.mananaItem{display:flex;align-items:center;gap:9px;padding:8px 0;border-bottom:1px solid #f0f2f5;cursor:pointer}
+.mananaItem:last-child{border-bottom:0}
+.mananaIcono{width:25px;text-align:center}
+.mananaTexto{min-width:0;flex:1}
+.mananaTexto strong{display:block;font-size:11px;color:#101828;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mananaTexto span{display:block;font-size:9px;color:#98a2b3;margin-top:2px}
+.compraBarraAcciones{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0 3px}
+.estadoEntradaCompras{font-size:8px;color:#98a2b3;text-align:right}
+.historialCompras{margin:8px 0 12px;padding:10px;background:#f8fafc;border:1px solid #eaecf0;border-radius:14px}
+.historialCompras[hidden]{display:none!important}
+.historialCompraItem{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid #eaecf0}
+.historialCompraItem:last-child{border-bottom:0}
+.historialCompraItem span{font-size:10px;color:#344054}
+.historialCompraItem button{border:0;background:#e8f1ff;color:#175cd3;border-radius:999px;padding:5px 8px;font-size:9px;font-weight:900}
+.accionCompra{background:#eef8f0!important;color:#16794b!important}
+.inicioCompacto .tarjetaVaciaCompacta{display:none!important}
+#tarjetaComprasInicio{display:none!important}
+
 </style>
 </head>
 <body>
@@ -2889,6 +2922,24 @@ padding:16px
     style="display:none">
   </div>
 
+
+  <!-- TU DÍA: eventos y tareas de hoy en una sola línea temporal -->
+  <div id="tarjetaTimelineInicio" class="tarjeta tarjetaTimelineInicio">
+    <div class="tituloConAccion"><h2>Tu día</h2><button id="irAgendaDesdeTimeline" class="miniAccion" type="button">Ver agenda</button></div>
+    <div id="timelineInicio"></div>
+  </div>
+
+  <!-- MAÑANA -->
+  <div id="tarjetaMananaInicio" class="tarjeta">
+    <div class="tituloConAccion"><h2>Mañana</h2><button id="irMananaAgenda" class="miniAccion" type="button">Abrir día</button></div>
+    <div id="mananaInicio"></div>
+  </div>
+
+  <!-- ACCESO DIRECTO POR PERSONA -->
+  <div class="tarjeta tarjetaPersonasInicio">
+    <div class="tituloConAccion"><h2>Por persona</h2><button id="irLoMioInicio" class="miniAccion" type="button">Lo mío</button></div>
+    <div id="personasInicio" class="personasInicio"></div>
+  </div>
 
   <!-- HOY -->
 
@@ -3285,7 +3336,11 @@ padding:16px
 
 
     <!-- LISTA -->
-
+    <div class="compraBarraAcciones">
+      <button id="verHistorialCompras" class="miniAccion" type="button">Historial</button>
+      <span class="estadoEntradaCompras">Escribe y pulsa Intro para añadir</span>
+    </div>
+    <div id="historialCompras" class="historialCompras" hidden></div>
     <div id="listaCompras"></div>
 
   </div>
@@ -3614,6 +3669,25 @@ padding:16px
   </div>
 
 
+  <!-- INICIO -->
+  <div class="subtituloInicio">Inicio</div>
+  <div class="ajusteGrupo">
+    <div class="ajusteFila">
+      <div class="ajusteTexto">
+        <div class="ajusteTitulo">Mostrar mañana</div>
+        <div class="ajusteDescripcion">Anticipa los compromisos del día siguiente</div>
+      </div>
+      <label class="switch"><input id="ajusteMostrarManana" type="checkbox"><span></span></label>
+    </div>
+    <div class="ajusteFila">
+      <div class="ajusteTexto">
+        <div class="ajusteTitulo">Inicio compacto</div>
+        <div class="ajusteDescripcion">Oculta las nuevas tarjetas cuando no tienen contenido</div>
+      </div>
+      <label class="switch"><input id="ajusteInicioCompacto" type="checkbox"><span></span></label>
+    </div>
+  </div>
+
   <!-- NOTIFICACIONES -->
 
   <div class="subtituloInicio">
@@ -3763,6 +3837,7 @@ padding:16px
         class="accionRapida accionTarea">
         Nueva tarea
       </button>
+      <button id="rapidoCompra" class="accionRapida accionCompra">Añadir compra</button>
 
     </div>
 
@@ -4799,6 +4874,22 @@ const ajustes={
       "familyHubRecordatorioTarea",
       String(v)
     )
+  },
+
+  get mostrarManana(){
+    return localStorage.getItem("familyHubMostrarManana")!=="0"
+  },
+
+  set mostrarManana(v){
+    localStorage.setItem("familyHubMostrarManana",v?"1":"0")
+  },
+
+  get inicioCompacto(){
+    return localStorage.getItem("familyHubInicioCompacto")!=="0"
+  },
+
+  set inicioCompacto(v){
+    localStorage.setItem("familyHubInicioCompacto",v?"1":"0")
   }
 
 };
@@ -6864,6 +6955,9 @@ function cargarAjustesInterfaz(){
 
   $("ajusteRecordatorioTarea").value=
   ajustes.recordatorioTarea;
+
+  $("ajusteMostrarManana").checked=ajustes.mostrarManana;
+  $("ajusteInicioCompacto").checked=ajustes.inicioCompacto;
 
   actualizarEstadoNotificaciones();
 
@@ -11200,6 +11294,9 @@ function renderContadorCompras(){
   .textContent=
   n;
 
+  $("badgeCompras").title=
+  `${n} ${n===1?"producto pendiente":"productos pendientes"}`;
+
 
   $("badgeCompras")
   .style.display=
@@ -11469,6 +11566,30 @@ function renderHabituales(){
    COMPRAS · RENDER PRINCIPAL
    ================================================== */
 
+
+let historialComprasAbierto=false;
+function comprasHistoricasRecientes(){
+  return compras.filter(x=>x.comprado).sort((a,b)=>fechaCompraMillis(b)-fechaCompraMillis(a)).slice(0,20);
+}
+function renderHistorialCompras(){
+  $("historialCompras").hidden=!historialComprasAbierto;
+  $("verHistorialCompras").textContent=historialComprasAbierto?"Ocultar historial":"Historial";
+  if(!historialComprasAbierto)return;
+  const lista=comprasHistoricasRecientes();
+  $("historialCompras").innerHTML=lista.length?lista.map(x=>`
+    <div class="historialCompraItem">
+      <span>${escapar(x.producto||"Producto")}${x.cantidad?" · "+escapar(x.cantidad):""}</span>
+      <button type="button" data-repetir-compra="${x.id}">Añadir</button>
+    </div>`).join(""):'<div class="vacio">Todavía no hay historial.</div>';
+  $("historialCompras").querySelectorAll("[data-repetir-compra]").forEach(b=>{
+    b.onclick=async()=>{
+      const x=compras.find(c=>c.id===b.dataset.repetirCompra);
+      if(x)await crearCompra({producto:x.producto,cantidad:x.cantidad||"",categoria:x.categoria||"Alimentación",comprador:x.comprador||""});
+    };
+  });
+}
+$("verHistorialCompras").onclick=()=>{historialComprasAbierto=!historialComprasAbierto;renderHistorialCompras()};
+
 function renderCompras(){
 
   if(
@@ -11682,6 +11803,7 @@ function renderCompras(){
 
 
   renderHabituales();
+  renderHistorialCompras();
 
 }
 
@@ -13424,6 +13546,77 @@ function renderContadoresInicio(){
    INICIO · RENDER GENERAL
    ================================================== */
 
+
+/* INICIO INTELIGENTE */
+function elementosDeFechaInicio(fecha){
+  const ev=ordenarEventos(eventosEnFechaTodos(fecha)).map(e=>({
+    tipo:"evento",id:e.id,aparicion:e.fechaAparicion||e.fecha,
+    titulo:e.actividad||"Sin título",hora:e.todoDia?"Todo el día":(e.horaInicio||""),
+    personas:e.participantes||[],objeto:e
+  }));
+  const ta=ordenarTareas(tareas.filter(t=>!t.completada&&t.fechaLimite===fecha)).map(t=>({
+    tipo:"tarea",id:t.id,titulo:t.titulo||"Sin título",hora:"Tarea",
+    personas:t.responsables||[],objeto:t
+  }));
+  return [...ev,...ta].sort((a,b)=>{
+    const ah=a.tipo==="evento"?(a.objeto.todoDia?"00:00":(a.objeto.horaInicio||"23:59")):"23:58";
+    const bh=b.tipo==="evento"?(b.objeto.todoDia?"00:00":(b.objeto.horaInicio||"23:59")):"23:58";
+    return ah.localeCompare(bh);
+  });
+}
+
+function abrirElementoInicio(x){
+  if(x.tipo==="evento")abrirFichaEvento(x.id,x.aparicion);
+  else abrirFichaTarea(x.id);
+}
+
+function renderTimelineInicio(){
+  const lista=elementosDeFechaInicio(fechaLocal());
+  $("tarjetaTimelineInicio").classList.toggle("tarjetaVaciaCompacta",!lista.length&&ajustes.inicioCompacto);
+  if(!lista.length){$("timelineInicio").innerHTML='<div class="vacio">Día despejado.</div>';return}
+  $("timelineInicio").innerHTML=lista.map((x,i)=>`
+    <div class="timelineItem" data-timeline="${i}">
+      <div class="timelineHora">${escapar(x.hora||"")}</div>
+      <div class="timelineBarra" style="background:${franjasPersonas(x.personas)}"></div>
+      <div class="timelineTexto"><strong>${escapar(x.titulo)}</strong><span>${x.tipo==="evento"?"Evento":"Tarea"}${x.personas.length?" · "+escapar(x.personas.join(" · ")):""}</span></div>
+    </div>`).join("");
+  $("timelineInicio").querySelectorAll("[data-timeline]").forEach(el=>el.onclick=()=>abrirElementoInicio(lista[Number(el.dataset.timeline)]));
+}
+
+function renderMananaInicio(){
+  const manana=fechaLocal(sumarDias(desdeFechaLocal(fechaLocal()),1));
+  const lista=elementosDeFechaInicio(manana);
+  $("tarjetaMananaInicio").style.display=ajustes.mostrarManana?"block":"none";
+  if(!ajustes.mostrarManana)return;
+  $("tarjetaMananaInicio").classList.toggle("tarjetaVaciaCompacta",!lista.length&&ajustes.inicioCompacto);
+  if(!lista.length){$("mananaInicio").innerHTML='<div class="vacio">No hay nada previsto para mañana.</div>';return}
+  $("mananaInicio").innerHTML=lista.slice(0,5).map((x,i)=>`
+    <div class="mananaItem" data-manana="${i}">
+      <div class="mananaIcono">${x.tipo==="evento"?"📅":"✓"}</div>
+      <div class="mananaTexto"><strong>${escapar(x.titulo)}</strong><span>${escapar(x.hora||"")}${x.personas.length?" · "+escapar(x.personas.join(" · ")):""}</span></div>
+    </div>`).join("");
+  $("mananaInicio").querySelectorAll("[data-manana]").forEach(el=>el.onclick=()=>abrirElementoInicio(lista[Number(el.dataset.manana)]));
+}
+
+function renderPersonasInicio(){
+  const personas=familiaVisible().filter(p=>p.id!=="familia");
+  $("personasInicio").innerHTML=personas.map(p=>`
+    <button class="personaInicio" data-inicio-persona="${escapar(p.nombre)}">
+      <span class="personaInicioPunto" style="background:${p.color||"#43A047"}"></span>${escapar(p.nombre)}
+    </button>`).join("");
+  $("personasInicio").querySelectorAll("[data-inicio-persona]").forEach(b=>{
+    b.onclick=()=>{
+      personaLoMio=b.dataset.inicioPersona;
+      localStorage.setItem("familyHubPersonaLoMio",personaLoMio);
+      cambiarPantalla("lomio");
+    };
+  });
+}
+
+function aplicarInicioCompacto(){
+  $("inicio").classList.toggle("inicioCompacto",ajustes.inicioCompacto);
+}
+
 function renderInicio(){
 
   if(!$("inicio"))
@@ -13443,6 +13636,11 @@ function renderInicio(){
 
   renderSiguienteInicio();
 
+  aplicarInicioCompacto();
+  renderTimelineInicio();
+  renderMananaInicio();
+  renderPersonasInicio();
+
   renderHoyInicio();
 
   renderTareasInicio();
@@ -13453,6 +13651,14 @@ function renderInicio(){
 
 }
 
+
+
+$("irAgendaDesdeTimeline").onclick=()=>cambiarPantalla("agenda");
+$("irMananaAgenda").onclick=()=>{
+  fechaAgenda=sumarDias(desdeFechaLocal(fechaLocal()),1);
+  cambiarPantalla("agenda");
+};
+$("irLoMioInicio").onclick=()=>cambiarPantalla("lomio");
 
 /* ==================================================
    RENDER GENERAL DE LA APP
@@ -13732,20 +13938,10 @@ function renderLoMio(){
   }
 
 
-  const ev=
-  eventosLoMio()
-  .slice(
-    0,
-    10
-  );
-
-
-  const ta=
-  tareasLoMio()
-  .slice(
-    0,
-    10
-  );
+  const evTodos=eventosLoMio();
+  const taTodos=tareasLoMio();
+  const ev=evTodos.slice(0,10);
+  const ta=taTodos.slice(0,10);
 
 
   $("contenidoLoMio")
@@ -13758,8 +13954,8 @@ function renderLoMio(){
       </strong>
 
       <span>
-        ${ev.length} próximos ·
-        ${ta.length} tareas
+        ${evTodos.length} próximos ·
+        ${taTodos.length} tareas
       </span>
 
     </div>
@@ -14387,6 +14583,9 @@ function guardarAjustes(){
   $("ajusteRecordatorioTarea")
   .value;
 
+  ajustes.mostrarManana=$("ajusteMostrarManana").checked;
+  ajustes.inicioCompacto=$("ajusteInicioCompacto").checked;
+
 
   localStorage.setItem(
     "familyHubVistaAgenda",
@@ -14431,6 +14630,7 @@ function guardarAjustes(){
   renderTareas();
 
   renderLoMio();
+  renderInicio();
 
 
   mostrarToast(
@@ -14462,6 +14662,10 @@ guardarAjustes;
 $("ajusteRecordatorioTarea")
 .onchange=
 guardarAjustes;
+
+
+$("ajusteMostrarManana").onchange=guardarAjustes;
+$("ajusteInicioCompacto").onchange=guardarAjustes;
 
 
 /* ==================================================
@@ -14632,6 +14836,8 @@ function cambiarPantalla(p){
   pantalla.classList.add(
     "activa"
   );
+
+  document.title=p==="inicio"?"Family Hub":`Family Hub · ${p==="familiaPantalla"?"Familia":p==="lomio"?"Lo mío":p.charAt(0).toUpperCase()+p.slice(1)}`;
 
 
   if(p==="inicio"){
@@ -14827,6 +15033,13 @@ $("rapidoTarea")
 
   abrirTarea();
 
+};
+
+
+$("rapidoCompra").onclick=()=>{
+  $("modalRapido").classList.remove("visible");
+  cambiarPantalla("compras");
+  setTimeout(()=>$("productoCompra")?.focus(),50);
 };
 
 
