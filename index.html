@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Tareas UX v4: alta única + resumen + agrupación + búsqueda + orden + filtros rápidos -->
+<!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
 *{box-sizing:border-box}
@@ -2179,6 +2179,117 @@ display:none
 }
 
 
+
+/* ==================================================
+   TAREAS · 30 MEJORAS ACUMULADAS
+   Cabecera compacta y filtros secundarios plegables
+   ================================================== */
+
+.resumenTareasCompacto{
+display:flex!important;gap:0!important;background:white;
+border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;
+margin:0 0 10px!important;box-shadow:0 3px 12px rgba(16,24,40,.035)
+}
+.resumenTareasCompacto .resumenTareaDato{
+flex:1;border:0!important;border-radius:0!important;box-shadow:none!important;
+padding:8px 4px!important;background:transparent!important
+}
+.resumenTareasCompacto .resumenTareaDato + .resumenTareaDato{
+border-left:1px solid #eaecf0!important
+}
+.resumenTareasCompacto .resumenTareaDato strong{font-size:18px!important}
+.resumenTareasCompacto .resumenTareaDato span{font-size:8px!important;margin-top:3px!important}
+
+.barraTareasPrincipal{display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.barraTareasPrincipal .buscarTareasWrap{flex:1;min-width:0}
+.barraTareasPrincipal .buscarTareas{height:42px}
+
+.botonFiltrosTareas{
+height:42px;flex:0 0 auto;border:1px solid #d0d5dd;border-radius:13px;
+background:white;color:#344054;font-size:12px;font-weight:900;padding:0 12px;
+display:flex;align-items:center;gap:6px
+}
+.botonFiltrosTareas.abierto,.botonFiltrosTareas.conFiltros{
+border-color:#2563eb;color:#175cd3;background:#f5f8ff
+}
+.numeroFiltrosTareas{
+min-width:18px;height:18px;padding:0 5px;border-radius:999px;background:#2563eb;
+color:white;font-size:9px;font-weight:900;display:inline-flex;
+align-items:center;justify-content:center
+}
+
+.estadoTareasCompacto{
+display:grid!important;grid-template-columns:repeat(3,1fr);gap:4px!important;
+background:#eef2f8;border-radius:14px;padding:4px!important;
+margin:0 0 9px!important;overflow:visible!important
+}
+.estadoTareasCompacto .filtro{
+width:100%;min-width:0;border:0!important;border-radius:10px!important;
+padding:8px 4px!important;font-size:11px!important;background:transparent;white-space:nowrap
+}
+.estadoTareasCompacto .filtro.activo{
+background:white!important;color:#175cd3!important;
+box-shadow:0 2px 8px rgba(16,24,40,.07)
+}
+.estadoTareasCompacto .contadorFiltroTarea{
+min-width:16px;height:16px;font-size:8px;margin-left:2px
+}
+.estadoTareasCompacto .filtro.activo .contadorFiltroTarea{
+background:#e8f1ff;color:#175cd3
+}
+
+.panelFiltrosTareas{
+background:white;border:1px solid #e4e7ec;border-radius:16px;padding:12px;
+margin:0 0 9px;box-shadow:0 8px 24px rgba(16,24,40,.07)
+}
+.panelFiltrosTareas[hidden]{display:none!important}
+.cabPanelFiltrosTareas{
+display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px
+}
+.cabPanelFiltrosTareas strong{font-size:13px;color:#344054}
+.cabPanelFiltrosTareas button{
+border:0;background:transparent;color:#2563eb;font-size:10px;font-weight:900;padding:5px
+}
+.etiquetaFiltroTareas{
+font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.05em;
+color:#98a2b3;margin:8px 0 5px
+}
+.filtrosTareasPanel{margin:0!important;padding:0 0 2px!important}
+.filtrosTareasPanel .filtro{padding:7px 10px!important;font-size:10px!important}
+.panelFiltrosTareas .accionesTareasRapidas{padding:0!important;margin:0!important}
+.panelFiltrosTareas .chipTareaRapida{padding:7px 9px!important;font-size:10px!important}
+
+.filaOrdenTareas{
+display:flex;align-items:center;justify-content:space-between;gap:12px;
+margin-top:10px;padding-top:9px;border-top:1px solid #f0f2f5
+}
+.filaOrdenTareas label{font-size:10px;font-weight:900;color:#667085}
+.filaOrdenTareas .ordenTareas{height:36px;max-width:150px}
+
+.filtrosActivosTareas{
+display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;margin:0 0 7px
+}
+.filtrosActivosTareas:empty{display:none}
+.filtrosActivosTareas::-webkit-scrollbar{display:none}
+.filtroActivoTarea{
+flex:0 0 auto;display:inline-flex;align-items:center;gap:4px;border:0;
+border-radius:999px;background:#e8f1ff;color:#175cd3;padding:5px 8px;
+font-size:9px;font-weight:900
+}
+.filtroActivoTarea b{font-size:12px;line-height:1;font-weight:700}
+
+#tareas .cabPantalla{margin-bottom:8px}
+#tareas .cabPantalla h1{margin-bottom:0}
+#tareas .tarjeta{margin-top:5px}
+.resultadoBusquedaTareas{margin:0 0 6px!important}
+
+@media(max-width:480px){
+.panelFiltrosTareas{padding:10px}
+.botonFiltrosTareas{padding:0 10px}
+.resumenTareasCompacto .resumenTareaDato strong{font-size:17px!important}
+}
+
+
 /* ==================================================
    NUEVO · PLANTILLAS DE EVENTOS
    ================================================== */
@@ -2998,72 +3109,64 @@ padding:16px
     <button id="tareaAvanzada" type="button" tabindex="-1">Más opciones</button>
   </div>
 
-  <!-- RESUMEN DE TAREAS -->
-  <div id="resumenTareas" class="resumenTareas"></div>
+  <!-- RESUMEN COMPACTO -->
+  <div id="resumenTareas" class="resumenTareas resumenTareasCompacto"></div>
 
-  <div class="herramientasTareas">
+  <!-- BÚSQUEDA + ACCESO A FILTROS -->
+  <div class="barraTareasPrincipal">
     <div class="buscarTareasWrap">
-      <input
-        id="buscarTareas"
-        class="buscarTareas"
-        type="search"
-        placeholder="Buscar tareas…"
-        autocomplete="off">
-      <button
-        id="limpiarBuscarTareas"
-        class="limpiarBuscarTareas"
-        type="button"
-        aria-label="Limpiar búsqueda">×</button>
+      <input id="buscarTareas" class="buscarTareas" type="search"
+        placeholder="Buscar tareas…" autocomplete="off">
+      <button id="limpiarBuscarTareas" class="limpiarBuscarTareas"
+        type="button" aria-label="Limpiar búsqueda">×</button>
     </div>
-    <select id="ordenTareas" class="ordenTareas" aria-label="Ordenar tareas">
-      <option value="fecha">Por fecha</option>
-      <option value="prioridad">Prioridad</option>
-      <option value="nombre">A–Z</option>
-    </select>
+
+    <button id="abrirFiltrosTareas" class="botonFiltrosTareas"
+      type="button" aria-expanded="false">
+      Filtros
+      <span id="numeroFiltrosTareas" class="numeroFiltrosTareas" hidden>0</span>
+    </button>
   </div>
 
-  <div class="accionesTareasRapidas">
-    <button type="button" class="chipTareaRapida" data-filtro-rapido="hoy">Hoy</button>
-    <button type="button" class="chipTareaRapida" data-filtro-rapido="vencidas">Vencidas</button>
-    <button type="button" class="chipTareaRapida" data-filtro-rapido="alta">Prioridad alta</button>
-    <button type="button" class="chipTareaRapida" data-filtro-rapido="sinfecha">Sin fecha</button>
+  <!-- ESTADO: filtro principal siempre visible -->
+  <div class="estado-tareas estadoTareasCompacto">
+    <button class="filtro activo" data-estado="pendientes">Pendientes</button>
+    <button class="filtro" data-estado="todas">Todas</button>
+    <button class="filtro" data-estado="completadas">Hechas</button>
   </div>
 
+  <!-- FILTROS SECUNDARIOS PLEGABLES -->
+  <div id="panelFiltrosTareas" class="panelFiltrosTareas" hidden>
+
+    <div class="cabPanelFiltrosTareas">
+      <strong>Filtrar tareas</strong>
+      <button id="limpiarTodosFiltrosTareas" type="button">Restablecer</button>
+    </div>
+
+    <div class="etiquetaFiltroTareas">Persona</div>
+    <div id="filtrosTareas" class="filtros filtrosTareasPanel"></div>
+
+    <div class="etiquetaFiltroTareas">Mostrar</div>
+    <div class="accionesTareasRapidas">
+      <button type="button" class="chipTareaRapida" data-filtro-rapido="hoy">Hoy</button>
+      <button type="button" class="chipTareaRapida" data-filtro-rapido="vencidas">Vencidas</button>
+      <button type="button" class="chipTareaRapida" data-filtro-rapido="alta">Prioridad alta</button>
+      <button type="button" class="chipTareaRapida" data-filtro-rapido="sinfecha">Sin fecha</button>
+    </div>
+
+    <div class="filaOrdenTareas">
+      <label for="ordenTareas">Ordenar</label>
+      <select id="ordenTareas" class="ordenTareas">
+        <option value="fecha">Por fecha</option>
+        <option value="prioridad">Por prioridad</option>
+        <option value="nombre">A–Z</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Solo se muestran aquí los filtros secundarios que estén activos -->
+  <div id="filtrosActivosTareas" class="filtrosActivosTareas"></div>
   <div id="resultadoBusquedaTareas" class="resultadoBusquedaTareas"></div>
-
-
-  <!-- FILTROS PERSONA -->
-
-  <div
-    id="filtrosTareas"
-    class="filtros">
-  </div>
-
-
-  <!-- FILTROS ESTADO -->
-
-  <div class="estado-tareas">
-
-    <button
-      class="filtro activo"
-      data-estado="pendientes">
-      Pendientes
-    </button>
-
-    <button
-      class="filtro"
-      data-estado="todas">
-      Todas
-    </button>
-
-    <button
-      class="filtro"
-      data-estado="completadas">
-      Completadas
-    </button>
-
-  </div>
-
 
   <div class="tarjeta">
 
@@ -4613,6 +4716,7 @@ let tareaEditando=null;
 let busquedaTareas="";
 let ordenTareasActual="fecha";
 let filtroRapidoTareas="";
+let panelFiltrosTareasAbierto=false;
 
 
 let familiaEditando=null;
@@ -8830,6 +8934,8 @@ function renderTareas(){
 
   const lista=tareasFiltradas();
 
+  renderEstadoFiltrosTareas();
+
   if($("resultadoBusquedaTareas")){
     const hayFiltro=Boolean(busquedaTareas||filtroRapidoTareas);
     $("resultadoBusquedaTareas").style.display=hayFiltro?"block":"none";
@@ -9016,6 +9122,140 @@ document
 
   };
 
+});
+
+
+/* ==================================================
+   CONTROLES COMPACTOS DE TAREAS
+   ================================================== */
+
+function contarFiltrosSecundariosTareas(){
+  let n=0;
+  if(filtroTareas!=="Todos")n++;
+  if(filtroRapidoTareas)n++;
+  if(ordenTareasActual!=="fecha")n++;
+  return n;
+}
+
+function renderEstadoFiltrosTareas(){
+  const n=contarFiltrosSecundariosTareas();
+
+  $("panelFiltrosTareas").hidden=!panelFiltrosTareasAbierto;
+  $("abrirFiltrosTareas").classList.toggle("abierto",panelFiltrosTareasAbierto);
+  $("abrirFiltrosTareas").classList.toggle("conFiltros",n>0);
+  $("abrirFiltrosTareas").setAttribute("aria-expanded",panelFiltrosTareasAbierto?"true":"false");
+
+  $("numeroFiltrosTareas").hidden=n===0;
+  $("numeroFiltrosTareas").textContent=n;
+
+  const activos=[];
+
+  if(filtroTareas!=="Todos"){
+    activos.push({tipo:"persona",texto:filtroTareas});
+  }
+
+  if(filtroRapidoTareas){
+    const nombres={
+      hoy:"Hoy",
+      vencidas:"Vencidas",
+      alta:"Prioridad alta",
+      sinfecha:"Sin fecha"
+    };
+    activos.push({tipo:"rapido",texto:nombres[filtroRapidoTareas]});
+  }
+
+  if(ordenTareasActual!=="fecha"){
+    activos.push({
+      tipo:"orden",
+      texto:ordenTareasActual==="prioridad"?"Orden: prioridad":"Orden: A–Z"
+    });
+  }
+
+  $("filtrosActivosTareas").innerHTML=activos.map(x=>`
+    <button type="button" class="filtroActivoTarea" data-quitar-filtro="${x.tipo}">
+      ${escapar(x.texto)} <b>×</b>
+    </button>
+  `).join("");
+
+  $("filtrosActivosTareas")
+  .querySelectorAll("[data-quitar-filtro]")
+  .forEach(b=>{
+    b.onclick=()=>{
+      const tipo=b.dataset.quitarFiltro;
+
+      if(tipo==="persona"){
+        filtroTareas="Todos";
+        crearFiltros();
+      }
+
+      if(tipo==="rapido"){
+        filtroRapidoTareas="";
+        document.querySelectorAll("[data-filtro-rapido]")
+        .forEach(x=>x.classList.remove("activo"));
+      }
+
+      if(tipo==="orden"){
+        ordenTareasActual="fecha";
+        $("ordenTareas").value="fecha";
+      }
+
+      renderTareas();
+    };
+  });
+}
+
+$("abrirFiltrosTareas").onclick=()=>{
+  panelFiltrosTareasAbierto=!panelFiltrosTareasAbierto;
+  renderEstadoFiltrosTareas();
+};
+
+$("limpiarTodosFiltrosTareas").onclick=()=>{
+  filtroTareas="Todos";
+  filtroRapidoTareas="";
+  ordenTareasActual="fecha";
+  busquedaTareas="";
+
+  $("ordenTareas").value="fecha";
+  $("buscarTareas").value="";
+  $("limpiarBuscarTareas").style.display="none";
+
+  document.querySelectorAll("[data-filtro-rapido]")
+  .forEach(x=>x.classList.remove("activo"));
+
+  crearFiltros();
+  renderTareas();
+};
+
+$("buscarTareas").oninput=()=>{
+  busquedaTareas=$("buscarTareas").value;
+  $("limpiarBuscarTareas").style.display=busquedaTareas?"block":"none";
+  renderTareas();
+};
+
+$("limpiarBuscarTareas").onclick=()=>{
+  busquedaTareas="";
+  $("buscarTareas").value="";
+  $("limpiarBuscarTareas").style.display="none";
+  renderTareas();
+  $("buscarTareas").focus();
+};
+
+$("ordenTareas").onchange=()=>{
+  ordenTareasActual=$("ordenTareas").value;
+  renderTareas();
+};
+
+document.querySelectorAll("[data-filtro-rapido]").forEach(b=>{
+  b.onclick=()=>{
+    const v=b.dataset.filtroRapido;
+    filtroRapidoTareas=filtroRapidoTareas===v?"":v;
+
+    document.querySelectorAll("[data-filtro-rapido]").forEach(x=>{
+      x.classList.toggle("activo",x.dataset.filtroRapido===filtroRapidoTareas);
+    });
+
+    renderTareas();
+  };
 });
 
 
