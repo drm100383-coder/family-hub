@@ -2165,6 +2165,130 @@ padding:16px
 
 }
 
+
+
+/* ==================================================
+   AGENDA · PULIDO MÓVIL 2026-09-29
+   ================================================== */
+#agenda{padding-top:2px}
+#agenda .cabAgenda{margin-bottom:8px}
+#agenda .cabAgenda h1{font-size:23px;letter-spacing:-.4px}
+#agenda .hoyBtn{padding:8px 12px;border-radius:12px}
+
+.plantillasRapidas,
+#filtrosAgenda{
+  width:calc(100% + 30px);
+  margin-left:-15px;
+  padding-left:15px;
+  padding-right:15px;
+  box-sizing:border-box;
+  scroll-padding-left:15px;
+  -webkit-overflow-scrolling:touch;
+}
+.plantillasRapidas{padding-top:1px;padding-bottom:8px;margin-bottom:2px}
+.plantillaBtn{padding:7px 11px;font-size:11px;flex:0 0 auto}
+
+#agenda .vistas{margin-bottom:8px;border-radius:14px;padding:4px}
+#agenda .vistaBtn{padding:8px 6px}
+#agenda .navegadorFecha{margin:0 0 5px;gap:6px}
+#agenda .navFecha{width:36px;height:36px;min-width:36px;border-radius:12px}
+#agenda .tituloPeriodo{font-size:14px;white-space:nowrap}
+#agenda .contadorPeriodo{margin-bottom:7px;min-height:0}
+#agenda #filtrosAgenda{margin-bottom:9px;padding-bottom:3px;gap:6px}
+#agenda #filtrosAgenda .filtro{padding:7px 11px;font-size:11px;flex:0 0 auto}
+
+.semanaCompacta{
+  padding:7px 5px;
+  border-radius:16px;
+  margin-bottom:8px;
+  overflow:visible;
+}
+.franjaSemana{gap:3px}
+.diaSemanaMini{
+  border:0;
+  background:transparent;
+  min-width:0;
+  padding:6px 1px;
+  border-radius:12px;
+  color:#172033;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
+.diaSemanaMini.seleccionado{background:#eef4ff}
+.diaSemanaMini.hoy .diaSemanaNumero{background:#2563eb;color:#fff}
+.diaSemanaMini.hoy .diaSemanaNombre{color:#2563eb}
+.diaSemanaNombre{font-size:10px;font-weight:900;color:#667085;text-transform:uppercase;line-height:1.1}
+.diaSemanaNumero{
+  margin-top:4px;
+  width:29px;
+  height:29px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  font-size:14px;
+  font-weight:900;
+}
+.diaSemanaPuntos{height:8px;margin-top:3px;display:flex;gap:2px;align-items:center;justify-content:center}
+.diaSemanaPuntos i{width:5px;height:5px;border-radius:50%;display:block}
+
+.resumenSemana{padding:10px 12px;border-radius:16px}
+.diaSemanaDetalle{padding:0}
+.diaSemanaDetalleTitulo{font-size:12px;font-weight:900;color:#667085;margin:0 0 8px}
+.vacioSemanaCompacto{text-align:center;padding:12px 6px 8px;color:#98a2b3;font-size:13px}
+.anadirSemanaBtn{
+  display:block;
+  margin:8px auto 0;
+  border:0;
+  background:#eef4ff;
+  color:#2563eb;
+  font-weight:900;
+  border-radius:999px;
+  padding:8px 13px;
+  font-size:12px;
+}
+
+.rejillaMes{
+  display:grid;
+  grid-template-columns:repeat(7,minmax(0,1fr));
+  gap:4px;
+}
+.diaMes{
+  border:0;
+  background:white;
+  border-radius:11px;
+  min-width:0;
+  min-height:52px;
+  padding:6px 2px 4px;
+  color:#172033;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+}
+.diaMes.fueraMes{background:transparent;color:#98a2b3;opacity:.72}
+.diaMes.seleccionado{box-shadow:inset 0 0 0 2px #2563eb;background:#eef4ff}
+.diaMes.hoy .numeroMes{background:#2563eb;color:#fff}
+.numeroMes{
+  width:27px;height:27px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:900
+}
+.puntosMes{display:flex;gap:2px;height:7px;margin-top:3px;align-items:center;justify-content:center;max-width:100%}
+.puntosMes i{display:block;width:5px;height:5px;border-radius:50%;flex:0 0 auto}
+.masMes{font-size:8px;color:#667085;font-weight:800;line-height:1}
+.detalleMes{margin-top:8px}
+
+@media(max-width:420px){
+  main{padding-left:15px;padding-right:15px}
+  #agenda .cabAgenda h1{font-size:22px}
+  .plantillaBtn{font-size:10.5px}
+  .diaSemanaNombre{font-size:9px}
+  .diaSemanaNumero{width:27px;height:27px;font-size:13px}
+  .diaMes{min-height:48px;border-radius:10px}
+}
+
 </style>
 </head>
 <body>
@@ -11657,210 +11781,72 @@ function renderDia(){
 
 function renderSemana(){
 
-  const lunes=
-  lunesDeSemana(
-    fechaAgenda
-  );
+  const lunes=lunesDeSemana(fechaAgenda);
+  const domingo=sumarDias(lunes,6);
+  const hoy=fechaLocal();
 
-
-  const hoy=
-  fechaLocal();
-
+  /* Si la fecha seleccionada ha quedado fuera de la semana, usamos el lunes. */
+  let seleccion=fechaLocal(fechaAgenda);
+  if(seleccion<fechaLocal(lunes) || seleccion>fechaLocal(domingo)){
+    seleccion=fechaLocal(lunes);
+    fechaAgenda=desdeFechaLocal(seleccion);
+  }
 
   let cabecera="";
 
-
-  let detalle="";
-
-
-  for(
-    let i=0;
-    i<7;
-    i++
-  ){
-
-    const d=
-    sumarDias(
-      lunes,
-      i
-    );
-
-
-    const f=
-    fechaLocal(d);
-
-
-    const eventosDia=
-    ordenarEventos(
-      eventosEnFecha(f)
-    );
-
-
-    const nombre=
-    new Intl.DateTimeFormat(
-      "es-ES",
-      {
-        weekday:"short"
-      }
-    )
-    .format(d)
-    .replace(".","");
-
+  for(let i=0;i<7;i++){
+    const d=sumarDias(lunes,i);
+    const f=fechaLocal(d);
+    const lista=ordenarEventos(eventosEnFecha(f));
+    const nombre=new Intl.DateTimeFormat("es-ES",{weekday:"short"})
+      .format(d).replace(".","");
 
     cabecera+=`
-
-    <button
-      class="diaSemanaMini ${
-        f===hoy
-        ?"hoy"
-        :""
-      } ${
-        mismoDia(
-          d,
-          fechaAgenda
-        )
-        ?"seleccionado"
-        :""
-      }"
-      data-dia-semana="${f}">
-
-      <span class="diaSemanaNombre">
-        ${cap(nombre)}
-      </span>
-
-      <span class="diaSemanaNumero">
-        ${d.getDate()}
-      </span>
-
-      ${
-        eventosDia.length
-        ?`
+      <button
+        class="diaSemanaMini ${f===hoy?"hoy":""} ${f===seleccion?"seleccionado":""}"
+        data-dia-semana="${f}">
+        <span class="diaSemanaNombre">${cap(nombre)}</span>
+        <span class="diaSemanaNumero">${d.getDate()}</span>
         <span class="diaSemanaPuntos">
-
-          ${
-            eventosDia
-            .slice(0,3)
-            .map(e=>`
-              <i
-                style="background:${colorSimple(
-                  e.participantes||[]
-                )}">
-              </i>
-            `)
-            .join("")
-          }
-
+          ${lista.slice(0,3).map(e=>`<i style="background:${colorSimple(e.participantes||[])}"></i>`).join("")}
         </span>
-        `
-        :""
-      }
-
-    </button>
-
-    `;
-
-
-    if(
-      eventosDia.length
-    ){
-
-      detalle+=`
-
-      <div class="diaSemanaDetalle">
-
-        <div class="diaSemanaDetalleTitulo">
-
-          ${cap(
-            new Intl.DateTimeFormat(
-              "es-ES",
-              {
-                weekday:"long"
-              }
-            ).format(d)
-          )}
-
-          · ${d.getDate()}
-
-        </div>
-
-        ${
-          eventosDia
-          .map(
-            htmlEvento
-          )
-          .join("")
-        }
-
-      </div>
-
-      `;
-
-    }
-
+      </button>`;
   }
 
+  $("semanaTop").innerHTML=cabecera;
 
-  $("semanaTop")
-  .innerHTML=
-  cabecera;
+  const dSel=desdeFechaLocal(seleccion);
+  const listaSel=ordenarEventos(eventosEnFecha(seleccion));
+  const tituloDia=cap(new Intl.DateTimeFormat("es-ES",{
+    weekday:"long",day:"numeric",month:"long"
+  }).format(dSel));
 
+  $("eventosSemana").innerHTML=`
+    <div class="diaSemanaDetalle">
+      <div class="diaSemanaDetalleTitulo">${tituloDia}</div>
+      ${listaSel.length
+        ?listaSel.map(htmlEvento).join("")
+        :`<div class="vacioSemanaCompacto">
+            Sin eventos este día.
+            <button class="anadirSemanaBtn" id="anadirEventoSemana" type="button">+ Añadir evento</button>
+          </div>`}
+    </div>`;
 
-  $("eventosSemana")
-  .innerHTML=
-  detalle||
-  `
-  <div class="vacio">
-    No hay eventos esta semana.
-  </div>
-  `;
-
-
-  $("semanaTop")
-  .querySelectorAll(
-    "[data-dia-semana]"
-  )
-  .forEach(b=>{
-
+  $("semanaTop").querySelectorAll("[data-dia-semana]").forEach(b=>{
     b.onclick=()=>{
-
-      fechaAgenda=
-      desdeFechaLocal(
-        b.dataset.diaSemana
-      );
-
-
-      vistaAgenda=
-      "dia";
-
-
-      ajustes.vistaAgenda=
-      "dia";
-
-
+      fechaAgenda=desdeFechaLocal(b.dataset.diaSemana);
       renderAgenda();
-
     };
-
   });
 
-
-  $("eventosSemana")
-  .querySelectorAll(
-    "[data-ver-evento]"
-  )
-  .forEach(x=>{
-
-    x.onclick=()=>{
-
-      abrirFichaEvento(
-        x.dataset.verEvento,
-        x.dataset.aparicion
-      );
-
-    };
-
+  $("eventosSemana").querySelectorAll("[data-ver-evento]").forEach(x=>{
+    x.onclick=()=>abrirFichaEvento(x.dataset.verEvento,x.dataset.aparicion);
   });
 
+  const anadir=$("anadirEventoSemana");
+  if(anadir){
+    anadir.onclick=()=>abrirEvento(null,null,seleccion);
+  }
 }
 
 
@@ -11870,189 +11856,49 @@ function renderSemana(){
 
 function renderMes(){
 
-  const y=
-  fechaAgenda.getFullYear();
+  const y=fechaAgenda.getFullYear();
+  const m=fechaAgenda.getMonth();
+  const primero=new Date(y,m,1,12);
+  const ultimo=new Date(y,m+1,0,12);
 
-  const m=
-  fechaAgenda.getMonth();
-
-
-  const primero=
-  new Date(
-    y,
-    m,
-    1,
-    12
-  );
-
-
-  const ultimo=
-  ultimoDiaMes(
-    y,
-    m
-  );
-
-
-  /*
-  Calendario de lunes a domingo.
-  0 = lunes ... 6 = domingo
-  */
-
-  const huecos=
-  (
-    primero.getDay()+6
-  )%7;
-
-
-  const hoy=
-  fechaLocal();
-
+  /* Semana completa: lunes anterior/al mismo día y domingo posterior/al mismo día. */
+  const inicio=sumarDias(primero,-((primero.getDay()+6)%7));
+  const fin=sumarDias(ultimo,(7-ultimo.getDay())%7);
+  const hoy=fechaLocal();
 
   let html="";
+  let d=new Date(inicio);
 
-
-  for(
-    let i=0;
-    i<huecos;
-    i++
-  ){
-
-    html+=`
-    <div class="diaMes vacioMes"></div>
-    `;
-
-  }
-
-
-  for(
-    let dia=1;
-    dia<=ultimo;
-    dia++
-  ){
-
-    const d=
-    new Date(
-      y,
-      m,
-      dia,
-      12
-    );
-
-
-    const f=
-    fechaLocal(d);
-
-
-    const lista=
-    ordenarEventos(
-      eventosEnFecha(f)
-    );
-
+  while(d<=fin){
+    const f=fechaLocal(d);
+    const fuera=d.getMonth()!==m;
+    const lista=ordenarEventos(eventosEnFecha(f));
 
     html+=`
+      <button
+        class="diaMes ${fuera?"fueraMes":""} ${f===hoy?"hoy":""} ${mismoDia(d,fechaAgenda)?"seleccionado":""}"
+        data-dia-mes="${f}">
+        <span class="numeroMes">${d.getDate()}</span>
+        ${lista.length?`
+          <span class="puntosMes">
+            ${lista.slice(0,4).map(e=>`<i style="background:${colorSimple(e.participantes||[])}"></i>`).join("")}
+          </span>`:""}
+        ${lista.length>4?`<span class="masMes">+${lista.length-4}</span>`:""}
+      </button>`;
 
-    <button
-      class="diaMes ${
-        f===hoy
-        ?"hoy"
-        :""
-      } ${
-        mismoDia(
-          d,
-          fechaAgenda
-        )
-        ?"seleccionado"
-        :""
-      }"
-      data-dia-mes="${f}">
-
-      <span class="numeroMes">
-        ${dia}
-      </span>
-
-
-      ${
-        lista.length
-        ?`
-
-        <span class="puntosMes">
-
-          ${
-            lista
-            .slice(0,4)
-            .map(e=>`
-
-              <i
-                style="background:${colorSimple(
-                  e.participantes||[]
-                )}">
-              </i>
-
-            `)
-            .join("")
-          }
-
-        </span>
-
-        `
-        :""
-      }
-
-
-      ${
-        lista.length>4
-        ?`
-        <span class="masMes">
-          +${lista.length-4}
-        </span>
-        `
-        :""
-      }
-
-    </button>
-
-    `;
-
+    d=sumarDias(d,1);
   }
 
+  $("gridMes").innerHTML=html;
 
-  $("gridMes")
-  .innerHTML=
-  html;
-
-
-  $("gridMes")
-  .querySelectorAll(
-    "[data-dia-mes]"
-  )
-  .forEach(b=>{
-
+  $("gridMes").querySelectorAll("[data-dia-mes]").forEach(b=>{
     b.onclick=()=>{
-
-      fechaAgenda=
-      desdeFechaLocal(
-        b.dataset.diaMes
-      );
-
-
-      renderMes();
-
-
-      renderDetalleMes(
-        b.dataset.diaMes
-      );
-
+      fechaAgenda=desdeFechaLocal(b.dataset.diaMes);
+      renderAgenda();
     };
-
   });
 
-
-  renderDetalleMes(
-    fechaLocal(
-      fechaAgenda
-    )
-  );
-
+  renderDetalleMes(fechaLocal(fechaAgenda));
 }
 
 
