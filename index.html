@@ -3292,7 +3292,7 @@ padding:16px
 .bienvenidaMejorada{align-items:flex-start!important}
 .evangelioHoy{max-width:47%;text-align:right;display:flex;flex-direction:column;gap:2px;padding-top:3px;cursor:pointer}
 .evangelioEtiqueta{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:#1570ef}
-.evangelioVersiculo{font-size:10px;line-height:1.25;font-weight:700;color:#344054}
+.evangelioVersiculo{font-size:10px;line-height:1.25;font-weight:700;font-style:italic;color:#344054}
 .evangelioCita{font-size:9px;font-weight:900;color:#667085}
 .habitualesLista .habitualFila{display:flex!important;align-items:center!important;padding:0!important}
 .habitualPrincipal{flex:1;min-width:0;border:0;background:transparent;text-align:left;padding:11px 12px}
@@ -11956,7 +11956,6 @@ async function cargarEvangelioHoy(){
   }
   $("evangelioHoy").onclick=()=>window.open(url,"_blank","noopener");
 }
-cargarEvangelioHoy();
 
 function renderHabituales(){
   const vistos=new Map();
@@ -15817,6 +15816,8 @@ prepararInterfazInicial();
    FIN DE FAMILY HUB
    ================================================== */
 
+// Evangelio: iniciar después de que toda la app esté definida.
+cargarEvangelioHoy();
 </script>
 
 </body>
