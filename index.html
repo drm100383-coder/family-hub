@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 · TAREAS PULIDAS -->
+<!-- Family Hub 1.0 · COMPRAS ÁGILES -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -3264,6 +3264,20 @@ padding:16px
   }
 }
 
+
+/* FAMILY HUB · COMPRAS ÁGILES */
+.comprasLegacyOculto{display:none!important}
+.comprasTarjetaAgil{padding-top:18px!important}
+.compraNuevaAgil{display:grid!important;grid-template-columns:minmax(0,1fr) 58px!important;gap:10px!important;margin-bottom:18px!important}
+.compraNuevaAgil #productoCompra{width:100%!important;min-width:0!important;height:52px!important;border-radius:14px!important;font-size:16px!important;padding:0 14px!important}
+.compraNuevaAgil .compraAdd{width:58px!important;height:52px!important;border-radius:14px!important;font-size:30px!important}
+.habitualesWrapAgil{margin:2px 0 20px!important}
+.compraGrupoTituloAgil{margin-bottom:8px!important}
+.habitualesLista{display:flex!important;flex-direction:column!important;gap:0!important;border:1px solid #e4e7ec!important;border-radius:15px!important;overflow:hidden!important}
+.habitualesLista .habitualFila{width:100%!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;border:0!important;border-bottom:1px solid #eaecf0!important;border-radius:0!important;background:white!important;padding:11px 14px!important;text-align:left!important;font-size:14px!important;color:#344054!important}
+.habitualesLista .habitualFila:last-child{border-bottom:0!important}
+.habitualesLista .habitualFila strong{display:grid!important;place-items:center!important;width:30px!important;height:30px!important;border-radius:999px!important;background:#eef4ff!important;color:#1570ef!important;font-size:20px!important;flex:0 0 30px!important}
+
 </style>
 </head>
 <body>
@@ -3698,124 +3712,15 @@ padding:16px
      ================================================== -->
 
 <section id="compras" class="pantalla">
-
-  <button
-    id="volverCompras"
-    class="volverInterno"
-    type="button">
-    ‹ Más
-  </button>
-
-
-  <div class="comprasCab">
-
-    <div
-      class="cabPantalla"
-      style="margin:0">
-
-      <h1>Compras</h1>
-
-    </div>
-
-    <div
-      id="contadorCompras"
-      class="comprasContador">
-      0 pendientes
-    </div>
-
-  </div>
-
-
-  <div class="tarjeta">
-    <div class="comprasFiltros">
-      <input id="buscarCompras" type="search" placeholder="Buscar en la lista…" autocomplete="off">
-      <select id="filtroCategoriaCompras"><option value="">Todas las categorías</option><option>Alimentación</option><option>Limpieza</option><option>Higiene</option><option>Farmacia</option><option>Casa</option><option>Otros</option></select>
-      <select id="filtroCompradorCompras"><option value="">Todos</option></select>
-      <button id="limpiarFiltrosCompras" type="button" class="miniAccion">Limpiar</button>
-    </div>
-    <div id="contadorFiltroCompras" class="contadorFiltroCompras"></div>
-
-    <!-- NUEVO PRODUCTO -->
-
-    <div class="compraNueva">
-
-      <input
-        id="productoCompra"
-        type="text"
-        placeholder="Añadir producto…"
-        autocomplete="off"
-        enterkeyhint="done">
-
-      <input
-        id="cantidadCompra"
-        type="text"
-        placeholder="Cantidad">
-
-      <button
-        id="anadirCompra"
-        class="compraAdd"
-        aria-label="Añadir producto">
-        +
-      </button>
-
-    </div>
-
-
-    <!-- OPCIONES -->
-
-    <div class="compraOpciones">
-
-      <select id="categoriaCompra">
-        <option>Alimentación</option>
-        <option>Limpieza</option>
-        <option>Higiene</option>
-        <option>Farmacia</option>
-        <option>Casa</option>
-        <option>Otros</option>
-      </select>
-
-      <select id="compradorCompra">
-        <option value="">Sin asignar</option>
-      </select>
-
-    </div>
-
-
-    <!-- HABITUALES -->
-
-    <div
-      id="habitualesWrap"
-      style="display:none">
-
-      <div class="compraGrupoTitulo">
-
-        <span>Habituales</span>
-
-        <span>
-          Un toque para añadir
-        </span>
-
-      </div>
-
-      <div
-        id="habitualesCompras"
-        class="habituales">
-      </div>
-
-    </div>
-
-
-    <!-- LISTA -->
-    <div class="compraBarraAcciones">
-      <button id="verHistorialCompras" class="miniAccion" type="button">Historial</button>
-      <span class="estadoEntradaCompras">Escribe y pulsa Intro para añadir</span>
-    </div>
-    <div id="historialCompras" class="historialCompras" hidden></div>
-    <div id="listaCompras"></div>
-
-  </div>
-
-</section>
+<button id="volverCompras" class="volverInterno" type="button">‹ Más</button>
+<div class="comprasCab"><div class="cabPantalla" style="margin:0"><h1>Compras</h1></div><div id="contadorCompras" class="comprasContador">0 pendientes</div></div>
+<div class="tarjeta comprasTarjetaAgil">
+<div class="compraNueva compraNuevaAgil"><input id="productoCompra" type="text" placeholder="Añadir producto…" autocomplete="off" enterkeyhint="done"><button id="anadirCompra" class="compraAdd" aria-label="Añadir producto">+</button></div>
+<div class="comprasLegacyOculto" aria-hidden="true"><input id="cantidadCompra" type="text" tabindex="-1"><select id="categoriaCompra" tabindex="-1"><option>Alimentación</option><option>Limpieza</option><option>Higiene</option><option>Farmacia</option><option>Casa</option><option>Otros</option></select><select id="compradorCompra" tabindex="-1"><option value="">Sin asignar</option></select><input id="buscarCompras" type="search" tabindex="-1"><select id="filtroCategoriaCompras" tabindex="-1"><option value="">Todas las categorías</option></select><select id="filtroCompradorCompras" tabindex="-1"><option value="">Todos</option></select><button id="limpiarFiltrosCompras" type="button" tabindex="-1">Limpiar</button><div id="contadorFiltroCompras"></div></div>
+<div id="habitualesWrap" class="habitualesWrapAgil" style="display:none"><div class="compraGrupoTitulo compraGrupoTituloAgil"><span>Habituales</span><span>Un toque para añadir</span></div><div id="habitualesCompras" class="habituales habitualesLista"></div></div>
+<div id="listaCompras"></div>
+<div class="comprasLegacyOculto"><button id="verHistorialCompras" type="button">Historial</button><span class="estadoEntradaCompras"></span><div id="historialCompras" hidden></div></div>
+</div></section>
 
 
 
@@ -11941,85 +11846,15 @@ function productosHabituales(){
    ================================================== */
 
 function renderHabituales(){
-
-  const h=
-  productosHabituales();
-
-
-  $("habitualesWrap")
-  .style.display=
-  h.length
-  ?"block"
-  :"none";
-
-
-  $("habitualesCompras")
-  .innerHTML=
-  h.map((x,i)=>`
-
-    <button
-      class="habitual"
-      data-habitual="${i}">
-
-      + ${escapar(
-        x.producto
-      )}
-
-    </button>
-
-  `)
-  .join("");
-
-
-  $("habitualesCompras")
-  .querySelectorAll(
-    "[data-habitual]"
-  )
-  .forEach(b=>{
-
-    b.onclick=
-    async()=>{
-
-      const x=
-      h[
-        +b.dataset.habitual
-      ];
-
-
-      await crearCompra({
-
-        producto:
-        x.producto,
-
-        cantidad:
-        x.cantidad,
-
-        categoria:
-        x.categoria,
-
-        comprador:
-        x.comprador
-
-      });
-
-
-      mostrarToast(
-        `${x.producto} añadido`
-      );
-
-    };
-
-  });
-
+  const vistos=new Map();
+  productosHabituales().forEach(x=>{const k=normalizarTexto(x.producto||"").trim();if(k&&!vistos.has(k))vistos.set(k,x)});
+  const h=[...vistos.values()].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
+  $("habitualesWrap").style.display=h.length?"block":"none";
+  $("habitualesCompras").innerHTML=h.map((x,i)=>`<button class="habitual habitualFila" data-habitual="${i}"><span>${escapar(x.producto)}</span><strong>+</strong></button>`).join("");
+  $("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{const x=h[+b.dataset.habitual];await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",comprador:""});mostrarToast(`${x.producto} añadido`)});
 }
 
 
-/* ==================================================
-   COMPRAS · RENDER PRINCIPAL
-   ================================================== */
-
-
-let historialComprasAbierto=false;
 function comprasHistoricasRecientes(){
   return compras.filter(x=>x.comprado).sort((a,b)=>fechaCompraMillis(b)-fechaCompraMillis(a)).slice(0,20);
 }
@@ -12403,94 +12238,19 @@ async function crearCompra(datos){
    ================================================== */
 
 async function anadirCompraActual(){
-
-  const producto=
-  $("productoCompra")
-  .value
-  .trim();
-
-
-  if(!producto)
-  return;
-
-
-  const cantidad=
-  $("cantidadCompra")
-  .value
-  .trim();
-
-
-  const categoria=
-  $("categoriaCompra")
-  .value;
-
-
-  const comprador=
-  $("compradorCompra")
-  .value;
-
-
-  const boton=
-  $("anadirCompra");
-
-
-  if(boton.disabled)
-  return;
-
-
+  const producto=$("productoCompra").value.trim();
+  if(!producto)return;
+  const anterior=[...compras].filter(x=>normalizarTexto(x.producto||"")===normalizarTexto(producto)).sort((a,b)=>(b.creada||"").localeCompare(a.creada||""))[0];
+  const categoria=anterior?.categoria||"Otros";
+  const boton=$("anadirCompra");
+  if(boton.disabled)return;
   boton.disabled=true;
-
-
   try{
-
-    const creada=
-    await crearCompra({
-
-      producto,
-      cantidad,
-      categoria,
-      comprador
-
-    });
-
-
-    if(creada){
-
-      $("productoCompra")
-      .value="";
-
-
-      $("cantidadCompra")
-      .value="";
-
-
-      mostrarToast(
-        `${producto} añadido`
-      );
-
-    }
-
-
-    $("productoCompra")
-    .focus();
-
-
-  }catch(e){
-
-    console.error(e);
-
-
-    mostrarToast(
-      "No se ha podido añadir el producto"
-    );
-
-
-  }finally{
-
-    boton.disabled=false;
-
-  }
-
+    const creada=await crearCompra({producto,cantidad:"",categoria,comprador:""});
+    if(creada){$("productoCompra").value="";mostrarToast(`${producto} añadido`)}
+    $("productoCompra").focus();
+  }catch(e){console.error(e);mostrarToast("No se ha podido añadir el producto")}
+  finally{boton.disabled=false}
 }
 
 
