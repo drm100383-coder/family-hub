@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 · COMPRAS ÁGILES -->
+<!-- Family Hub 1.0 · COMPRAS INTELIGENTES -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -3278,6 +3278,11 @@ padding:16px
 .habitualesLista .habitualFila:last-child{border-bottom:0!important}
 .habitualesLista .habitualFila strong{display:grid!important;place-items:center!important;width:30px!important;height:30px!important;border-radius:999px!important;background:#eef4ff!important;color:#1570ef!important;font-size:20px!important;flex:0 0 30px!important}
 
+/* COMPRAS INTELIGENTES */
+.clasificacionToggle{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:#f8faff;border-radius:12px;padding:10px 12px;margin:-6px 0 14px;color:#344054;font-weight:800}.clasificacionToggle span:last-child{font-size:10px;color:#1570ef;text-align:right;max-width:65%}
+.panelClasificacionCompra{background:#f8fafc;border:1px solid #e4e7ec;border-radius:14px;padding:12px;margin:-5px 0 16px}.panelClasificacionCompra label{display:block;font-size:10px;font-weight:900;color:#667085;margin:4px 0 6px}.panelClasificacionCompra select{width:100%;height:42px;border:1px solid #d0d5dd;border-radius:11px;background:#fff;padding:0 10px;margin-bottom:9px}
+.habitualFilaDetallada .habitualTexto{display:flex;flex-direction:column;gap:3px;min-width:0}.habitualFilaDetallada .habitualTexto strong{font-size:14px;color:#344054}.habitualFilaDetallada .habitualTexto small{font-size:10px;color:#98a2b3;font-weight:700}.habitualMas{display:grid;place-items:center;width:30px;height:30px;border-radius:999px;background:#eef4ff;color:#1570ef;font-size:20px;font-weight:900;flex:0 0 30px}
+
 </style>
 </head>
 <body>
@@ -3716,7 +3721,12 @@ padding:16px
 <div class="comprasCab"><div class="cabPantalla" style="margin:0"><h1>Compras</h1></div><div id="contadorCompras" class="comprasContador">0 pendientes</div></div>
 <div class="tarjeta comprasTarjetaAgil">
 <div class="compraNueva compraNuevaAgil"><input id="productoCompra" type="text" placeholder="Añadir producto…" autocomplete="off" enterkeyhint="done"><button id="anadirCompra" class="compraAdd" aria-label="Añadir producto">+</button></div>
-<div class="comprasLegacyOculto" aria-hidden="true"><input id="cantidadCompra" type="text" tabindex="-1"><select id="categoriaCompra" tabindex="-1"><option>Alimentación</option><option>Limpieza</option><option>Higiene</option><option>Farmacia</option><option>Casa</option><option>Otros</option></select><select id="compradorCompra" tabindex="-1"><option value="">Sin asignar</option></select><input id="buscarCompras" type="search" tabindex="-1"><select id="filtroCategoriaCompras" tabindex="-1"><option value="">Todas las categorías</option></select><select id="filtroCompradorCompras" tabindex="-1"><option value="">Todos</option></select><button id="limpiarFiltrosCompras" type="button" tabindex="-1">Limpiar</button><div id="contadorFiltroCompras"></div></div>
+<button id="toggleClasificacionCompra" class="clasificacionToggle" type="button"><span>Clasificación</span><span id="resumenClasificacionCompra">Otros</span></button>
+<div id="panelClasificacionCompra" class="panelClasificacionCompra" hidden>
+<label>Categoría</label><select id="categoriaCompra"><option>Alimentación</option><option>Limpieza</option><option>Higiene y cuidado personal</option><option>Farmacia</option><option>Bebé</option><option>Hogar</option><option>Mascotas</option><option>Otros</option></select>
+<div id="bloqueSubcategoriaCompra"><label>Sección de alimentación</label><select id="subcategoriaCompra"><option>Frutas</option><option>Verduras y hortalizas</option><option>Carnicería</option><option>Charcutería</option><option>Pescadería</option><option>Huevos</option><option>Leche y lácteos</option><option>Panadería</option><option>Cereales y desayuno</option><option>Pasta, arroz y legumbres</option><option>Conservas</option><option>Salsas y condimentos</option><option>Aceites</option><option>Congelados</option><option>Refrigerados</option><option>Platos preparados</option><option>Snacks y aperitivos</option><option>Dulces y postres</option><option>Bebidas</option><option>Café e infusiones</option><option>Otros alimentación</option></select></div>
+</div>
+<div class="comprasLegacyOculto" aria-hidden="true"><input id="cantidadCompra" type="text" tabindex="-1"><select id="compradorCompra" tabindex="-1"><option value="">Sin asignar</option></select><input id="buscarCompras" type="search" tabindex="-1"><select id="filtroCategoriaCompras" tabindex="-1"><option value="">Todas las categorías</option></select><select id="filtroCompradorCompras" tabindex="-1"><option value="">Todos</option></select><button id="limpiarFiltrosCompras" type="button" tabindex="-1">Limpiar</button><div id="contadorFiltroCompras"></div></div>
 <div id="habitualesWrap" class="habitualesWrapAgil" style="display:none"><div class="compraGrupoTitulo compraGrupoTituloAgil"><span>Habituales</span><span>Un toque para añadir</span></div><div id="habitualesCompras" class="habituales habitualesLista"></div></div>
 <div id="listaCompras"></div>
 <div class="comprasLegacyOculto"><button id="verHistorialCompras" type="button">Historial</button><span class="estadoEntradaCompras"></span><div id="historialCompras" hidden></div></div>
@@ -11845,13 +11855,20 @@ function productosHabituales(){
    COMPRAS · HABITUALES
    ================================================== */
 
+const seccionesAlimentacion=["Frutas","Verduras y hortalizas","Carnicería","Charcutería","Pescadería","Huevos","Leche y lácteos","Panadería","Cereales y desayuno","Pasta, arroz y legumbres","Conservas","Salsas y condimentos","Aceites","Congelados","Refrigerados","Platos preparados","Snacks y aperitivos","Dulces y postres","Bebidas","Café e infusiones","Otros alimentación"];
+function clasificacionConocida(producto){const k=normalizarTexto(producto||"").trim();if(!k)return null;return [...compras].reverse().find(x=>normalizarTexto(x.producto||"").trim()===k)||null}
+function actualizarPanelClasificacion(){const cat=$("categoriaCompra").value;$("bloqueSubcategoriaCompra").hidden=cat!=="Alimentación";const sub=cat==="Alimentación"?$("subcategoriaCompra").value:"";$("resumenClasificacionCompra").textContent=sub?`${cat} · ${sub}`:cat}
+$("toggleClasificacionCompra").onclick=()=>{$("panelClasificacionCompra").hidden=!$("panelClasificacionCompra").hidden};
+$("categoriaCompra").onchange=actualizarPanelClasificacion;$("subcategoriaCompra").onchange=actualizarPanelClasificacion;
+$("productoCompra").addEventListener("input",()=>{const x=clasificacionConocida($("productoCompra").value);if(x){const cats=[...$("categoriaCompra").options].map(o=>o.value);$("categoriaCompra").value=cats.includes(x.categoria)?x.categoria:"Otros";if(x.categoria==="Alimentación"&&x.subcategoria&&seccionesAlimentacion.includes(x.subcategoria))$("subcategoriaCompra").value=x.subcategoria;actualizarPanelClasificacion()}});
+actualizarPanelClasificacion();
+
 function renderHabituales(){
-  const vistos=new Map();
-  productosHabituales().forEach(x=>{const k=normalizarTexto(x.producto||"").trim();if(k&&!vistos.has(k))vistos.set(k,x)});
-  const h=[...vistos.values()].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
-  $("habitualesWrap").style.display=h.length?"block":"none";
-  $("habitualesCompras").innerHTML=h.map((x,i)=>`<button class="habitual habitualFila" data-habitual="${i}"><span>${escapar(x.producto)}</span><strong>+</strong></button>`).join("");
-  $("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{const x=h[+b.dataset.habitual];await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",comprador:""});mostrarToast(`${x.producto} añadido`)});
+const vistos=new Map();productosHabituales().forEach(x=>{const k=normalizarTexto(x.producto||"").trim();if(k&&!vistos.has(k))vistos.set(k,x)});
+const h=[...vistos.values()].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
+$("habitualesWrap").style.display=h.length?"block":"none";
+$("habitualesCompras").innerHTML=h.map((x,i)=>{const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");return `<button class="habitual habitualFila habitualFilaDetallada" data-habitual="${i}"><span class="habitualTexto"><strong>${escapar(x.producto)}</strong><small>${escapar(d)}</small></span><span class="habitualMas">+</span></button>`}).join("");
+$("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{const x=h[+b.dataset.habitual];await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",comprador:""});mostrarToast(`${x.producto} añadido`)});
 }
 
 
@@ -12163,6 +12180,13 @@ async function crearCompra(datos){
     }
 
 
+    if(datos.categoria||datos.subcategoria){
+      await updateDoc(doc(db,"compras",duplicada.id),{
+        categoria:datos.categoria||duplicada.categoria||"Otros",
+        subcategoria:datos.subcategoria||duplicada.subcategoria||""
+      });
+    }
+
     mostrarToast(
       `${producto} ya está en la lista`
     );
@@ -12193,6 +12217,9 @@ async function crearCompra(datos){
       categoria:
       datos.categoria||
       "Alimentación",
+
+      subcategoria:
+      datos.subcategoria||"",
 
 
       comprador:
@@ -12238,19 +12265,13 @@ async function crearCompra(datos){
    ================================================== */
 
 async function anadirCompraActual(){
-  const producto=$("productoCompra").value.trim();
-  if(!producto)return;
-  const anterior=[...compras].filter(x=>normalizarTexto(x.producto||"")===normalizarTexto(producto)).sort((a,b)=>(b.creada||"").localeCompare(a.creada||""))[0];
-  const categoria=anterior?.categoria||"Otros";
-  const boton=$("anadirCompra");
-  if(boton.disabled)return;
-  boton.disabled=true;
-  try{
-    const creada=await crearCompra({producto,cantidad:"",categoria,comprador:""});
-    if(creada){$("productoCompra").value="";mostrarToast(`${producto} añadido`)}
-    $("productoCompra").focus();
-  }catch(e){console.error(e);mostrarToast("No se ha podido añadir el producto")}
-  finally{boton.disabled=false}
+const producto=$("productoCompra").value.trim();if(!producto)return;
+const conocido=clasificacionConocida(producto);
+const categoria=conocido?.categoria||$("categoriaCompra").value||"Otros";
+const subcategoria=categoria==="Alimentación"?(conocido?.subcategoria||$("subcategoriaCompra").value||"Otros alimentación"):"";
+const boton=$("anadirCompra");if(boton.disabled)return;boton.disabled=true;
+try{const creada=await crearCompra({producto,cantidad:"",categoria,subcategoria,comprador:""});if(creada){$("productoCompra").value="";mostrarToast(`${producto} añadido`)}$("productoCompra").focus()}
+catch(e){console.error(e);mostrarToast("No se ha podido añadir el producto")}finally{boton.disabled=false}
 }
 
 
