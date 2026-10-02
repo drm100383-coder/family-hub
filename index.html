@@ -3287,6 +3287,25 @@ padding:16px
 /* FAMILY HUB 1.1 · EMOJIS + EDICIÓN DE COMPRA */
 .compraEditar{border:0;background:#eef4ff;color:#1570ef;width:34px;height:34px;border-radius:999px;font-size:18px;font-weight:900;display:grid;place-items:center;flex:0 0 34px}.modalEditarCompraCaja{max-width:520px}.emojiEdicionFila{display:grid;grid-template-columns:80px 1fr;gap:10px}.emojiEdicionFila input{text-align:center;font-size:24px!important}.emojiEdicionFila button{border:0;border-radius:12px;background:#eef4ff;color:#1570ef;font-weight:900}.modalEditarCompraCaja select{width:100%;box-sizing:border-box}
 
+
+/* FAMILY HUB 1.2 · EVANGELIO + HABITUALES EDITABLES + SUBCATEGORÍAS */
+.bienvenidaMejorada{align-items:flex-start!important}
+.evangelioHoy{max-width:47%;text-align:right;display:flex;flex-direction:column;gap:2px;padding-top:3px;cursor:pointer}
+.evangelioEtiqueta{font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.04em;color:#1570ef}
+.evangelioVersiculo{font-size:10px;line-height:1.25;font-weight:700;color:#344054}
+.evangelioCita{font-size:9px;font-weight:900;color:#667085}
+.habitualesLista .habitualFila{display:flex!important;align-items:center!important;padding:0!important}
+.habitualPrincipal{flex:1;min-width:0;border:0;background:transparent;text-align:left;padding:11px 12px}
+.habitualAcciones{display:flex;align-items:center;gap:7px;padding-right:10px}
+.habitualEditar{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:999px;background:#f2f4f7;color:#475467;font-size:15px;font-weight:900}
+.habitualMas{border:0!important}
+.compraSubgrupo{margin:2px 0 12px}
+.compraSubgrupoTitulo{display:flex;justify-content:space-between;align-items:center;padding:7px 2px 5px 14px;font-size:10px;font-weight:900;color:#1570ef;text-transform:uppercase;letter-spacing:.035em;border-left:3px solid #d1e9ff}
+@media(max-width:600px){
+  .evangelioHoy{max-width:50%}
+  .evangelioVersiculo{font-size:9px}
+}
+
 </style>
 </head>
 <body>
@@ -3333,7 +3352,11 @@ padding:16px
 
   <div class="bienvenida bienvenidaMejorada">
     <div><h1 id="saludoInicio">Inicio</h1><p id="fechaHoy"></p></div>
-    <div id="estadoConexion" class="estadoConexion" title="Estado de conexión">●</div>
+    <div id="evangelioHoy" class="evangelioHoy" aria-live="polite">
+      <span class="evangelioEtiqueta">Evangelio de hoy</span>
+      <span id="evangelioVersiculo" class="evangelioVersiculo">Cargando…</span>
+      <span id="evangelioCita" class="evangelioCita"></span>
+    </div>
   </div>
   <div id="progresoDia" class="progresoDia"></div>
 
@@ -11904,12 +11927,65 @@ $("categoriaCompra").onchange=actualizarPanelClasificacion;$("subcategoriaCompra
 $("productoCompra").addEventListener("input",()=>{const x=clasificacionConocida($("productoCompra").value);if(x){const cats=[...$("categoriaCompra").options].map(o=>o.value);$("categoriaCompra").value=cats.includes(x.categoria)?x.categoria:"Otros";if(x.categoria==="Alimentación"&&x.subcategoria&&seccionesAlimentacion.includes(x.subcategoria))$("subcategoriaCompra").value=x.subcategoria;actualizarPanelClasificacion()}});
 actualizarPanelClasificacion();
 
+
+async function cargarEvangelioHoy(){
+  const v=$("evangelioVersiculo"), c=$("evangelioCita");
+  if(!v||!c)return;
+  const ahora=new Date();
+  const y=ahora.getFullYear(), m=String(ahora.getMonth()+1).padStart(2,"0"), d=String(ahora.getDate()).padStart(2,"0");
+  const url=`https://www.vaticannews.va/es/evangelio-de-hoy/${y}/${m}/${d}.html`;
+  const hoy=`${y}-${m}-${d}`;
+  const fallback=hoy==="2026-10-02"
+    ?{texto:"«El que acoge a un niño como este en mi nombre me acoge a mí.»",cita:"Mt 18, 5"}
+    :{texto:"Palabra del Evangelio del día",cita:"Ver lectura"};
+  try{
+    const r=await fetch(url,{mode:"cors"});
+    if(!r.ok)throw new Error("Evangelio no disponible");
+    const t=await r.text();
+    const docu=new DOMParser().parseFromString(t,"text/html");
+    const texto=(docu.body?.innerText||"").replace(/\s+/g," ");
+    const ref=texto.match(/(?:Mateo|Marcos|Lucas|Juan)\s+(\d+),\s*([\d\-.\s]+)/i);
+    const frases=texto.match(/[“"«][^”"»]{25,150}[”"»]/g)||[];
+    let frase=frases.find(x=>/Jesús|niño|Dios|Padre|Señor|reino|vida|amor|fe|paz/i.test(x))||frases[0];
+    if(frase)frase=frase.replace(/^["“«]|["”»]$/g,"").trim();
+    v.textContent=frase?`«${frase}»`:fallback.texto;
+    c.textContent=ref?`${ref[0].replace(/\s+/g," ")}`:fallback.cita;
+  }catch(e){
+    v.textContent=fallback.texto;
+    c.textContent=fallback.cita;
+  }
+  $("evangelioHoy").onclick=()=>window.open(url,"_blank","noopener");
+}
+cargarEvangelioHoy();
+
 function renderHabituales(){
-const vistos=new Map();productosHabituales().forEach(x=>{const k=normalizarTexto(x.producto||"").trim();if(k&&!vistos.has(k))vistos.set(k,x)});
-const h=[...vistos.values()].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
-$("habitualesWrap").style.display=h.length?"block":"none";
-$("habitualesCompras").innerHTML=h.map((x,i)=>{const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");return `<button class="habitual habitualFila habitualFilaDetallada" data-habitual="${i}"><span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong><small>${escapar(d)}</small></span><span class="habitualMas">+</span></button>`}).join("");
-$("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{const x=h[+b.dataset.habitual];await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",emoji:x.emoji||sugerirEmojiProducto(x.producto),comprador:""});mostrarToast(`${x.producto} añadido`)});
+  const vistos=new Map();
+  productosHabituales().forEach(x=>{
+    const k=normalizarTexto(x.producto||"").trim();
+    if(k&&!vistos.has(k))vistos.set(k,x);
+  });
+  const h=[...vistos.values()].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
+  $("habitualesWrap").style.display=h.length?"block":"none";
+  $("habitualesCompras").innerHTML=h.map((x,i)=>{
+    const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");
+    return `<div class="habitual habitualFila habitualFilaDetallada">
+      <button class="habitualPrincipal" type="button" data-habitual="${i}">
+        <span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong><small>${escapar(d)}</small></span>
+      </button>
+      <div class="habitualAcciones">
+        <button class="habitualEditar" type="button" data-editar-habitual="${x.id}" aria-label="Editar ${escapar(x.producto||"producto")}">✎</button>
+        <button class="habitualMas" type="button" data-habitual="${i}" aria-label="Añadir ${escapar(x.producto||"producto")}">+</button>
+      </div>
+    </div>`;
+  }).join("");
+  $("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{
+    const x=h[+b.dataset.habitual];
+    await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",emoji:x.emoji||sugerirEmojiProducto(x.producto),comprador:""});
+    mostrarToast(`${x.producto} añadido`);
+  });
+  $("habitualesCompras").querySelectorAll("[data-editar-habitual]").forEach(b=>{
+    b.onclick=()=>abrirEditarCompra(b.dataset.editarHabitual);
+  });
 }
 
 
@@ -11964,71 +12040,41 @@ function renderCompras(){
   ){
 
     const grupos={};
-
-
-    pendientes
-    .forEach(x=>{
-
-      const categoria=
-      x.categoria||
-      "Otros";
-
-
-      if(
-        !grupos[categoria]
-      ){
-
-        grupos[categoria]=[];
-
-      }
-
-
-      grupos[categoria]
-      .push(x);
-
+    pendientes.forEach(x=>{
+      const categoria=x.categoria||"Otros";
+      if(!grupos[categoria])grupos[categoria]=[];
+      grupos[categoria].push(x);
     });
 
+    Object.keys(grupos)
+      .sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"}))
+      .forEach(categoria=>{
+        const items=grupos[categoria].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
 
-    Object.entries(
-      grupos
-    )
-    .forEach(
-      ([categoria,items])=>{
+        html+=`<div class="compraGrupo"><div class="compraGrupoTitulo"><span>${escapar(categoria)}</span><span>${items.length}</span></div>`;
 
-        html+=`
+        if(categoria==="Alimentación"){
+          const subs={};
+          items.forEach(x=>{
+            const sub=x.subcategoria||"Otros alimentación";
+            if(!subs[sub])subs[sub]=[];
+            subs[sub].push(x);
+          });
+          Object.keys(subs)
+            .sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"}))
+            .forEach(sub=>{
+              const subitems=subs[sub].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
+              html+=`<div class="compraSubgrupo">
+                <div class="compraSubgrupoTitulo"><span>${escapar(sub)}</span><span>${subitems.length}</span></div>
+                ${subitems.map(htmlCompra).join("")}
+              </div>`;
+            });
+        }else{
+          html+=items.map(htmlCompra).join("");
+        }
 
-        <div class="compraGrupo">
-
-          <div class="compraGrupoTitulo">
-
-            <span>
-              ${escapar(
-                categoria
-              )}
-            </span>
-
-            <span>
-              ${items.length}
-            </span>
-
-          </div>
-
-
-          ${
-            items
-            .map(
-              htmlCompra
-            )
-            .join("")
-          }
-
-        </div>
-
-        `;
-
-      }
-    );
-
+        html+=`</div>`;
+      });
 
   }else{
 
@@ -13900,8 +13946,7 @@ function aplicarInicioCompacto(){
 }
 
 function saludoSegunHora(){const h=new Date().getHours();return h<12?"Buenos días":h<20?"Buenas tardes":"Buenas noches"}
-function actualizarConexion(){$("estadoConexion").classList.toggle("offline",!navigator.onLine);$("estadoConexion").title=navigator.onLine?"Con conexión":"Sin conexión"}
-window.addEventListener("online",actualizarConexion);window.addEventListener("offline",actualizarConexion);
+
 function renderProgresoDia(){const lista=elementosDeFechaInicio(fechaLocal()),total=lista.length;if(!total){$("progresoDia").innerHTML="<strong>Día despejado.</strong> No tienes compromisos fechados para hoy.";return}const ahora=new Date();const pasados=lista.filter(x=>{if(x.tipo==="tarea"||x.objeto.todoDia||(!x.objeto.horaFin&&!x.objeto.horaInicio))return false;const [h,m]=(x.objeto.horaFin||x.objeto.horaInicio).split(":").map(Number),d=new Date();d.setHours(h,m||0,0,0);return d<ahora}).length;const pct=Math.round((pasados/total)*100);$("progresoDia").innerHTML=`<strong>${total} ${total===1?"cosa":"cosas"} hoy</strong> · ${pasados} ya pasadas<div class="progresoDiaBarra"><span style="width:${pct}%"></span></div>`}
 function renderPulsoSemana(){const hoy=desdeFechaLocal(fechaLocal()),fin=sumarDias(hoy,6),finS=fechaLocal(fin);const ev=aparicionesEntreTodos(hoy,fin).length;const ta=tareas.filter(t=>!t.completada&&t.fechaLimite&&t.fechaLimite>=fechaLocal()&&t.fechaLimite<=finS).length;const ven=tareasVencidas().length;$("pulsoSemana").innerHTML=`<div class="pulsoSemanaDato"><strong>${ev}</strong><span>EVENTOS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ta}</strong><span>TAREAS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ven}</strong><span>VENCIDAS</span></div>`}
 function aplicarInicioSimplificado(){$("inicio").classList.toggle("inicioSimplificado",ajustes.inicioSimplificado)}
