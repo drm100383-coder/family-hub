@@ -10,7 +10,7 @@
 <meta name="theme-color" content="#2563eb">
 <link rel="manifest" href="./manifest.json">
 <title>Family Hub</title>
-<!-- Family Hub 1.0 · COMPRAS INTELIGENTES -->
+<!-- Family Hub 1.1 · EMOJIS EDICIÓN COMUNIDAD -->
 <!-- Tareas UX v5: 30 mejoras acumuladas; filtros secundarios plegables -->
 
 <style>
@@ -3283,6 +3283,10 @@ padding:16px
 .panelClasificacionCompra{background:#f8fafc;border:1px solid #e4e7ec;border-radius:14px;padding:12px;margin:-5px 0 16px}.panelClasificacionCompra label{display:block;font-size:10px;font-weight:900;color:#667085;margin:4px 0 6px}.panelClasificacionCompra select{width:100%;height:42px;border:1px solid #d0d5dd;border-radius:11px;background:#fff;padding:0 10px;margin-bottom:9px}
 .habitualFilaDetallada .habitualTexto{display:flex;flex-direction:column;gap:3px;min-width:0}.habitualFilaDetallada .habitualTexto strong{font-size:14px;color:#344054}.habitualFilaDetallada .habitualTexto small{font-size:10px;color:#98a2b3;font-weight:700}.habitualMas{display:grid;place-items:center;width:30px;height:30px;border-radius:999px;background:#eef4ff;color:#1570ef;font-size:20px;font-weight:900;flex:0 0 30px}
 
+
+/* FAMILY HUB 1.1 · EMOJIS + EDICIÓN DE COMPRA */
+.compraEditar{border:0;background:#eef4ff;color:#1570ef;width:34px;height:34px;border-radius:999px;font-size:18px;font-weight:900;display:grid;place-items:center;flex:0 0 34px}.modalEditarCompraCaja{max-width:520px}.emojiEdicionFila{display:grid;grid-template-columns:80px 1fr;gap:10px}.emojiEdicionFila input{text-align:center;font-size:24px!important}.emojiEdicionFila button{border:0;border-radius:12px;background:#eef4ff;color:#1570ef;font-weight:900}.modalEditarCompraCaja select{width:100%;box-sizing:border-box}
+
 </style>
 </head>
 <body>
@@ -3526,7 +3530,7 @@ padding:16px
     <button class="plantillaBtn" data-plantilla="colegio">🎒 Colegio</button>
     <button class="plantillaBtn" data-plantilla="trabajo">💼 Trabajo</button>
     <button class="plantillaBtn" data-plantilla="salud">🩺 Salud</button>
-    <button class="plantillaBtn" data-plantilla="iglesia">⛪ Iglesia</button>
+    <button class="plantillaBtn" data-plantilla="comunidad">⛪ Comunidad</button>
     <button class="plantillaBtn" data-plantilla="deporte">⚽ Deporte</button>
     <button class="plantillaBtn" data-plantilla="ocio">🎉 Ocio</button>
     <button class="plantillaBtn" data-plantilla="comida">🍽️ Comida</button>
@@ -4372,7 +4376,7 @@ padding:16px
           <option>Colegio</option>
           <option>Trabajo</option>
           <option>Salud</option>
-          <option>Iglesia</option>
+          <option>Comunidad</option>
           <option>Deporte</option>
           <option>Ocio</option>
           <option>Comida</option>
@@ -5047,6 +5051,20 @@ padding:16px
 
 </div>
 
+
+<!-- ==================================================
+     EDITAR PRODUCTO DE COMPRA
+     ================================================== -->
+<div id="modalEditarCompra" class="modal-fondo">
+  <div class="modal modalEditarCompraCaja">
+    <h2>Editar producto</h2>
+    <div class="campo"><label>Producto</label><input id="editarCompraProducto" type="text" autocomplete="off"></div>
+    <div class="campo"><label>Emoji</label><div class="emojiEdicionFila"><input id="editarCompraEmoji" type="text" maxlength="4" inputmode="text"><button id="sugerirEmojiCompra" type="button">Sugerir</button></div></div>
+    <div class="campo"><label>Categoría</label><select id="editarCompraCategoria"><option>Alimentación</option><option>Limpieza</option><option>Higiene y cuidado personal</option><option>Farmacia</option><option>Bebé</option><option>Hogar</option><option>Mascotas</option><option>Otros</option></select></div>
+    <div id="editarCompraSubWrap" class="campo"><label>Sección de alimentación</label><select id="editarCompraSubcategoria"></select></div>
+    <div class="acciones"><button id="cancelarEditarCompra" class="cancelar">Cancelar</button><button id="guardarEditarCompra" class="guardar">Guardar</button></div>
+  </div>
+</div>
 
 <!-- ==================================================
      CONFIRMACIÓN GENÉRICA
@@ -8365,7 +8383,7 @@ const plantillasEvento={
   colegio:{categoria:"Colegio"},
   trabajo:{categoria:"Trabajo"},
   salud:{categoria:"Salud"},
-  iglesia:{categoria:"Iglesia"},
+  comunidad:{categoria:"Comunidad"},
   deporte:{categoria:"Deporte"},
   ocio:{categoria:"Ocio"},
   comida:{categoria:"Comida"},
@@ -11524,6 +11542,30 @@ function textoHistorialCompra(x){
    COMPRAS · HTML DE PRODUCTO
    ================================================== */
 
+let compraEditandoId=null;
+
+const mapaEmojiCompra=[
+  [/leche|lacteo|yogur|nata|batido/i,"🥛"],[/queso/i,"🧀"],[/huevo/i,"🥚"],[/pan|barra|baguette/i,"🥖"],
+  [/pollo|pavo/i,"🍗"],[/carne|ternera|filete|hamburgues/i,"🥩"],[/cerdo|jamon|chorizo|salchich/i,"🥓"],
+  [/pescado|merluza|salmon|atun|bacalao|sardina/i,"🐟"],[/gamba|langostino|marisco/i,"🦐"],
+  [/manzana/i,"🍎"],[/platano|banana/i,"🍌"],[/naranja|mandarina/i,"🍊"],[/limon/i,"🍋"],[/uva/i,"🍇"],[/fresa/i,"🍓"],[/sandia/i,"🍉"],[/melon/i,"🍈"],[/pera/i,"🍐"],[/piña/i,"🍍"],[/melocoton/i,"🍑"],[/cereza/i,"🍒"],
+  [/zanahoria/i,"🥕"],[/tomate/i,"🍅"],[/patata/i,"🥔"],[/cebolla/i,"🧅"],[/ajo/i,"🧄"],[/lechuga|ensalada/i,"🥬"],[/brocoli/i,"🥦"],[/pepino/i,"🥒"],[/pimiento/i,"🫑"],[/maiz/i,"🌽"],[/aguacate/i,"🥑"],[/champinon|seta/i,"🍄"],
+  [/arroz/i,"🍚"],[/pasta|macarron|espagueti/i,"🍝"],[/pizza/i,"🍕"],[/sopa|caldo/i,"🍲"],[/conserva|lata/i,"🥫"],
+  [/galleta/i,"🍪"],[/chocolate/i,"🍫"],[/helado/i,"🍦"],[/tarta|pastel/i,"🍰"],[/caramelo|chuche/i,"🍬"],
+  [/cafe/i,"☕"],[/te|infusion/i,"🍵"],[/agua/i,"💧"],[/zumo/i,"🧃"],[/refresco/i,"🥤"],[/cerveza/i,"🍺"],[/vino/i,"🍷"],
+  [/papel higienico|rollo/i,"🧻"],[/papel aluminio|aluminio|film/i,"📎"],[/detergente|jabon/i,"🧼"],[/limpiador|lejia|suavizante/i,"🧴"],[/champu|gel|acondicionador/i,"🧴"],[/pasta de dientes|dentifrico|cepillo/i,"🪥"],
+  [/panal/i,"👶"],[/medicina|paracetamol|ibuprofeno|farmacia/i,"💊"],[/comida perro|perro/i,"🐶"],[/comida gato|gato/i,"🐱"]
+];
+function sugerirEmojiProducto(nombre){const n=normalizarTexto(nombre||"");for(const [r,e] of mapaEmojiCompra)if(r.test(n))return e;return ""}
+function productoConEmoji(x){const nombre=(x.producto||"Producto").trim();const emoji=x.emoji||sugerirEmojiProducto(nombre);return `${nombre}${emoji?" "+emoji:""}`}
+function abrirEditarCompra(id){const x=compras.find(c=>c.id===id);if(!x)return;compraEditandoId=id;$("editarCompraProducto").value=x.producto||"";$("editarCompraEmoji").value=x.emoji||sugerirEmojiProducto(x.producto)||"";$("editarCompraCategoria").value=[...$("editarCompraCategoria").options].some(o=>o.value===(x.categoria||"Otros"))?(x.categoria||"Otros"):"Otros";$("editarCompraSubcategoria").innerHTML=seccionesAlimentacion.map(s=>`<option>${escapar(s)}</option>`).join("");$("editarCompraSubcategoria").value=x.subcategoria||"Otros alimentación";actualizarEditarCompra();$("modalEditarCompra").classList.add("visible")}
+function actualizarEditarCompra(){$("editarCompraSubWrap").hidden=$("editarCompraCategoria").value!=="Alimentación"}
+$("editarCompraCategoria").onchange=actualizarEditarCompra;
+$("sugerirEmojiCompra").onclick=()=>{$("editarCompraEmoji").value=sugerirEmojiProducto($("editarCompraProducto").value)};
+$("editarCompraProducto").addEventListener("input",()=>{if(!$("editarCompraEmoji").value.trim())$("editarCompraEmoji").value=sugerirEmojiProducto($("editarCompraProducto").value)});
+$("cancelarEditarCompra").onclick=()=>{$("modalEditarCompra").classList.remove("visible");compraEditandoId=null};
+$("guardarEditarCompra").onclick=async()=>{if(!compraEditandoId)return;const producto=$("editarCompraProducto").value.trim();if(!producto){mostrarToast("Escribe el producto");return}const categoria=$("editarCompraCategoria").value;await updateDoc(doc(db,"compras",compraEditandoId),{producto,emoji:$("editarCompraEmoji").value.trim(),categoria,subcategoria:categoria==="Alimentación"?$("editarCompraSubcategoria").value:""});$("modalEditarCompra").classList.remove("visible");compraEditandoId=null;mostrarToast("Producto actualizado")};
+
 function htmlCompra(x){
 
   return `
@@ -11564,20 +11606,14 @@ function htmlCompra(x){
           :""
         }">
 
-        ${escapar(
-          x.producto||
-          "Producto"
-        )}
+        ${escapar(productoConEmoji(x))}
 
       </div>
 
 
       <div class="compraMeta">
 
-        ${escapar(
-          x.categoria||
-          "Otros"
-        )}
+        ${escapar(x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros"))}
 
         ${
           x.comprador
@@ -11623,6 +11659,8 @@ function htmlCompra(x){
       :""
     }
 
+
+    ${!x.comprado?`<button class="compraEditar" data-editar-compra="${x.id}" aria-label="Editar producto">✎</button>`:""}
 
     <button
       class="compraBorrar"
@@ -11729,6 +11767,12 @@ function productosHabituales(){
           x.categoria||
           "Alimentación",
 
+          subcategoria:
+          x.subcategoria||"",
+
+          emoji:
+          x.emoji||"",
+
           comprador:
           x.comprador||"",
 
@@ -11783,12 +11827,9 @@ function productosHabituales(){
       }
 
 
-      if(x.categoria){
-
-        r.categoria=
-        x.categoria;
-
-      }
+      if(x.categoria){r.categoria=x.categoria;}
+      if(x.subcategoria){r.subcategoria=x.subcategoria;}
+      if(x.emoji){r.emoji=x.emoji;}
 
 
       if(x.comprador){
@@ -11867,8 +11908,8 @@ function renderHabituales(){
 const vistos=new Map();productosHabituales().forEach(x=>{const k=normalizarTexto(x.producto||"").trim();if(k&&!vistos.has(k))vistos.set(k,x)});
 const h=[...vistos.values()].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
 $("habitualesWrap").style.display=h.length?"block":"none";
-$("habitualesCompras").innerHTML=h.map((x,i)=>{const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");return `<button class="habitual habitualFila habitualFilaDetallada" data-habitual="${i}"><span class="habitualTexto"><strong>${escapar(x.producto)}</strong><small>${escapar(d)}</small></span><span class="habitualMas">+</span></button>`}).join("");
-$("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{const x=h[+b.dataset.habitual];await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",comprador:""});mostrarToast(`${x.producto} añadido`)});
+$("habitualesCompras").innerHTML=h.map((x,i)=>{const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");return `<button class="habitual habitualFila habitualFilaDetallada" data-habitual="${i}"><span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong><small>${escapar(d)}</small></span><span class="habitualMas">+</span></button>`}).join("");
+$("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{const x=h[+b.dataset.habitual];await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",emoji:x.emoji||sugerirEmojiProducto(x.producto),comprador:""});mostrarToast(`${x.producto} añadido`)});
 }
 
 
@@ -12072,6 +12113,8 @@ function renderCompras(){
   });
 
 
+  $("listaCompras").querySelectorAll("[data-editar-compra]").forEach(b=>{b.onclick=()=>abrirEditarCompra(b.dataset.editarCompra)});
+
   /* ---------- BORRAR ---------- */
 
   $("listaCompras")
@@ -12183,7 +12226,8 @@ async function crearCompra(datos){
     if(datos.categoria||datos.subcategoria){
       await updateDoc(doc(db,"compras",duplicada.id),{
         categoria:datos.categoria||duplicada.categoria||"Otros",
-        subcategoria:datos.subcategoria||duplicada.subcategoria||""
+        subcategoria:datos.subcategoria||duplicada.subcategoria||"",
+        emoji:datos.emoji||duplicada.emoji||sugerirEmojiProducto(producto)
       });
     }
 
@@ -12220,6 +12264,9 @@ async function crearCompra(datos){
 
       subcategoria:
       datos.subcategoria||"",
+
+      emoji:
+      datos.emoji||sugerirEmojiProducto(producto),
 
 
       comprador:
@@ -12270,7 +12317,7 @@ const conocido=clasificacionConocida(producto);
 const categoria=conocido?.categoria||$("categoriaCompra").value||"Otros";
 const subcategoria=categoria==="Alimentación"?(conocido?.subcategoria||$("subcategoriaCompra").value||"Otros alimentación"):"";
 const boton=$("anadirCompra");if(boton.disabled)return;boton.disabled=true;
-try{const creada=await crearCompra({producto,cantidad:"",categoria,subcategoria,comprador:""});if(creada){$("productoCompra").value="";mostrarToast(`${producto} añadido`)}$("productoCompra").focus()}
+try{const creada=await crearCompra({producto,cantidad:"",categoria,subcategoria,emoji:sugerirEmojiProducto(producto),comprador:""});if(creada){$("productoCompra").value="";mostrarToast(`${producto} añadido`)}$("productoCompra").focus()}
 catch(e){console.error(e);mostrarToast("No se ha podido añadir el producto")}finally{boton.disabled=false}
 }
 
@@ -15314,6 +15361,7 @@ const modales=[
   "modalTarea",
   "modalFichaTarea",
   "modalFamilia",
+  "modalEditarCompra",
   "modalConfirmar"
 
 ];
