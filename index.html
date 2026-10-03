@@ -3305,6 +3305,17 @@ padding:16px
 .compraSubgrupo{margin:3px 0 12px}
 .compraSubgrupoTitulo{display:flex;justify-content:space-between;align-items:center;padding:8px 3px 5px 14px;border-left:3px solid #d1e9ff;color:#1570ef;font-size:11px;font-weight:900}
 
+
+/* Family Hub 1.5 */
+.comprasTituloSeccion,.listaCompraCabecera span{font-size:18px!important;font-weight:900!important;color:#101828!important}
+.listaCompraCabecera{margin:24px 0 8px;padding-top:16px;border-top:2px solid #e4e7ec}
+.estadoListaTitulo{font-size:14px;font-weight:900;color:#344054;margin:10px 0 8px}
+.habitualGrupo{margin:10px 0 16px}
+.habitualGrupoTitulo{display:flex;justify-content:space-between;font-size:13px;font-weight:900;color:#344054;padding:5px 3px;border-bottom:1px solid #e4e7ec}
+.habitualSubgrupo{margin:5px 0 10px}
+.habitualSubtitulo{font-size:11px;font-weight:900;color:#1570ef;padding:6px 4px 4px 12px;border-left:3px solid #d1e9ff}
+.habitualEliminar{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:999px;background:#fff1f0;color:#d92d20;font-size:18px;font-weight:800}
+
 </style>
 </head>
 <body>
@@ -3351,11 +3362,11 @@ padding:16px
 
   <div class="bienvenida bienvenidaMejorada">
     <div><h1 id="saludoInicio">Inicio</h1><p id="fechaHoy"></p></div>
-    <div class="evangelioHoy">
-      <span class="evangelioEtiqueta">EVANGELIO DE HOY</span>
-      <span class="evangelioVersiculo">«El que acoge a un niño como este en mi nombre me acoge a mí.»</span>
-      <span class="evangelioCita">Mt 18, 5</span>
-    </div>
+    <div id="evangelioHoy" class="evangelioHoy">
+<span class="evangelioEtiqueta">EVANGELIO DE HOY</span>
+<span id="evangelioVersiculo" class="evangelioVersiculo">Cargando…</span>
+<span id="evangelioCita" class="evangelioCita"></span>
+</div>
   </div>
   <div id="progresoDia" class="progresoDia"></div>
 
@@ -3753,7 +3764,7 @@ padding:16px
 <div id="bloqueSubcategoriaCompra"><label>Sección de alimentación</label><select id="subcategoriaCompra"><option>Frutas</option><option>Verduras y hortalizas</option><option>Carnicería</option><option>Charcutería</option><option>Pescadería</option><option>Huevos</option><option>Leche y lácteos</option><option>Panadería</option><option>Cereales y desayuno</option><option>Pasta, arroz y legumbres</option><option>Conservas</option><option>Salsas y condimentos</option><option>Aceites</option><option>Congelados</option><option>Refrigerados</option><option>Platos preparados</option><option>Snacks y aperitivos</option><option>Dulces y postres</option><option>Bebidas</option><option>Café e infusiones</option><option>Otros alimentación</option></select></div>
 </div>
 <div class="comprasLegacyOculto" aria-hidden="true"><input id="cantidadCompra" type="text" tabindex="-1"><select id="compradorCompra" tabindex="-1"><option value="">Sin asignar</option></select><input id="buscarCompras" type="search" tabindex="-1"><select id="filtroCategoriaCompras" tabindex="-1"><option value="">Todas las categorías</option></select><select id="filtroCompradorCompras" tabindex="-1"><option value="">Todos</option></select><button id="limpiarFiltrosCompras" type="button" tabindex="-1">Limpiar</button><div id="contadorFiltroCompras"></div></div>
-<div id="habitualesWrap" class="habitualesWrapAgil" style="display:none"><div class="compraGrupoTitulo compraGrupoTituloAgil"><span>Habituales</span><span>Un toque para añadir</span></div><div id="habitualesCompras" class="habituales habitualesLista"></div></div>
+<div id="habitualesWrap" class="habitualesWrapAgil" style="display:none"><div class="compraGrupoTitulo compraGrupoTituloAgil"><span class="comprasTituloSeccion">Habituales</span><span>Un toque para añadir</span></div><div id="habitualesCompras" class="habituales habitualesLista"></div></div>
 <div id="listaCompras"></div>
 <div class="comprasLegacyOculto"><button id="verHistorialCompras" type="button">Historial</button><span class="estadoEntradaCompras"></span><div id="historialCompras" hidden></div></div>
 </div></section>
@@ -11966,48 +11977,40 @@ function abrirEditarHabitual(clave){
 }
 
 function renderHabituales(){
-  const vistos=new Map();
-  productosHabituales().forEach(x=>{
-    const k=claveHabitual(x.producto);
-    if(!k)return;
-    const previo=vistos.get(k);
-    if(!previo || (x.ultima||0)>(previo.ultima||0)) vistos.set(k,x);
-  });
-
-  const h=[...vistos.entries()]
-    .map(([clave,x])=>({clave,...x}))
-    .sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
-
-  $("habitualesWrap").style.display=h.length?"block":"none";
-  $("habitualesCompras").innerHTML=h.map((x,i)=>{
-    const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");
-    return `<div class="habitual habitualFila habitualFilaDetallada">
-      <button class="habitualPrincipal" type="button" data-habitual="${i}">
-        <span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong><small>${escapar(d)}</small></span>
-      </button>
-      <div class="habitualAcciones">
-        <button class="habitualEditar" type="button" data-editar-habitual="${escapar(x.clave)}" aria-label="Editar habitual">✎</button>
-        <button class="habitualMas" type="button" data-habitual="${i}" aria-label="Añadir">+</button>
-      </div>
-    </div>`;
-  }).join("");
-
-  $("habitualesCompras").querySelectorAll("[data-habitual]").forEach(btn=>btn.onclick=async()=>{
-    const x=h[+btn.dataset.habitual];
-    await crearCompra({
-      producto:(x.producto||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim(),
-      cantidad:"",
-      categoria:x.categoria||"Otros",
-      subcategoria:x.subcategoria||"",
-      emoji:x.emoji||sugerirEmojiProducto(x.producto),
-      comprador:""
-    });
-    mostrarToast(`${x.producto} añadido`);
-  });
-
-  $("habitualesCompras").querySelectorAll("[data-editar-habitual]").forEach(btn=>{
-    btn.onclick=()=>abrirEditarHabitual(btn.dataset.editarHabitual);
-  });
+ const vistos=new Map();
+ productosHabituales().forEach(x=>{const k=claveHabitual(x.producto);if(k&&!vistos.has(k))vistos.set(k,x)});
+ const h=[...vistos.entries()].map(([clave,x])=>({clave,...x}));
+ $("habitualesWrap").style.display=h.length?"block":"none";
+ const grupos={};h.forEach(x=>(grupos[x.categoria||"Otros"]??=[]).push(x));
+ let s="";
+ Object.keys(grupos).sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"})).forEach(cat=>{
+  const items=grupos[cat].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
+  s+=`<div class="habitualGrupo"><div class="habitualGrupoTitulo"><span>${escapar(cat)}</span><span>${items.length}</span></div>`;
+  if(cat==="Alimentación"){
+   const subs={};items.forEach(x=>(subs[x.subcategoria||"Otros alimentación"]??=[]).push(x));
+   Object.keys(subs).sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"})).forEach(sub=>{
+    s+=`<div class="habitualSubgrupo"><div class="habitualSubtitulo">${escapar(sub)}</div>`;
+    s+=subs[sub].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"})).map(htmlHabitual).join("");
+    s+="</div>";
+   });
+  }else s+=items.map(htmlHabitual).join("");
+  s+="</div>";
+ });
+ $("habitualesCompras").innerHTML=s;
+ $("habitualesCompras").querySelectorAll("[data-add-h]").forEach(btn=>btn.onclick=async()=>{const x=h.find(z=>z.clave===btn.dataset.addH);if(!x)return;await crearCompra({producto:(x.producto||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim(),cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",emoji:x.emoji||sugerirEmojiProducto(x.producto),comprador:""});mostrarToast(`${x.producto} añadido`)});
+ $("habitualesCompras").querySelectorAll("[data-edit-h]").forEach(btn=>btn.onclick=()=>abrirEditarHabitual(btn.dataset.editH));
+ $("habitualesCompras").querySelectorAll("[data-del-h]").forEach(btn=>btn.onclick=()=>eliminarHabitual(btn.dataset.delH));
+}
+function htmlHabitual(x){
+ return `<div class="habitual habitualFila habitualFilaDetallada"><div class="habitualPrincipal"><span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong></span></div><div class="habitualAcciones"><button class="habitualEditar" data-edit-h="${escapar(x.clave)}">✎</button><button class="habitualEliminar" data-del-h="${escapar(x.clave)}">×</button><button class="habitualMas" data-add-h="${escapar(x.clave)}">+</button></div></div>`;
+}
+async function eliminarHabitual(clave){
+ const af=compras.filter(x=>claveHabitual(x.producto)===clave);
+ if(!af.length||!confirm(`¿Quitar "${af[0].producto}" de Habituales?`))return;
+ // Se elimina el historial comprado/archivado que hace que aparezca como habitual; no se borra una compra pendiente.
+ const borrar=af.filter(x=>x.comprado===true||x.archivado===true);
+ await Promise.all(borrar.map(x=>deleteDoc(doc(db,"compras",x.id))));
+ renderHabituales();mostrarToast("Quitado de Habituales");
 }
 
 function comprasHistoricasRecientes(){
@@ -12060,6 +12063,7 @@ function renderCompras(){
     pendientes.length
   ){
 
+    html+=`<div class="estadoListaTitulo">Pendientes · ${pendientes.length}</div>`;
     const grupos={};
 
 
@@ -15866,6 +15870,36 @@ prepararInterfazInicial();
    FIN DE FAMILY HUB
    ================================================== */
 
+
+async function actualizarEvangelioDiario(){
+ const v=document.getElementById("evangelioVersiculo"),c=document.getElementById("evangelioCita");
+ if(!v||!c)return;
+ const d=new Date(),y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),dia=String(d.getDate()).padStart(2,"0");
+ const key=`fh_evangelio_${y}-${m}-${dia}`;
+ try{
+  const cache=JSON.parse(localStorage.getItem(key)||"null");
+  if(cache){v.textContent=cache.v;c.textContent=cache.c;return}
+ }catch(e){}
+ try{
+  const r=await fetch(`https://cpbjr.github.io/catholic-readings-api/readings/${y}/${m}-${dia}.json`,{cache:"no-store"});
+  if(!r.ok)throw 0;
+  const j=await r.json(),rd=j.readings||j;
+  let g=rd.gospel||rd.gospelText||rd.gospel_text||"",ref=rd.gospelReference||rd.gospel_reference||"";
+  if(typeof g==="object"){ref=ref||g.reference||g.citation||"";g=g.text||g.content||""}
+  g=String(g).replace(/\s+/g," ").trim();
+  if(!ref){const z=g.match(/\b(?:Matthew|Mark|Luke|John|Mateo|Marcos|Lucas|Juan)\s+\d+[: ,]\s*[\d\-–,]+/i);if(z)ref=z[0]}
+  const frases=g.match(/[^.!?]+[.!?]+/g)||[g];
+  let f=frases.map(x=>x.trim()).filter(x=>x.length>=30&&x.length<=145).find(x=>/Jes|Señor|Padre|Dios|reino|alegr|dichos|amor|paz|fe|cielo/i.test(x))
+      ||frases.map(x=>x.trim()).find(x=>x.length>=25&&x.length<=145);
+  if(!f)throw 0;
+  f=f.replace(/^["“«\s]+|["”»\s]+$/g,"");
+  const o={v:`«${f}»`,c:ref||"Evangelio del día"};
+  localStorage.setItem(key,JSON.stringify(o));v.textContent=o.v;c.textContent=o.c;
+ }catch(e){v.textContent="Evangelio del día";c.textContent="Toca para consultar"}
+ document.getElementById("evangelioHoy").onclick=()=>window.open("https://bible.usccb.org/es/lectura-diaria-biblia","_blank","noopener");
+}
+
+setTimeout(actualizarEvangelioDiario,0);
 </script>
 
 </body>
