@@ -3316,6 +3316,14 @@ padding:16px
 .habitualSubtitulo{font-size:11px;font-weight:900;color:#1570ef;padding:6px 4px 4px 12px;border-left:3px solid #d1e9ff}
 .habitualEliminar{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:999px;background:#fff1f0;color:#d92d20;font-size:18px;font-weight:800}
 
+
+/* Family Hub 1.5.3 */
+.listaCompraTituloRender{
+  font-size:18px;font-weight:900;color:#101828;
+  margin:28px 0 12px;padding-top:18px;
+  border-top:2px solid #e4e7ec
+}
+
 </style>
 </head>
 <body>
@@ -12045,7 +12053,8 @@ function renderCompras(){
   return;
 
 
-  let pendientes=ordenarComprasPendientes(comprasPendientes());const q=normalizarTexto(busquedaCompras||"").trim();if(q)pendientes=pendientes.filter(x=>normalizarTexto(`${x.producto||""} ${x.cantidad||""} ${x.categoria||""} ${x.comprador||""}`).includes(q));if(filtroCategoriaCompras)pendientes=pendientes.filter(x=>(x.categoria||"Otros")===filtroCategoriaCompras);if(filtroCompradorCompras)pendientes=pendientes.filter(x=>(x.comprador||"")===filtroCompradorCompras);$("contadorFiltroCompras").textContent=(q||filtroCategoriaCompras||filtroCompradorCompras)?`${pendientes.length} ${pendientes.length===1?"resultado":"resultados"}`:"";
+  let pendientes=ordenarComprasPendientes(comprasPendientes());
+  $("contadorCompras").textContent=`${pendientes.length} pendientes`;const q=normalizarTexto(busquedaCompras||"").trim();if(q)pendientes=pendientes.filter(x=>normalizarTexto(`${x.producto||""} ${x.cantidad||""} ${x.categoria||""} ${x.comprador||""}`).includes(q));if(filtroCategoriaCompras)pendientes=pendientes.filter(x=>(x.categoria||"Otros")===filtroCategoriaCompras);if(filtroCompradorCompras)pendientes=pendientes.filter(x=>(x.comprador||"")===filtroCompradorCompras);$("contadorFiltroCompras").textContent=(q||filtroCategoriaCompras||filtroCompradorCompras)?`${pendientes.length} ${pendientes.length===1?"resultado":"resultados"}`:"";
 
 
   const hechas=
@@ -12063,7 +12072,7 @@ function renderCompras(){
     pendientes.length
   ){
 
-    html+=`<div class="estadoListaTitulo">Pendientes · ${pendientes.length}</div>`;
+    html+=`<div class="listaCompraTituloRender">Lista de la compra</div><div class="estadoListaTitulo">Pendientes · ${pendientes.length}</div>`;
     const grupos={};
 
 
