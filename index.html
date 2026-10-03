@@ -3295,6 +3295,16 @@ padding:16px
 .evangelioCita{font-size:9px;font-weight:900;color:#667085}
 @media(max-width:600px){.evangelioHoy{max-width:50%}.evangelioVersiculo{font-size:9px}}
 
+
+/* Family Hub 1.4 · Compras corregidas */
+.habitualesLista .habitualFila{display:flex!important;align-items:center!important;padding:0!important}
+.habitualPrincipal{flex:1;min-width:0;border:0;background:transparent;text-align:left;padding:10px 12px}
+.habitualAcciones{display:flex;align-items:center;gap:7px;padding-right:10px}
+.habitualEditar{display:grid;place-items:center;width:30px;height:30px;border:0;border-radius:999px;background:#f2f4f7;color:#1570ef;font-size:15px;font-weight:900}
+.habitualMas{display:grid;place-items:center}
+.compraSubgrupo{margin:3px 0 12px}
+.compraSubgrupoTitulo{display:flex;justify-content:space-between;align-items:center;padding:8px 3px 5px 14px;border-left:3px solid #d1e9ff;color:#1570ef;font-size:11px;font-weight:900}
+
 </style>
 </head>
 <body>
@@ -11570,13 +11580,31 @@ const mapaEmojiCompra=[
 ];
 function sugerirEmojiProducto(nombre){const n=normalizarTexto(nombre||"");for(const [r,e] of mapaEmojiCompra)if(r.test(n))return e;return ""}
 function productoConEmoji(x){const nombre=(x.producto||"Producto").trim();const emoji=x.emoji||sugerirEmojiProducto(nombre);return `${nombre}${emoji?" "+emoji:""}`}
-function abrirEditarCompra(id){const x=compras.find(c=>c.id===id);if(!x)return;compraEditandoId=id;$("editarCompraProducto").value=x.producto||"";$("editarCompraEmoji").value=x.emoji||sugerirEmojiProducto(x.producto)||"";$("editarCompraCategoria").value=[...$("editarCompraCategoria").options].some(o=>o.value===(x.categoria||"Otros"))?(x.categoria||"Otros"):"Otros";$("editarCompraSubcategoria").innerHTML=seccionesAlimentacion.map(s=>`<option>${escapar(s)}</option>`).join("");$("editarCompraSubcategoria").value=x.subcategoria||"Otros alimentación";actualizarEditarCompra();$("modalEditarCompra").classList.add("visible")}
+function abrirEditarCompra(id){const x=compras.find(c=>c.id===id);if(!x)return;habitualEditandoClave=null;compraEditandoId=id;$("editarCompraProducto").value=x.producto||"";$("editarCompraEmoji").value=x.emoji||sugerirEmojiProducto(x.producto)||"";$("editarCompraCategoria").value=[...$("editarCompraCategoria").options].some(o=>o.value===(x.categoria||"Otros"))?(x.categoria||"Otros"):"Otros";$("editarCompraSubcategoria").innerHTML=seccionesAlimentacion.map(s=>`<option>${escapar(s)}</option>`).join("");$("editarCompraSubcategoria").value=x.subcategoria||"Otros alimentación";actualizarEditarCompra();$("modalEditarCompra").classList.add("visible")}
 function actualizarEditarCompra(){$("editarCompraSubWrap").hidden=$("editarCompraCategoria").value!=="Alimentación"}
 $("editarCompraCategoria").onchange=actualizarEditarCompra;
 $("sugerirEmojiCompra").onclick=()=>{$("editarCompraEmoji").value=sugerirEmojiProducto($("editarCompraProducto").value)};
 $("editarCompraProducto").addEventListener("input",()=>{if(!$("editarCompraEmoji").value.trim())$("editarCompraEmoji").value=sugerirEmojiProducto($("editarCompraProducto").value)});
-$("cancelarEditarCompra").onclick=()=>{$("modalEditarCompra").classList.remove("visible");compraEditandoId=null};
-$("guardarEditarCompra").onclick=async()=>{if(!compraEditandoId)return;const producto=$("editarCompraProducto").value.trim();if(!producto){mostrarToast("Escribe el producto");return}const categoria=$("editarCompraCategoria").value;await updateDoc(doc(db,"compras",compraEditandoId),{producto,emoji:$("editarCompraEmoji").value.trim(),categoria,subcategoria:categoria==="Alimentación"?$("editarCompraSubcategoria").value:""});$("modalEditarCompra").classList.remove("visible");compraEditandoId=null;mostrarToast("Producto actualizado")};
+$("cancelarEditarCompra").onclick=()=>{$("modalEditarCompra").classList.remove("visible");compraEditandoId=null;habitualEditandoClave=null};
+$("guardarEditarCompra").onclick=async()=>{
+  const producto=$("editarCompraProducto").value.trim();
+  if(!producto){mostrarToast("Escribe el producto");return}
+  const categoria=$("editarCompraCategoria").value;
+  const cambios={producto,emoji:$("editarCompraEmoji").value.trim(),categoria,subcategoria:categoria==="Alimentación"?$("editarCompraSubcategoria").value:""};
+
+  if(habitualEditandoClave){
+    const afectados=compras.filter(x=>claveHabitual(x.producto)===habitualEditandoClave);
+    await Promise.all(afectados.map(x=>updateDoc(doc(db,"compras",x.id),cambios)));
+    habitualEditandoClave=null;
+    mostrarToast("Habitual actualizado");
+  }else if(compraEditandoId){
+    await updateDoc(doc(db,"compras",compraEditandoId),cambios);
+    mostrarToast("Producto actualizado");
+  }else return;
+
+  $("modalEditarCompra").classList.remove("visible");
+  compraEditandoId=null;
+};
 
 function htmlCompra(x){
 
@@ -11916,14 +11944,71 @@ $("categoriaCompra").onchange=actualizarPanelClasificacion;$("subcategoriaCompra
 $("productoCompra").addEventListener("input",()=>{const x=clasificacionConocida($("productoCompra").value);if(x){const cats=[...$("categoriaCompra").options].map(o=>o.value);$("categoriaCompra").value=cats.includes(x.categoria)?x.categoria:"Otros";if(x.categoria==="Alimentación"&&x.subcategoria&&seccionesAlimentacion.includes(x.subcategoria))$("subcategoriaCompra").value=x.subcategoria;actualizarPanelClasificacion()}});
 actualizarPanelClasificacion();
 
-function renderHabituales(){
-const vistos=new Map();productosHabituales().forEach(x=>{const k=normalizarTexto(x.producto||"").trim();if(k&&!vistos.has(k))vistos.set(k,x)});
-const h=[...vistos.values()].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
-$("habitualesWrap").style.display=h.length?"block":"none";
-$("habitualesCompras").innerHTML=h.map((x,i)=>{const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");return `<button class="habitual habitualFila habitualFilaDetallada" data-habitual="${i}"><span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong><small>${escapar(d)}</small></span><span class="habitualMas">+</span></button>`}).join("");
-$("habitualesCompras").querySelectorAll("[data-habitual]").forEach(b=>b.onclick=async()=>{const x=h[+b.dataset.habitual];await crearCompra({producto:x.producto,cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",emoji:x.emoji||sugerirEmojiProducto(x.producto),comprador:""});mostrarToast(`${x.producto} añadido`)});
+function claveHabitual(nombre){
+  return normalizarTexto((nombre||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim());
 }
 
+let habitualEditandoClave=null;
+
+function abrirEditarHabitual(clave){
+  const candidatos=compras.filter(x=>claveHabitual(x.producto)===clave);
+  if(!candidatos.length)return;
+  const x=[...candidatos].sort((a,b)=>fechaCompraMillis(b)-fechaCompraMillis(a))[0];
+  habitualEditandoClave=clave;
+  compraEditandoId=null;
+  $("editarCompraProducto").value=(x.producto||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim();
+  $("editarCompraEmoji").value=x.emoji||sugerirEmojiProducto(x.producto)||"";
+  $("editarCompraCategoria").value=[...$("editarCompraCategoria").options].some(o=>o.value===(x.categoria||"Otros"))?(x.categoria||"Otros"):"Otros";
+  $("editarCompraSubcategoria").innerHTML=seccionesAlimentacion.map(s=>`<option>${escapar(s)}</option>`).join("");
+  $("editarCompraSubcategoria").value=x.subcategoria||"Otros alimentación";
+  actualizarEditarCompra();
+  $("modalEditarCompra").classList.add("visible");
+}
+
+function renderHabituales(){
+  const vistos=new Map();
+  productosHabituales().forEach(x=>{
+    const k=claveHabitual(x.producto);
+    if(!k)return;
+    const previo=vistos.get(k);
+    if(!previo || (x.ultima||0)>(previo.ultima||0)) vistos.set(k,x);
+  });
+
+  const h=[...vistos.entries()]
+    .map(([clave,x])=>({clave,...x}))
+    .sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
+
+  $("habitualesWrap").style.display=h.length?"block":"none";
+  $("habitualesCompras").innerHTML=h.map((x,i)=>{
+    const d=x.categoria==="Alimentación"&&x.subcategoria?x.subcategoria:(x.categoria||"Otros");
+    return `<div class="habitual habitualFila habitualFilaDetallada">
+      <button class="habitualPrincipal" type="button" data-habitual="${i}">
+        <span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong><small>${escapar(d)}</small></span>
+      </button>
+      <div class="habitualAcciones">
+        <button class="habitualEditar" type="button" data-editar-habitual="${escapar(x.clave)}" aria-label="Editar habitual">✎</button>
+        <button class="habitualMas" type="button" data-habitual="${i}" aria-label="Añadir">+</button>
+      </div>
+    </div>`;
+  }).join("");
+
+  $("habitualesCompras").querySelectorAll("[data-habitual]").forEach(btn=>btn.onclick=async()=>{
+    const x=h[+btn.dataset.habitual];
+    await crearCompra({
+      producto:(x.producto||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim(),
+      cantidad:"",
+      categoria:x.categoria||"Otros",
+      subcategoria:x.subcategoria||"",
+      emoji:x.emoji||sugerirEmojiProducto(x.producto),
+      comprador:""
+    });
+    mostrarToast(`${x.producto} añadido`);
+  });
+
+  $("habitualesCompras").querySelectorAll("[data-editar-habitual]").forEach(btn=>{
+    btn.onclick=()=>abrirEditarHabitual(btn.dataset.editarHabitual);
+  });
+}
 
 function comprasHistoricasRecientes(){
   return compras.filter(x=>x.comprado).sort((a,b)=>fechaCompraMillis(b)-fechaCompraMillis(a)).slice(0,20);
@@ -12001,45 +12086,43 @@ function renderCompras(){
     });
 
 
-    Object.entries(
-      grupos
-    )
-    .forEach(
-      ([categoria,items])=>{
+    Object.keys(grupos)
+    .sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"}))
+    .forEach(categoria=>{
+      const items=grupos[categoria].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
 
-        html+=`
+      html+=`<div class="compraGrupo">
+        <div class="compraGrupoTitulo">
+          <span>${escapar(categoria)}</span>
+          <span>${items.length}</span>
+        </div>`;
 
-        <div class="compraGrupo">
+      if(categoria==="Alimentación"){
+        const subgrupos={};
+        items.forEach(x=>{
+          const sub=x.subcategoria||"Otros alimentación";
+          if(!subgrupos[sub])subgrupos[sub]=[];
+          subgrupos[sub].push(x);
+        });
 
-          <div class="compraGrupoTitulo">
-
-            <span>
-              ${escapar(
-                categoria
-              )}
-            </span>
-
-            <span>
-              ${items.length}
-            </span>
-
-          </div>
-
-
-          ${
-            items
-            .map(
-              htmlCompra
-            )
-            .join("")
-          }
-
-        </div>
-
-        `;
-
+        Object.keys(subgrupos)
+        .sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"}))
+        .forEach(sub=>{
+          const subitems=subgrupos[sub].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
+          html+=`<div class="compraSubgrupo">
+            <div class="compraSubgrupoTitulo">
+              <span>${escapar(sub)}</span>
+              <span>${subitems.length}</span>
+            </div>
+            ${subitems.map(htmlCompra).join("")}
+          </div>`;
+        });
+      }else{
+        html+=items.map(htmlCompra).join("");
       }
-    );
+
+      html+=`</div>`;
+    });
 
 
   }else{
