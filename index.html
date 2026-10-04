@@ -3324,6 +3324,20 @@ padding:16px
   border-top:2px solid #e4e7ec
 }
 
+
+/* Family Hub 1.7 */
+#habitualesCompras .habitualFila{min-height:46px!important;padding:3px 7px!important}
+#habitualesCompras .habitualPrincipal{padding:4px 7px!important}
+#habitualesCompras .habitualTexto strong{font-size:15px!important;line-height:1.15!important;font-weight:800!important}
+#habitualesCompras .habitualGrupoTitulo{font-size:13px!important;padding:7px 4px!important}
+#habitualesCompras .habitualSubtitulo{font-size:11px!important;padding:6px 4px 3px 12px!important}
+#habitualesCompras .habitualAcciones{gap:5px!important;padding-right:3px!important}
+#habitualesCompras .habitualEditar,#habitualesCompras .habitualEliminar,#habitualesCompras .habitualMas{width:28px!important;height:28px!important;min-width:28px!important;font-size:14px!important}
+#habitualesCompras .habitualYa{background:#ecfdf3!important;color:#079455!important;box-shadow:none!important}
+#comprasLista .compraNombre,#comprasLista .compraProducto,#comprasLista strong{font-size:15px!important;line-height:1.2!important}
+#comprasLista .compraItem{min-height:48px!important;padding-top:6px!important;padding-bottom:6px!important}
+#comprasLista small{font-size:11px!important}
+
 </style>
 </head>
 <body>
@@ -4761,11 +4775,17 @@ padding:16px
         <select id="categoriaTarea">
 
           <option>Familia</option>
-          <option>Casa</option>
           <option>Colegio</option>
           <option>Trabajo</option>
-          <option>Compras</option>
           <option>Salud</option>
+          <option>Comunidad</option>
+          <option>Deporte</option>
+          <option>Ocio</option>
+          <option>Comida</option>
+          <option>Viaje</option>
+          <option>Cumpleaños</option>
+          <option>Aniversario</option>
+          <option>Compras</option>
           <option>Otro</option>
 
         </select>
@@ -10112,7 +10132,7 @@ function abrirTarea(
 
 
   $("categoriaTarea").value=
-  x.categoria||
+  (x.categoria==="Casa"?"Familia":x.categoria)||
   "Familia";
 
 
@@ -11598,31 +11618,20 @@ const mapaEmojiCompra=[
   [/panal/i,"👶"],[/medicina|paracetamol|ibuprofeno|farmacia/i,"💊"],[/comida perro|perro/i,"🐶"],[/comida gato|gato/i,"🐱"]
 ];
 function sugerirEmojiProducto(nombre){const n=normalizarTexto(nombre||"");for(const [r,e] of mapaEmojiCompra)if(r.test(n))return e;return ""}
-function productoConEmoji(x){const nombre=(x.producto||"Producto").trim();const emoji=x.emoji||sugerirEmojiProducto(nombre);return `${nombre}${emoji?" "+emoji:""}`}
-function abrirEditarCompra(id){const x=compras.find(c=>c.id===id);if(!x)return;habitualEditandoClave=null;compraEditandoId=id;$("editarCompraProducto").value=x.producto||"";$("editarCompraEmoji").value=x.emoji||sugerirEmojiProducto(x.producto)||"";$("editarCompraCategoria").value=[...$("editarCompraCategoria").options].some(o=>o.value===(x.categoria||"Otros"))?(x.categoria||"Otros"):"Otros";$("editarCompraSubcategoria").innerHTML=seccionesAlimentacion.map(s=>`<option>${escapar(s)}</option>`).join("");$("editarCompraSubcategoria").value=x.subcategoria||"Otros alimentación";actualizarEditarCompra();$("modalEditarCompra").classList.add("visible")}
-function actualizarEditarCompra(){$("editarCompraSubWrap").hidden=$("editarCompraCategoria").value!=="Alimentación"}
-$("editarCompraCategoria").onchange=actualizarEditarCompra;
-$("sugerirEmojiCompra").onclick=()=>{$("editarCompraEmoji").value=sugerirEmojiProducto($("editarCompraProducto").value)};
-$("editarCompraProducto").addEventListener("input",()=>{if(!$("editarCompraEmoji").value.trim())$("editarCompraEmoji").value=sugerirEmojiProducto($("editarCompraProducto").value)});
-$("cancelarEditarCompra").onclick=()=>{$("modalEditarCompra").classList.remove("visible");compraEditandoId=null;habitualEditandoClave=null};
-$("guardarEditarCompra").onclick=async()=>{
-  const producto=$("editarCompraProducto").value.trim();
-  if(!producto){mostrarToast("Escribe el producto");return}
-  const categoria=$("editarCompraCategoria").value;
-  const cambios={producto,emoji:$("editarCompraEmoji").value.trim(),categoria,subcategoria:categoria==="Alimentación"?$("editarCompraSubcategoria").value:""};
+function emojiGarantizado(x){
+ const n=(x?.producto||"").toLowerCase(),a=(x?.emoji||"").trim();
+ if(a)return a;
+ const s=sugerirEmojiProducto(x?.producto||""); if(s)return s;
+ const R=[[/harina|levadura/,"🌾"],[/ropa|camis|pantal|jersey|calcet/,"👕"],[/leche/,"🥛"],[/queso/,"🧀"],[/huevo/,"🥚"],[/pollo/,"🍗"],[/carne|ternera|cerdo/,"🥩"],[/pescado|salm[oó]n|merluza|at[uú]n/,"🐟"],[/lim[oó]n/,"🍋"],[/zumo/,"🧃"],[/papel.*higi/,"🧻"],[/deterg|limpia|lej[ií]a|jab[oó]n/,"🧼"],[/champ[uú]|gel|crema/,"🧴"]];
+ for(const [r,e] of R)if(r.test(n))return e;
+ const sub={"Frutas":"🍎","Verduras y hortalizas":"🥬","Carnicería":"🥩","Charcutería":"🥓","Pescadería":"🐟","Huevos":"🥚","Leche y lácteos":"🥛","Panadería":"🥖","Cereales y desayuno":"🥣","Pasta/arroz/legumbres":"🍚","Conservas":"🥫","Salsas y condimentos":"🧂","Aceites":"🫒","Congelados":"❄️","Refrigerados":"🧊","Platos preparados":"🍽️","Snacks y aperitivos":"🥨","Dulces y postres":"🍰","Bebidas":"🧃","Café e infusiones":"☕","Otros alimentación":"🍴"};
+ if(sub[x?.subcategoria])return sub[x.subcategoria];
+ return {"Alimentación":"🍴","Limpieza":"🧼","Higiene y cuidado personal":"🧴","Farmacia":"💊","Bebé":"👶","Hogar":"🏠","Casa":"🏠","Mascotas":"🐾","Otros":"🛒"}[x?.categoria]||"🛒";
+}
 
-  if(habitualEditandoClave){
-    const afectados=compras.filter(x=>claveHabitual(x.producto)===habitualEditandoClave);
-    await Promise.all(afectados.map(x=>updateDoc(doc(db,"compras",x.id),cambios)));
-    habitualEditandoClave=null;
-    mostrarToast("Habitual actualizado");
-  }else if(compraEditandoId){
-    await updateDoc(doc(db,"compras",compraEditandoId),cambios);
-    mostrarToast("Producto actualizado");
-  }else return;
-
-  $("modalEditarCompra").classList.remove("visible");
-  compraEditandoId=null;
+function productoConEmoji(x){
+ const limpio=(x.producto||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim();
+ return `${limpio} ${emojiGarantizado(x)}`.trim();
 };
 
 function htmlCompra(x){
@@ -11993,7 +12002,7 @@ function renderHabituales(){
  let s="";
  Object.keys(grupos).sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"})).forEach(cat=>{
   const items=grupos[cat].sort((a,b)=>(a.producto||"").localeCompare(b.producto||"","es",{sensitivity:"base"}));
-  s+=`<div class="habitualGrupo"><div class="habitualGrupoTitulo"><span>${escapar(cat)}</span><span>${items.length}</span></div>`;
+  s+=`<div class="habitualGrupo"><div class="habitualGrupoTitulo"><span>${escapar(cat)}</span></div>`;
   if(cat==="Alimentación"){
    const subs={};items.forEach(x=>(subs[x.subcategoria||"Otros alimentación"]??=[]).push(x));
    Object.keys(subs).sort((a,b)=>a.localeCompare(b,"es",{sensitivity:"base"})).forEach(sub=>{
@@ -12005,12 +12014,12 @@ function renderHabituales(){
   s+="</div>";
  });
  $("habitualesCompras").innerHTML=s;
- $("habitualesCompras").querySelectorAll("[data-add-h]").forEach(btn=>btn.onclick=async()=>{const x=h.find(z=>z.clave===btn.dataset.addH);if(!x)return;await crearCompra({producto:(x.producto||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim(),cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",emoji:x.emoji||sugerirEmojiProducto(x.producto),comprador:""});mostrarToast(`${x.producto} añadido`)});
+ $("habitualesCompras").querySelectorAll("[data-add-h]").forEach(btn=>btn.onclick=async()=>{const x=h.find(z=>z.clave===btn.dataset.addH);if(!x)return;await crearCompra({producto:(x.producto||"").replace(/\p{Extended_Pictographic}/gu,"").replace(/\s+/g," ").trim(),cantidad:"",categoria:x.categoria||"Otros",subcategoria:x.subcategoria||"",emoji:emojiGarantizado(x),comprador:""});mostrarToast(`${x.producto} añadido`)});
  $("habitualesCompras").querySelectorAll("[data-edit-h]").forEach(btn=>btn.onclick=()=>abrirEditarHabitual(btn.dataset.editH));
  $("habitualesCompras").querySelectorAll("[data-del-h]").forEach(btn=>btn.onclick=()=>eliminarHabitual(btn.dataset.delH));
 }
 function htmlHabitual(x){
- return `<div class="habitual habitualFila habitualFilaDetallada"><div class="habitualPrincipal"><span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong></span></div><div class="habitualAcciones"><button class="habitualEditar" data-edit-h="${escapar(x.clave)}">✎</button><button class="habitualEliminar" data-del-h="${escapar(x.clave)}">×</button><button class="habitualMas" data-add-h="${escapar(x.clave)}">+</button></div></div>`;
+ return `<div class="habitual habitualFila habitualFilaDetallada"><div class="habitualPrincipal"><span class="habitualTexto"><strong>${escapar(productoConEmoji(x))}</strong></span></div><div class="habitualAcciones"><button class="habitualEditar" data-edit-h="${escapar(x.clave)}">✎</button><button class="habitualEliminar" data-del-h="${escapar(x.clave)}">×</button>${compras.some(c=>!c.comprado&&!c.archivado&&claveHabitual(c.producto)===x.clave)?`<button class="habitualMas habitualYa" type="button" disabled>✓</button>`:`<button class="habitualMas" type="button" data-add-h="${escapar(x.clave)}">+</button>`}</div></div>`;
 }
 async function eliminarHabitual(clave){
  const af=compras.filter(x=>claveHabitual(x.producto)===clave);
@@ -12164,7 +12173,7 @@ function renderCompras(){
       <div class="compraGrupoTitulo">
 
         <span>
-          Comprado · ${hechas.length}
+          Comprados · ${hechas.length}
         </span>
 
         <button
