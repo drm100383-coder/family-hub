@@ -3338,6 +3338,17 @@ padding:16px
 #comprasLista .compraItem{min-height:48px!important;padding-top:6px!important;padding-bottom:6px!important}
 #comprasLista small{font-size:11px!important}
 
+
+/* Family Hub 1.8 · Inicio interactivo */
+#tarjetaSemanaInicio,#pulsoSemana{display:none!important}
+.datoInteractivo{cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
+.datoInteractivo:active{transform:scale(.98)}
+.datoInteractivo:focus-visible{outline:3px solid #84adff;outline-offset:2px}
+.comprasProgreso{
+  margin-left:8px;border:0;background:#ecfdf3;color:#067647;border-radius:999px;
+  padding:4px 9px;font:inherit;font-weight:800;cursor:pointer
+}
+
 </style>
 </head>
 <body>
@@ -3424,14 +3435,15 @@ padding:16px
 
   <div class="resumen">
 
-    <div class="dato">
+    <div id="accesoHoyInicio" class="dato datoInteractivo" role="button" tabindex="0">
       <span id="nHoy" class="numero">0</span>
       <span class="etiqueta">Cosas hoy</span>
     </div>
 
     <div
       id="datoPendientes"
-      class="dato">
+      class="dato datoInteractivo"
+      role="button" tabindex="0">
 
       <span
         id="nTareas"
@@ -3445,7 +3457,7 @@ padding:16px
 
     </div>
 
-    <div class="dato">
+    <div id="accesoProximoInicio" class="dato datoInteractivo" role="button" tabindex="0">
 
       <span
         id="nProximo"
@@ -14018,7 +14030,7 @@ function aplicarInicioCompacto(){
 
 function saludoSegunHora(){const h=new Date().getHours();return h<12?"Buenos días":h<20?"Buenas tardes":"Buenas noches"}
 function actualizarConexion(){}
-function renderProgresoDia(){const lista=elementosDeFechaInicio(fechaLocal()),total=lista.length;if(!total){$("progresoDia").innerHTML="<strong>Día despejado.</strong> No tienes compromisos fechados para hoy.";return}const ahora=new Date();const pasados=lista.filter(x=>{if(x.tipo==="tarea"||x.objeto.todoDia||(!x.objeto.horaFin&&!x.objeto.horaInicio))return false;const [h,m]=(x.objeto.horaFin||x.objeto.horaInicio).split(":").map(Number),d=new Date();d.setHours(h,m||0,0,0);return d<ahora}).length;const pct=Math.round((pasados/total)*100);$("progresoDia").innerHTML=`<strong>${total} ${total===1?"cosa":"cosas"} hoy</strong> · ${pasados} ya pasadas<div class="progresoDiaBarra"><span style="width:${pct}%"></span></div>`}
+function renderProgresoDia(){const lista=elementosDeFechaInicio(fechaLocal()),total=lista.length,comprar=comprasPendientes().length;if(!total){$("progresoDia").innerHTML=`<strong>Día despejado.</strong> No tienes compromisos fechados para hoy.${comprar?` <button id="comprasDesdeProgreso" class="comprasProgreso" type="button">🛒 ${comprar} por comprar</button>`:""}`;activarComprasDesdeProgreso();return}const ahora=new Date();const pasados=lista.filter(x=>{if(x.tipo==="tarea"||x.objeto.todoDia||(!x.objeto.horaFin&&!x.objeto.horaInicio))return false;const [h,m]=(x.objeto.horaFin||x.objeto.horaInicio).split(":").map(Number),d=new Date();d.setHours(h,m||0,0,0);return d<ahora}).length;const pct=Math.round((pasados/total)*100);$("progresoDia").innerHTML=`<strong>${total} ${total===1?"cosa":"cosas"} hoy</strong> · ${pasados} ya pasadas${comprar?` <button id="comprasDesdeProgreso" class="comprasProgreso" type="button">🛒 ${comprar} por comprar</button>`:""}<div class="progresoDiaBarra"><span style="width:${pct}%"></span></div>`;activarComprasDesdeProgreso()}
 function renderPulsoSemana(){const hoy=desdeFechaLocal(fechaLocal()),fin=sumarDias(hoy,6),finS=fechaLocal(fin);const ev=aparicionesEntreTodos(hoy,fin).length;const ta=tareas.filter(t=>!t.completada&&t.fechaLimite&&t.fechaLimite>=fechaLocal()&&t.fechaLimite<=finS).length;const ven=tareasVencidas().length;$("pulsoSemana").innerHTML=`<div class="pulsoSemanaDato"><strong>${ev}</strong><span>EVENTOS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ta}</strong><span>TAREAS · 7 DÍAS</span></div><div class="pulsoSemanaDato"><strong>${ven}</strong><span>VENCIDAS</span></div>`}
 function aplicarInicioSimplificado(){$("inicio").classList.toggle("inicioSimplificado",ajustes.inicioSimplificado)}
 
@@ -14068,6 +14080,26 @@ function renderInicio(){
 }
 
 
+
+
+function activarComprasDesdeProgreso(){
+  const b=$("comprasDesdeProgreso");
+  if(b)b.onclick=()=>cambiarPantalla("compras");
+}
+function activarDatoInicio(id,accion){
+  const el=$(id);if(!el)return;
+  el.onclick=accion;
+  el.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();accion()}};
+}
+activarDatoInicio("accesoHoyInicio",()=>cambiarPantalla("agenda"));
+activarDatoInicio("datoPendientes",()=>{
+  filtroEstadoTareas="Pendientes";
+  cambiarPantalla("tareas");
+});
+activarDatoInicio("accesoProximoInicio",()=>{
+  const p=$("tarjetaProximamente");
+  if(p)p.scrollIntoView({behavior:"smooth",block:"start"});
+});
 
 $("irAgendaDesdeTimeline").onclick=()=>cambiarPantalla("agenda");
 $("irMananaAgenda").onclick=()=>{
