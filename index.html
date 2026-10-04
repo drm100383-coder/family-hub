@@ -3339,7 +3339,7 @@ padding:16px
 #comprasLista small{font-size:11px!important}
 
 
-/* Family Hub 1.8 · Inicio interactivo */
+/* Family Hub 1.9 · Inicio interactivo */
 #tarjetaSemanaInicio,#pulsoSemana{display:none!important}
 .datoInteractivo{cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
 .datoInteractivo:active{transform:scale(.98)}
@@ -5947,6 +5947,8 @@ function aparicionesEntreTodos(i,f){
 
 
 function posicionMultiDia(e,f){
+
+  if(e?.resumenMultiDia)return "";
 
   const inicio=
   e.fechaAparicion||
@@ -13277,6 +13279,22 @@ $("irHoy")
 $("irFechaAgenda").onchange=()=>{if(!$("irFechaAgenda").value)return;fechaAgenda=desdeFechaLocal($("irFechaAgenda").value);renderAgenda()};
 
 
+function agruparEventosParaResumen(lista=[]){
+  const vistos=new Set();
+  return lista.filter(e=>{
+    const inicio=e.fechaAparicion||e.fecha||e.fechaVista||"";
+    const clave=`${e.id}__${inicio}`;
+    if(vistos.has(clave))return false;
+    vistos.add(clave);
+    return true;
+  }).map(e=>({
+    ...e,
+    fechaVista:e.fechaAparicion||e.fechaVista||e.fecha,
+    resumenMultiDia:duracionEvento(e)>0
+  }));
+}
+
+
 /* ==================================================
    INICIO · PRÓXIMAMENTE
    ================================================== */
@@ -13299,9 +13317,11 @@ function proximosElementos(
 
 
   const apariciones=
-  aparicionesEntreTodos(
-    hoy,
-    fin
+  agruparEventosParaResumen(
+    aparicionesEntreTodos(
+      hoy,
+      fin
+    )
   )
   .map(e=>({
 
@@ -13392,6 +13412,18 @@ function proximosElementos(
    INICIO · HTML DE PRÓXIMO ELEMENTO
    ================================================== */
 
+function fechaResumenProximo(x){
+  if(x.tipo!=="evento" || duracionEvento(x.objeto)<=0)return fechaBonita(x.fecha);
+  const ini=x.objeto.fechaAparicion||x.aparicion||x.fecha;
+  const fin=fechaLocal(sumarDias(desdeFechaLocal(ini),duracionEvento(x.objeto)));
+  const a=desdeFechaLocal(ini),b=desdeFechaLocal(fin);
+  if(a.getMonth()===b.getMonth()){
+    return `${a.getDate()}–${b.getDate()} de ${meses[b.getMonth()]}`;
+  }
+  return `${a.getDate()} de ${meses[a.getMonth()]} – ${b.getDate()} de ${meses[b.getMonth()]}`;
+}
+
+
 function htmlProximo(x){
 
   const icono=
@@ -13436,9 +13468,7 @@ function htmlProximo(x){
       <div class="proximoMeta">
 
         ${escapar(
-          fechaBonita(
-            x.fecha
-          )
+          fechaResumenProximo(x)
         )}
 
         ${
@@ -14093,7 +14123,14 @@ function activarDatoInicio(id,accion){
 }
 activarDatoInicio("accesoHoyInicio",()=>cambiarPantalla("agenda"));
 activarDatoInicio("datoPendientes",()=>{
-  filtroEstadoTareas="Pendientes";
+  estadoTareas="pendientes";
+  filtroTareas="Todos";
+  filtroRapidoTareas="";
+  busquedaTareas="";
+  if($("buscarTareas")) $("buscarTareas").value="";
+  if($("limpiarBuscarTareas")) $("limpiarBuscarTareas").style.display="none";
+  document.querySelectorAll("[data-filtro-rapido]").forEach(x=>x.classList.remove("activo"));
+  document.querySelectorAll("[data-estado]").forEach(x=>x.classList.toggle("activo",x.dataset.estado==="pendientes"));
   cambiarPantalla("tareas");
 });
 activarDatoInicio("accesoProximoInicio",()=>{
@@ -14289,9 +14326,11 @@ function eventosLoMio(){
   );
 
 
-  return aparicionesEntreTodos(
-    hoy,
-    fin
+  return agruparEventosParaResumen(
+    aparicionesEntreTodos(
+      hoy,
+      fin
+    )
   )
   .filter(
     e=>
