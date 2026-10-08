@@ -3349,6 +3349,9 @@ padding:16px
   padding:4px 9px;font:inherit;font-weight:800;cursor:pointer
 }
 
+
+/* Horarios familiares 2.0 */
+.horVolver{background:none;border:0;color:#1570ef;font-weight:800;font-size:15px;padding:0;margin-bottom:8px}.horAyuda,.horNota{color:#667085;font-size:13px}.horPanel{background:white;border-radius:20px;padding:16px;box-shadow:0 5px 20px #10182809}.horControles{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}.horControles label{font-weight:800}.horControles select{flex:1;min-width:130px;padding:12px;border:1px solid #d0d5dd;border-radius:12px;font:inherit}.horControles button{background:#1570ef;color:white;border:0;border-radius:12px;padding:12px;font-weight:800}.horDesplazamiento{overflow-x:auto;-webkit-overflow-scrolling:touch}.horTabla{width:100%;min-width:630px;border-collapse:separate;border-spacing:3px;table-layout:fixed}.horTabla th{background:#eef4ff;color:#344054;padding:10px 4px;border-radius:8px;font-size:12px}.horTabla th:first-child{width:85px}.horTabla td{background:#f8fafc;vertical-align:middle;text-align:center;padding:0;border-radius:8px;height:64px}.horTabla td:first-child{background:#eef2f6;font-weight:800;font-size:11px;padding:4px}.horCelda{width:100%;height:100%;min-height:64px;border:0;border-left:4px solid var(--hc,#cbd5e1);border-radius:8px;background:color-mix(in srgb,var(--hc,#e2e8f0) 12%,white);color:#182230;font-size:12px;font-weight:750;padding:8px 3px;white-space:pre-line;overflow-wrap:anywhere}.horCelda:active{filter:brightness(.94)}
 </style>
 </head>
 <body>
@@ -3809,6 +3812,12 @@ padding:16px
      MÁS
      ================================================== -->
 
+
+<section id="horarios" class="pantalla"><div class="cabPantalla"><button class="horVolver" id="horVolver">‹ Más</button><h1>Horarios familiares</h1><p class="horAyuda">Horarios semanales independientes de Agenda</p></div>
+<div class="horPanel"><div class="horControles"><label for="horPersona">Persona</label><select id="horPersona"></select><button id="horAnadirTramo" type="button">+ Tramo</button></div><div class="horDesplazamiento"><table class="horTabla"><thead><tr><th>Hora</th><th>Lunes</th><th>Martes</th><th>Miércoles</th><th>Jueves</th><th>Viernes</th></tr></thead><tbody id="horCuerpo"></tbody></table></div><p class="horNota">Toca una casilla para editarla. Los cambios se guardan automáticamente para toda la familia.</p></div></section>
+<div id="horEditor" class="modal-fondo"><div class="modal"><h2 id="horEditorTitulo">Editar horario</h2><div class="campo"><label>Actividad</label><textarea id="horTexto" rows="3" placeholder="Asignatura, reunión o actividad"></textarea></div><div class="acciones"><button class="cancelar" id="horCancelar">Cancelar</button><button class="guardar" id="horGuardar">Guardar</button></div></div></div>
+<div id="horTramoEditor" class="modal-fondo"><div class="modal"><h2>Añadir tramo horario</h2><div class="campo"><label>Desde</label><input id="horDesde" type="time" value="17:00"></div><div class="campo"><label>Hasta</label><input id="horHasta" type="time" value="18:00"></div><div class="acciones"><button class="cancelar" id="horTramoCancelar">Cancelar</button><button class="guardar" id="horTramoGuardar">Añadir</button></div></div></div>
+
 <section id="mas" class="pantalla">
 
   <div class="cabPantalla">
@@ -3849,6 +3858,7 @@ padding:16px
     </button>
 
 
+    <button class="masOpcion" id="masHorarios"><div class="masIcono">▦</div><div class="masTitulo">Horarios</div><div class="masTexto">Horarios semanales de la familia</div></button>
     <!-- LO MÍO -->
 
     <button
@@ -6171,6 +6181,7 @@ onAuthStateChanged(
     escucharEventos();
     escucharTareas();
     escucharCompras();
+      horEscuchar();
 
   }
 );
@@ -15287,6 +15298,7 @@ function cambiarPantalla(p){
   const seccionNav=
   [
     "compras",
+    "horarios",
     "lomio",
     "familiaPantalla",
     "ajustes"
@@ -15549,6 +15561,8 @@ const modales=[
   "modalFichaTarea",
   "modalFamilia",
   "modalEditarCompra",
+  "horEditor",
+  "horTramoEditor",
   "modalConfirmar"
 
 ];
@@ -16008,6 +16022,37 @@ async function actualizarEvangelioDiario(){
  box.onclick=()=>window.open("https://www.conferenciaepiscopal.es/evangelio/","_blank","noopener");
 }
 setTimeout(actualizarEvangelioDiario,0);
+
+/* HORARIOS FAMILIARES: datos de partida y sincronización Firestore */
+const horSemillas={"daniel": [["9:00", "9:50", ["REUNIÓN Dpto. CIENCIAS", "REUNIÓN Dpto. MAT", "", "", ""]], ["9:55", "10:40", ["MAT 2ºD", "ByG 4ºD", "MAT 4ºD", "REUNIÓN PEC 4º", "PEC 4ºD RLA"]], ["10:40", "11:25", ["RECREO", "RECREO", "RECREO", "RECREO", "RECREO"]], ["11:25", "12:15", ["ByG 4ºD", "MAT 4ºD", "MAT 2ºD", "MAT 4ºD", "MAT 2ºD"]], ["12:20", "13:05", ["MAT 4ºD", "", "ByG 4ºD", "MAT 2ºD", "MAT 4ºD"]], ["13:05", "15:00", ["MEDIODÍA", "MEDIODÍA", "MEDIODÍA", "MEDIODÍA", "MEDIODÍA"]], ["15:00", "15:55", ["REUNIÓN JUNTA", "", "", "", ""]], ["16:00", "16:55", ["REUNIÓN JUNTA", "", "", "", ""]]], "julio": [["9:30", "10:25", ["Science", "Lengua Española", "Matemáticas", "Matemáticas", "Educación Física"]], ["10:30", "11:25", ["Matemáticas", "Matemáticas", "English", "Música", "Lengua Española"]], ["11:25", "11:50", ["Patio", "Patio", "Patio", "Patio", "Patio"]], ["11:50", "12:45", ["Educación Física", "Science", "Sociales", "Lengua Española", "Plástica"]], ["12:45", "13:35", ["English E.L.", "Robótica", "Deporte", "Taller de Ciencias", "English E.L."]], ["13:35", "15:00", ["Comedor", "Comedor", "Comedor", "Comedor", "Comedor"]], ["15:00", "15:45", ["Religión", "English", "Religión", "English", "English"]], ["15:45", "16:30", ["Lengua Española", "P.E.C.", "Lengua Española", "Sociales", "Religión"]], ["16:30", "17:00", ["Lectura", "Santa Misa", "Lectura", "Lectura", "Lectura"]]], "ezequiel": [["9:30", "10:30", ["Lengua · Pablo L.", "Educación Física · Enrique L.", "Lengua · Pablo L.", "Lengua · Pablo L.", "Lengua · Pablo L."]], ["10:30", "11:25", ["Science · Carlos S.", "Lengua · Pablo L.", "Music · Pedro M.", "Matemáticas · Pablo L.", "Matemáticas · Pablo L."]], ["11:25", "11:50", ["Recreo", "Recreo", "Recreo", "Recreo", "Recreo"]], ["11:50", "12:45", ["Matemáticas · Pablo L.", "Matemáticas · Pablo L.", "Matemáticas · Pablo L.", "Inglés · Pablo L.", "Inglés · Pablo L."]], ["12:45", "13:30", ["Comedor", "Comedor", "Comedor", "Comedor", "Comedor"]], ["13:30", "14:10", ["Recreo", "Recreo", "Recreo", "Recreo", "Recreo"]], ["14:10", "15:00", ["Psicomotricidad · Alejandro C.", "Taller de Ciencias · Pablo L.", "English Exam · Pedro M.", "Ajedrez · Héctor E.", "Robótica · Carlos S."]], ["15:00", "15:45", ["Inglés · Pablo L.", "Inglés · Pablo L.", "Educación Física · Enrique L.", "Religión · Pablo L.", "Science · Carlos S."]], ["15:45", "16:30", ["Sociales · Pablo L.", "Religión · Pablo L.", "Inglés · Pablo L.", "Sociales · Pablo L.", "Plástica · Encarna M."]], ["16:30", "17:00", ["PEC · Pablo L.", "Lectura · Pablo L.", "Catecismo · Pablo L.", "Lectura · Pablo L.", "Lectura · Pedro M."]]]};
+let horDatos={},horActual="daniel",horSeleccion=null,horUnsub=null;
+const horCopia=x=>JSON.parse(JSON.stringify(x));
+function horInicial(id){return horCopia(horSemillas[id]||[]).map(([desde,hasta,celdas])=>({desde,hasta,celdas}));}
+function horColor(t){const x=(t||"").toLowerCase();if(/matem|mat |reuni[oó]n/.test(x))return "#f5b942";if(/lengua/.test(x))return "#e45c74";if(/science|ciencia/.test(x))return "#79a85d";if(/english|ingl[eé]s/.test(x))return "#b7a774";if(/social/.test(x))return "#51a8ce";if(/educaci[oó]n f[ií]sica|deporte|psicom/.test(x))return "#f4a35c";if(/recreo|patio|comedor|mediod/.test(x))return "#cbd5e1";if(/religi[oó]n|catecismo|misa/.test(x))return "#c88ab0";if(/lectura/.test(x))return "#b9a18b";return "#8aa8dd";}
+function horPersonas(){const ids=["daniel","nuria","julio","ezequiel","isabel","gabriel"];const nombres={daniel:"Daniel",nuria:"Nuria",julio:"Julio",ezequiel:"Ezequiel",isabel:"Isabel",gabriel:"Gabriel"};$("horPersona").innerHTML=ids.map(id=>`<option value="${id}">${nombres[id]}</option>`).join("");$("horPersona").value=horActual;}
+function horEsc(x){return String(x||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function horRender(){if(!$('horCuerpo'))return;const datos=horDatos[horActual]||horInicial(horActual);$('horCuerpo').innerHTML=datos.map((r,i)=>`<tr><td>${horEsc(r.desde)}<br>—<br>${horEsc(r.hasta)}</td>${Array.from({length:5},(_,d)=>`<td><button type="button" class="horCelda" style="--hc:${horColor(r.celdas?.[d])}" data-hr="${i}" data-dia="${d}">${horEsc(r.celdas?.[d]||"+")}</button></td>`).join("")}</tr>`).join("");$('horCuerpo').querySelectorAll('.horCelda').forEach(b=>b.onclick=()=>{horSeleccion=[+b.dataset.hr,+b.dataset.dia];$('horTexto').value=datos[horSeleccion[0]].celdas?.[horSeleccion[1]]||"";$('horEditorTitulo').textContent=`${['Lunes','Martes','Miércoles','Jueves','Viernes'][horSeleccion[1]]} · ${datos[horSeleccion[0]].desde}–${datos[horSeleccion[0]].hasta}`;$('horEditor').classList.add('visible');});}
+function horEscuchar(){if(horUnsub)horUnsub();horUnsub=onSnapshot(collection(db,'horarios'),snapshot=>{horDatos={};snapshot.docs.forEach(d=>{horDatos[d.id]=d.data().tramos||[];});horRender();},e=>console.error('Horarios:',e));}
+async function horGuardarActual(datos){horDatos[horActual]=datos;horRender();try{await setDoc(doc(db,'horarios',horActual),{tramos:datos,actualizado:serverTimestamp()},{merge:true});}catch(e){console.error(e);mostrarToast('No se pudo guardar el horario');}}
+$('masHorarios').onclick=()=>{horPersonas();cambiarPantalla('horarios');horRender();};
+$('horVolver').onclick=()=>cambiarPantalla('mas');
+$('horPersona').onchange=()=>{horActual=$('horPersona').value;horRender();};
+$('horCancelar').onclick=()=>$('horEditor').classList.remove('visible');
+$('horGuardar').onclick=async()=>{if(!horSeleccion)return;const d=horCopia(horDatos[horActual]||horInicial(horActual));d[horSeleccion[0]].celdas[horSeleccion[1]]=$('horTexto').value.trim();$('horEditor').classList.remove('visible');await horGuardarActual(d);};
+$('horAnadirTramo').onclick=()=>$('horTramoEditor').classList.add('visible');
+$('horTramoCancelar').onclick=()=>$('horTramoEditor').classList.remove('visible');
+$('horTramoGuardar').onclick=async()=>{const desde=$('horDesde').value,hasta=$('horHasta').value;if(!desde||!hasta||desde>=hasta){mostrarToast('Revisa las horas');return;}const d=horCopia(horDatos[horActual]||horInicial(horActual));d.push({desde,hasta,celdas:['','','','','']});d.sort((a,b)=>a.desde.localeCompare(b.desde));$('horTramoEditor').classList.remove('visible');await horGuardarActual(d);};
+['horEditor','horTramoEditor'].forEach(id=>$(id).addEventListener('click',e=>{if(e.target===$(id))$(id).classList.remove('visible');}));
+
+
+/* Reparación del lápiz de Compras: edición de productos y Habituales */
+function actualizarEditarCompra(){const c=$('editarCompraCategoria').value;$('editarCompraSubWrap').hidden=c!=='Alimentación';}
+$('editarCompraCategoria').onchange=actualizarEditarCompra;
+$('cancelarEditarCompra').onclick=()=>{$('modalEditarCompra').classList.remove('visible');compraEditandoId=null;habitualEditandoClave=null;};
+$('sugerirEmojiCompra').onclick=()=>{$('editarCompraEmoji').value=sugerirEmojiProducto($('editarCompraProducto').value)||emojiGarantizado({producto:$('editarCompraProducto').value,categoria:$('editarCompraCategoria').value,subcategoria:$('editarCompraSubcategoria').value});};
+function abrirEditarCompra(id){const x=compras.find(c=>c.id===id);if(!x)return;compraEditandoId=id;habitualEditandoClave=null;$('editarCompraProducto').value=(x.producto||'').replace(/\p{Extended_Pictographic}/gu,'').trim();$('editarCompraEmoji').value=x.emoji||emojiGarantizado(x);$('editarCompraCategoria').value=[...$('editarCompraCategoria').options].some(o=>o.value===(x.categoria||'Otros'))?x.categoria:'Otros';$('editarCompraSubcategoria').innerHTML=seccionesAlimentacion.map(v=>`<option>${escapar(v)}</option>`).join('');$('editarCompraSubcategoria').value=x.subcategoria||'Otros alimentación';actualizarEditarCompra();$('modalEditarCompra').classList.add('visible');}
+$('guardarEditarCompra').onclick=async()=>{const producto=$('editarCompraProducto').value.trim();if(!producto){mostrarToast('Escribe el nombre del producto');return;}const categoria=$('editarCompraCategoria').value;const data={producto,emoji:$('editarCompraEmoji').value.trim()||emojiGarantizado({producto,categoria,subcategoria:$('editarCompraSubcategoria').value}),categoria,subcategoria:categoria==='Alimentación'?$('editarCompraSubcategoria').value:''};const b=$('guardarEditarCompra');b.disabled=true;try{const registros=habitualEditandoClave?compras.filter(x=>claveHabitual(x.producto)===habitualEditandoClave):compras.filter(x=>x.id===compraEditandoId);await Promise.all(registros.map(x=>updateDoc(doc(db,'compras',x.id),data)));$('modalEditarCompra').classList.remove('visible');habitualEditandoClave=null;compraEditandoId=null;mostrarToast('Producto actualizado');}catch(e){console.error(e);mostrarToast('Error al guardar');}finally{b.disabled=false;}};
+
 </script>
 
 </body>
