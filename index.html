@@ -3352,6 +3352,10 @@ padding:16px
 
 /* Horarios familiares 2.0 */
 .horVolver{background:none;border:0;color:#1570ef;font-weight:800;font-size:15px;padding:0;margin-bottom:8px}.horAyuda,.horNota{color:#667085;font-size:13px}.horPanel{background:white;border-radius:20px;padding:16px;box-shadow:0 5px 20px #10182809}.horControles{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}.horControles label{font-weight:800}.horControles select{flex:1;min-width:130px;padding:12px;border:1px solid #d0d5dd;border-radius:12px;font:inherit}.horControles button{background:#1570ef;color:white;border:0;border-radius:12px;padding:12px;font-weight:800}.horDesplazamiento{overflow-x:auto;-webkit-overflow-scrolling:touch}.horTabla{width:100%;min-width:630px;border-collapse:separate;border-spacing:3px;table-layout:fixed}.horTabla th{background:#eef4ff;color:#344054;padding:10px 4px;border-radius:8px;font-size:12px}.horTabla th:first-child{width:85px}.horTabla td{background:#f8fafc;vertical-align:middle;text-align:center;padding:0;border-radius:8px;height:64px}.horTabla td:first-child{background:#eef2f6;font-weight:800;font-size:11px;padding:4px}.horCelda{width:100%;height:100%;min-height:64px;border:0;border-left:4px solid var(--hc,#cbd5e1);border-radius:8px;background:color-mix(in srgb,var(--hc,#e2e8f0) 12%,white);color:#182230;font-size:12px;font-weight:750;padding:8px 3px;white-space:pre-line;overflow-wrap:anywhere}.horCelda:active{filter:brightness(.94)}
+/* Family Hub 2.1 · controles de tareas */
+.completarTarea{pointer-events:auto!important;cursor:pointer;position:relative;z-index:2;touch-action:manipulation}
+.posponerTarea{border:0;border-radius:999px;background:#fff4e5;color:#a45b00;font-weight:800;font-size:11px;padding:7px 9px;cursor:pointer;align-self:center}
+.botonDeshacerTarea{border:0;border-radius:7px;background:#fff;color:#175cd3;font-weight:800;padding:5px 9px;margin-left:8px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -9355,7 +9359,7 @@ function htmlTarea(t){
 
     <button
       class="completarTarea ${t.completada?"hecha":""}"
-      data-completar="${t.id}"
+      type="button" data-completar="${t.id}"
       aria-label="${t.completada?"Marcar pendiente":"Completar tarea"}">
       ${t.completada?"✓":""}
     </button>
@@ -9403,6 +9407,8 @@ function htmlTarea(t){
       `:""}
 
     </div>
+
+    ${estado==="vencida"?`<button class="posponerTarea" type="button" data-posponer="${t.id}" aria-label="Posponer tarea">Posponer</button>`:""}
 
     <button
       class="tareaAccionRapida"
@@ -9613,6 +9619,10 @@ function conectarTareas(contenedor){
 
   });
 
+
+  contenedor.querySelectorAll("[data-posponer]").forEach(b=>{
+    b.onclick=e=>{e.preventDefault();e.stopPropagation();abrirPosponerTarea(b.dataset.posponer)};
+  });
 
   contenedor
   .querySelectorAll(
@@ -11155,168 +11165,58 @@ function siguienteFechaTarea(t){
    COMPLETAR / REABRIR TAREA
    ================================================== */
 
-async function cambiarCompletada(id){
-
-  const t=
-  tareas.find(
-    x=>x.id===id
-  );
-
-
-  if(!t)
-  return;
-
-
-  /*
-  Si ya estaba completada, simplemente
-  vuelve a pendiente.
-  */
-
-  if(t.completada){
-
-    await updateDoc(
-
-      doc(
-        db,
-        "tareas",
-        id
-      ),
-
-      {
-        completada:false
-      }
-
-    );
-
-
-    mostrarToast(
-      "Tarea pendiente"
-    );
-
-    return
-
-  }
-
-
-  /*
-  Tarea recurrente:
-  al completarla avanzamos a la siguiente fecha
-  y reiniciamos el checklist.
-  */
-
-  if(
-    t.repeticion &&
-    t.fechaLimite
-  ){
-
-    const siguiente=
-    siguienteFechaTarea(t);
-
-
-    if(siguiente){
-
-      const checklistReiniciado=
-      (t.checklist||[])
-      .map(x=>({
-        ...x,
-        hecho:false
-      }));
-
-
-      await updateDoc(
-
-        doc(
-          db,
-          "tareas",
-          id
-        ),
-
-        {
-
-          fechaLimite:
-          siguiente,
-
-          completada:false,
-
-          checklist:
-          checklistReiniciado
-
-        }
-
-      );
-
-
-      mostrarToast(
-        `Siguiente: ${
-          fechaBonita(
-            siguiente
-          )
-        }`
-      );
-
-
-      if(
-        $("modalFichaTarea")
-        .classList.contains(
-          "visible"
-        )
-      ){
-
-        $("modalFichaTarea")
-        .classList.remove(
-          "visible"
-        );
-
-      }
-
-
-      return
-
-    }
-
-  }
-
-
-  /*
-  Tarea normal o última repetición.
-  */
-
-  await updateDoc(
-
-    doc(
-      db,
-      "tareas",
-      id
-    ),
-
-    {
-      completada:true
-    }
-
-  );
-
-
-  mostrarToast(
-    "Tarea completada"
-  );
-
-
-  if(
-    $("modalFichaTarea")
-    .classList.contains(
-      "visible"
-    )
-  ){
-
-    $("modalFichaTarea")
-    .classList.remove(
-      "visible"
-    );
-
-  }
-
+const tareasEnProceso=new Set();
+let accionTareaDeshacer=null;
+let timeoutDeshacerTarea=null;
+function avisoTareaDeshacer(mensaje,accion){
+  accionTareaDeshacer=accion;
+  clearTimeout(timeoutDeshacerTarea);
+  const t=$("toast");if(!t)return;
+  clearTimeout(temporizadorToast);
+  t.innerHTML="";
+  const txt=document.createElement("span");txt.textContent=mensaje+" ";t.appendChild(txt);
+  const b=document.createElement("button");b.type="button";b.textContent="Deshacer";b.className="botonDeshacerTarea";
+  b.onclick=async()=>{const a=accionTareaDeshacer;accionTareaDeshacer=null;clearTimeout(timeoutDeshacerTarea);t.classList.remove("visible");if(a)try{await a()}catch(e){console.error(e);mostrarToast("No se pudo deshacer")}};
+  t.appendChild(b);t.classList.add("visible");
+  timeoutDeshacerTarea=setTimeout(()=>{accionTareaDeshacer=null;t.classList.remove("visible")},6500);
 }
-
+async function cambiarCompletada(id){
+  const t=tareas.find(x=>x.id===id);
+  if(!t||tareasEnProceso.has(id))return;
+  tareasEnProceso.add(id);
+  const antes={completada:!!t.completada,fechaLimite:t.fechaLimite||"",checklist:(t.checklist||[]).map(x=>({...x}))};
+  try{
+    let cambios={completada:!t.completada};
+    if(!t.completada&&t.repeticion&&t.fechaLimite){
+      const siguiente=siguienteFechaTarea(t);
+      if(siguiente) cambios={fechaLimite:siguiente,completada:false,checklist:(t.checklist||[]).map(x=>({...x,hecho:false}))};
+    }
+    // El cambio local permite que las vencidas desaparezcan al pulsar ✓.
+    Object.assign(t,cambios);renderTareas();
+    await updateDoc(doc(db,"tareas",id),cambios);
+    avisoTareaDeshacer(cambios.fechaLimite?"Tarea recurrente actualizada":cambios.completada?"Tarea completada":"Tarea reabierta",async()=>{
+      await updateDoc(doc(db,"tareas",id),antes);
+    });
+    const modal=$("modalFichaTarea");if(modal?.classList.contains("visible"))modal.classList.remove("visible");
+  }catch(e){
+    Object.assign(t,antes);renderTareas();console.error("Error al completar tarea",e);
+    mostrarToast("No se pudo guardar. Comprueba la conexión");
+  }finally{tareasEnProceso.delete(id)}
+}
+function abrirPosponerTarea(id){
+  const t=tareas.find(x=>x.id===id);if(!t)return;
+  const eleccion=prompt("Posponer tarea: escribe 1 (mañana), 7 (en una semana) o una fecha AAAA-MM-DD", "1");
+  if(eleccion===null)return;
+  const n=eleccion.trim();let fecha;
+  if(n==="1"||n==="7")fecha=fechaLocal(sumarDias(new Date(),Number(n)));
+  else if(/^\d{4}-\d{2}-\d{2}$/.test(n)&&!isNaN(desdeFechaLocal(n).getTime()))fecha=n;
+  else{mostrarToast("Fecha no válida");return}
+  const anterior=t.fechaLimite||"";
+  t.fechaLimite=fecha;renderTareas();
+  updateDoc(doc(db,"tareas",id),{fechaLimite:fecha}).then(()=>{
+    avisoTareaDeshacer("Tarea pospuesta",()=>updateDoc(doc(db,"tareas",id),{fechaLimite:anterior}));
+  }).catch(e=>{console.error(e);t.fechaLimite=anterior;renderTareas();mostrarToast("No se pudo posponer")});
+}
 
 /* ==================================================
    RECORDATORIOS DE TAREAS
